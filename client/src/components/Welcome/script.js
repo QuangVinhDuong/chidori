@@ -11,6 +11,10 @@ $(document).ready(function(e) {
             function(data) {
                 if (data != '') {
                     window.localStorage.setItem("login", "user");
+                    window.location.reload();
+                }
+                else {
+                    alert('FAIL');
                 }                
             }
         );
