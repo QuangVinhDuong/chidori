@@ -110,7 +110,7 @@ class WelcomeComponent extends Component {
                                     {/* Modal footer */}
                                     <div className="modal-footer">
                                         {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> */}
-                                        <button type="button" className="btn btn-primary">Đăng nhập</button>
+                                        <button type="button" className="btn btn-primary" id="btnLogin">Đăng nhập</button>
                                     </div>
                                     
                                 </div>
