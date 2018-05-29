@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Header from '../Header/HeaderComponent';
+import Characteristics from '../Characteristics/CharacteristicsComponent';
 
 class MainComponent extends Component {
     render() {
         return (
-            <Header />
+            <React.Fragment>
+                <Header />
+                <Characteristics />                        
+            </React.Fragment>            
         );
     }
 }
