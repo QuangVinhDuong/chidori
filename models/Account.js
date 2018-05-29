@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const AccountSchema = new mongoose.Schema({
-    _id: String,
+    userID: String,
     username: String,
     password: String,
     fullname: String,
@@ -9,13 +10,21 @@ const AccountSchema = new mongoose.Schema({
     phone: String,
     address: String,
     type: {
-        _id: String,
-        typename: String
+        typeID: String,
+        typeName: String
     },
-    updated_at: {
-        type: Date,
-        default: Date.now
-    },
-});
+    isDelete: {
+        type: Boolean,
+        default: false
+    }
+}, { collection: 'account' });
 
-export default mongoose.model('Account', AccountSchema);
+AccountSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+}
+
+AccountSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
+module.exports = mongoose.model('Account', AccountSchema);

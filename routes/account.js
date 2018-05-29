@@ -1,14 +1,14 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
 
-import mongoose from 'mongoose';
-import Account from "../models/Account";
+//const mongoose = require('mongoose');
+const Account = require('../models/Account');
 
 /* GET ALL ACCOUNT */
 router.get('/', (req, res, next) => {
-    Account.find((err, account) => {
+    Account.find((err, post) => {
         if (err) return next(err);
-        res.json(account);
+        res.json(post);
     });
 });
 
@@ -21,7 +21,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 /* SAVE ACCOUNT */
-route.post('/', (req, res, next) => {
+router.post('/', (req, res, next) => {
     Account.create(req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
@@ -29,7 +29,7 @@ route.post('/', (req, res, next) => {
 });
 
 /* UPDATE ACCOUNT */
-route.put('/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
@@ -37,11 +37,11 @@ route.put('/:id', (req, res, next) => {
 });
 
 /* DELETE ACCOUNT */
-route.delete('/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
     Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-export default router;
+module.exports = router;
