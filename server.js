@@ -1,6 +1,6 @@
-import express from "express";
-import bodyParser from "body-parser";
-import { Promise, connect } from "mongoose";
+import express from 'express';
+import bodyParser from 'body-parser';
+import { Promise, connect } from 'mongoose';
 const app = express();
 
 Promise = global.Promise;

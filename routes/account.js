@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import Account from "../models/Account";
 
 /* GET ALL ACCOUNT */
-router.get('/account', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Account.find((err, account) => {
         if (err) return next(err);
         res.json(account);
@@ -13,7 +13,7 @@ router.get('/account', (req, res, next) => {
 });
 
 /* GET SINGLE ACCOUNT BY ID */
-router.get('/account/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     Account.findById(req.params.id, (err, post) => {
         if (err) return next(err);
         res.json(post);
@@ -21,7 +21,7 @@ router.get('/account/:id', (req, res, next) => {
 });
 
 /* SAVE ACCOUNT */
-route.post('/account', (req, res, next) => {
+route.post('/', (req, res, next) => {
     Account.create(req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
@@ -29,7 +29,7 @@ route.post('/account', (req, res, next) => {
 });
 
 /* UPDATE ACCOUNT */
-route.put('/account/:id', (req, res, next) => {
+route.put('/:id', (req, res, next) => {
     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
@@ -37,7 +37,7 @@ route.put('/account/:id', (req, res, next) => {
 });
 
 /* DELETE ACCOUNT */
-route.delete('/account/:id', (req, res, next) => {
+route.delete('/:id', (req, res, next) => {
     Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
