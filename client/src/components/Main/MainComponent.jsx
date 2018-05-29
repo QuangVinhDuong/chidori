@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from './Header/HeaderComponent';
+import Header from '../Header/HeaderComponent';
 
 class MainComponent extends Component {
     render() {

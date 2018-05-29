@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './WelcomeComponent.css';
-import './script';
+import "./script";
 
 class WelcomeComponent extends Component {
     render() {
