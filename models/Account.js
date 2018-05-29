@@ -2,17 +2,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const AccountSchema = new mongoose.Schema({
-    userID: String,
     username: String,
     password: String,
     fullname: String,
     email: String,
     phone: String,
     address: String,
-    type: {
-        typeID: String,
-        typeName: String
-    },
     isDelete: {
         type: Boolean,
         default: false
