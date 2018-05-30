@@ -7,18 +7,47 @@ import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
 /* GET ALL ACCOUNT */
-router.get('/', (req, res, next) => {
-    Account.find((err, post) => {
-        if (err) return next(err);
-        res.json(post);
-    });
-});
+// router.get('/', (req, res, next) => {
+//     Account.find((err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
 
 /* GET SINGLE ACCOUNT BY ID */
-router.get('/:id', (req, res, next) => {
-    Account.findById(req.params.id, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
+// router.get('/:id', (req, res, next) => {
+//     Account.findById(req.params.id, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
+
+/* VERIFY */
+router.get('/verify', (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+    // Now the query should be something like this
+    //?token=<user's token>
+
+    UserSession.find({
+        _id: token,
+        isDeleted: false
+    }, (err, session) => {
+        if (err) {
+            return next(err);
+        }
+        
+        if (!session.length != 1) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Không hợp lệ'
+            }).end();
+        } else {
+            return res.json({
+                success: true,
+                message: 'OK'
+            }).end();
+        }
     });
 });
 
@@ -180,21 +209,43 @@ router.post('/signup', (req, res, next) => {
     });    
 });
 
-/* UPDATE ACCOUNT */
-router.put('/:id', (req, res, next) => {
-    Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
+/* LOGOUT */
+router.get('/logout', (req, res, nexr) => {
+    const { query } = req;
+    const { token } = query;
+
+    UserSession.findOneAndUpdate({
+        _id: token,
+        isDeleted: false
+    }, {
+        $set:{isDeleted:true}
+    }, null, (err, session) => {
+        if (err) {
+            return next(err);
+        }
+        
+        return res.json({
+            success: true,
+            message: 'OK'
+        }).end();        
     });
 });
 
+/* UPDATE ACCOUNT */
+// router.put('/:id', (req, res, next) => {
+//     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
+
 /* DELETE ACCOUNT */
-router.delete('/:id', (req, res, next) => {
-    Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
-    });
-});
+// router.delete('/:id', (req, res, next) => {
+//     Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
 
 //export default router;
 export default router;
