@@ -33,6 +33,6 @@ const AuctionSessionSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-});
+}, { collection: 'auction_session' });
 
 export default mongoose.model('AuctionSession', AuctionSessionSchema);
