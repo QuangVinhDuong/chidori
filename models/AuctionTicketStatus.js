@@ -9,6 +9,6 @@ const AuctionTicketStatusSchema = new mongoose.Schema({
         type: String,
         default: 'Đang đấu'
     }
-});
+}, {collection: 'auction_ticket_status'});
 
 export default mongoose.model('AuctionTicketStatus', AuctionTicketStatusSchema);
