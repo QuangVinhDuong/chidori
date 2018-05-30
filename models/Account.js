@@ -1,7 +1,7 @@
-//const mongoose = require('mongoose');
-//const bcrypt = require('bcrypt');
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+//import mongoose from 'mongoose';
+//import bcrypt from 'bcrypt';
 
 const AccountSchema = new mongoose.Schema({
     username: String,
@@ -24,5 +24,5 @@ AccountSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
 
-//module.exports = mongoose.model('Account', AccountSchema);
-export default mongoose.model('Account', AccountSchema);
+module.exports = mongoose.model('Account', AccountSchema);
+//export default mongoose.model('Account', AccountSchema);

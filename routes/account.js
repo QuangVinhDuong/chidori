@@ -1,17 +1,18 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
-const router = Router();
+const express = require('express');
+const bodyParser = require('body-parser');
+const router = express.Router();
 const app = express();
 
 //const mongoose = require('mongoose');
-import Account, { find, findById, findByIdAndUpdate, findByIdAndRemove } from "../models/Account";
+//import Account, { find, findById, findByIdAndUpdate, findByIdAndRemove } from "../models/Account";
+const Account = require('../models/Account');
 
 // app.use(bodyParser.urlencoded({'extended': 'false'}));
 // app.use(bodyParser.json());
 
 /* GET ALL ACCOUNT */
 router.get('/', (req, res, next) => {
-    find((err, post) => {
+    Account.find((err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -19,7 +20,7 @@ router.get('/', (req, res, next) => {
 
 /* GET SINGLE ACCOUNT BY ID */
 router.get('/:id', (req, res, next) => {
-    findById(req.params.id, (err, post) => {
+    Account.findById(req.params.id, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -81,7 +82,7 @@ router.post('/', (req, res, next) => {
         }).end();
     }
 
-    find({
+    Account.find({
         email: email
     }, (err, post) => {
         if (err) {
@@ -92,7 +93,7 @@ router.post('/', (req, res, next) => {
                 message: 'Lỗi: Email đã tồn tại!'
             });
         } else {
-            find({
+            Account.find({
                 username: username
             }, (err, post) => {
                 if (err) {                    
@@ -126,7 +127,7 @@ router.post('/', (req, res, next) => {
 
 /* UPDATE ACCOUNT */
 router.put('/:id', (req, res, next) => {
-    findByIdAndUpdate(req.params.id, req.body, (err, post) => {
+    Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -134,10 +135,11 @@ router.put('/:id', (req, res, next) => {
 
 /* DELETE ACCOUNT */
 router.delete('/:id', (req, res, next) => {
-    findByIdAndRemove(req.params.id, req.body, (err, post) => {
+    Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-export default router;
+//export default router;
+module.exports = router;
