@@ -21,6 +21,6 @@ const AuctionTicketSchema = mongoose.Schema({
         type: Number,
         default: 0 // 0: đang đấu; 1: thắng; -1: thua
     }
-});
+}, {collection: 'auction_ticket'});
 
 export default mongoose.model('AuctionTicket', AuctionTicketSchema);
