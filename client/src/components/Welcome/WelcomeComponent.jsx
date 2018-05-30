@@ -49,7 +49,7 @@ class WelcomeComponent extends Component {
             fetch('/account/verify?token=' + token)
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json.success);
+                    //console.log(json.success);
                     if (json.success) {
                         this.setState({
                             token: token,
@@ -219,7 +219,7 @@ class WelcomeComponent extends Component {
                 </div>
             );
         }
-        { console.log(token); }
+        //{ console.log(token); }
         if (!token) {
             return (
                 <div className="bg">

@@ -6,6 +6,9 @@ const app = express();
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
+// test
+const ObjectId = require('mongoose').Types.ObjectId;
+
 /* GET ALL ACCOUNT */
 // router.get('/', (req, res, next) => {
 //     Account.find((err, post) => {
@@ -37,7 +40,7 @@ router.get('/verify', (req, res, next) => {
             return next(err);
         }
         
-        if (!session.length != 1) {
+        if (session.length != 1) {
             return res.json({
                 success: false,
                 message: 'Lỗi: Không hợp lệ'
@@ -213,12 +216,12 @@ router.post('/signup', (req, res, next) => {
 router.get('/logout', (req, res, nexr) => {
     const { query } = req;
     const { token } = query;
-
+    console.log(token);
     UserSession.findOneAndUpdate({
-        _id: token,
+        _id: new ObjectId(token),
         isDeleted: false
     }, {
-        $set:{isDeleted:true}
+        $set: { isDeleted: true }
     }, null, (err, session) => {
         if (err) {
             return next(err);
