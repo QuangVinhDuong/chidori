@@ -8,7 +8,7 @@ import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
 
 class MainComponent extends Component {
-    render() {
+    render() {        
         return (
             <React.Fragment>
                 <Header />

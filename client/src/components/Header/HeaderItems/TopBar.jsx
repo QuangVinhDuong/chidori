@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//import { getFromStorage, setInStorage } from '../../../utils/storage';
 
 class TopBar extends Component {
     render() {
@@ -12,8 +13,8 @@ class TopBar extends Component {
                             <div className="top_bar_content ml-auto">                            
                                 <div className="top_bar_user">
                                     <div className="user_icon"><img src="images/user.svg" alt=""/></div>
-                                    <div><a href="#">Đăng ký</a></div>
-                                    <div><a href="#">Đăng nhập</a></div>
+                                    <div><button type="button">User</button></div>
+                                    <div><button type="button">Thoát</button></div>
                                 </div>
                             </div>
                         </div>

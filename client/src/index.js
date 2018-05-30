@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 
 import WelComeComponent from './components/Welcome/WelcomeComponent';
-import MainComponent from './components/Main/MainComponent';
+//import MainComponent from './components/Main/MainComponent';
 
-if (localStorage.getItem('login')) {
-    ReactDOM.render(<MainComponent />, document.getElementById('super_container'));
-} else {
-    ReactDOM.render(<WelComeComponent />, document.getElementById('super_container'));
-}
-
+// if (localStorage.getItem('login')) {
+//     ReactDOM.render(<MainComponent />, document.getElementById('super_container'));
+// } else {
+//     ReactDOM.render(<WelComeComponent />, document.getElementById('super_container'));
+// }
+ReactDOM.render(<WelComeComponent />, document.getElementById('super_container'));
 registerServiceWorker();
