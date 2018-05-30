@@ -45,12 +45,12 @@ router.get('/verify', (req, res, next) => {
                 success: false,
                 message: 'Lỗi: Không hợp lệ'
             }).end();
-        } else {
-            return res.json({
-                success: true,
-                message: 'OK'
-            }).end();
-        }
+        } 
+        
+        return res.json({
+            success: true,
+            message: 'OK'
+        }).end();        
     });
 });
 
@@ -216,7 +216,7 @@ router.post('/signup', (req, res, next) => {
 router.get('/logout', (req, res, nexr) => {
     const { query } = req;
     const { token } = query;
-    console.log(token);
+    //console.log(token);
     UserSession.findOneAndUpdate({
         _id: new ObjectId(token),
         isDeleted: false
