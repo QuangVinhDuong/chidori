@@ -44,20 +44,16 @@ class WelcomeComponent extends Component {
 
         if (obj && obj.token) {
             const { token_key } = obj;
-            //console.log(token);
             // Verify token
             fetch('/account/verify?token=' + token_key)
                 .then(res => res.json())
                 .then(json => {
-                    //console.log(json.success);
                     if (json.success) {
-                        console.log(json.success);
                         this.setState({
                             token: token_key,
                             isLoading: false
                         });
                     } else {
-                        console.log(json.success);
                         this.setState({
                             token: '',
                             isLoading: false
@@ -89,8 +85,7 @@ class WelcomeComponent extends Component {
             }) 
         }).then(res => res.json())
             .then(json => {
-                if (json.success) {
-                    console.log("Debug: " + json.success);
+                if (json.success) {                    
                     setInStorage('login', { token_key: json.token });
                     this.setState({
                         signInError: json.message,
@@ -99,8 +94,7 @@ class WelcomeComponent extends Component {
                         //signInUsername: '',
                         //signInPassword: '',                        
                     });
-                } else {
-                    console.log("Debug: " + json.success);
+                } else {                    
                     this.setState({
                         signInError: json.message,
                         isLoading: false
@@ -226,7 +220,6 @@ class WelcomeComponent extends Component {
                 </div>
             );
         }
-        console.log(token);
         if (!token) {
             return (
                 <div className="bg">
