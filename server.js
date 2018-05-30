@@ -1,20 +1,21 @@
-//import express from "express";
-//import { urlencoded, json } from "body-parser";
-//import { Promise, connect } from "mongoose";
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+import express from "express";
+import { urlencoded, json } from "body-parser";
+import { Promise, connect } from "mongoose";
+
+//const express = require('express');
+//const bodyParser = require('body-parser');
+//const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.Promise = global.Promise;
+Promise = global.Promise;
 
 // import router
-//import account from "./routes/account";
-const account = require('./routes/account')
+import account from "./routes/account";
+//const account = require('./routes/account')
 
-app.use(bodyParser.urlencoded({'extended': 'false'}));
-app.use(bodyParser.json());
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
 app.use('/account', account);
 
 
