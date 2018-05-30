@@ -26,5 +26,7 @@ mongoose.connect('mongodb://localhost:27017/chidori')
     .catch((err) => {
         console.log(err);
     });
-    
+
+
+// to run, in terminal, type: npm start
 app.listen(3001, () => {console.log("Magic happened at port 3001");});
