@@ -1,14 +1,14 @@
 import express from "express";
 import { urlencoded, json } from "body-parser";
-import { Promise, connect } from "mongoose";
+//import { Promise, connect } from "mongoose";
 
 //const express = require('express');
 //const bodyParser = require('body-parser');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const app = express();
 
-Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 // import router
 import account from "./routes/account";

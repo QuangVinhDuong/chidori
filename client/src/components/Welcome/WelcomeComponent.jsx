@@ -4,7 +4,7 @@ import { getFromStorage, setInStorage } from '../../utils/storage';
 import MainComponent from '../Main/MainComponent';
 import './WelcomeComponent.css';
 //import "./script";
-
+import 'whatwg-fetch';
 
 class WelcomeComponent extends Component {
     constructor(props) {
@@ -40,16 +40,19 @@ class WelcomeComponent extends Component {
     }
 
     componentDidMount() {
-        const token = getFromStorage('login');
-        //const { token } = obj;
-        if (token) {
+        const obj = getFromStorage('login');
+
+        if (obj && obj.token) {
+            const { token } = obj;
+            //console.log(token);
             // Verify token
-            fetch('/verify?token=' + token)
+            fetch('/account/verify?token=' + token)
                 .then(res => res.json())
                 .then(json => {
+                    console.log(json.success);
                     if (json.success) {
                         this.setState({
-                            token,
+                            token: token,
                             isLoading: false
                         });
                     } else {
@@ -71,7 +74,7 @@ class WelcomeComponent extends Component {
             signInPassword
         } = this.state;
 
-        fetch('/signin', { 
+        fetch('/account/signin', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +112,7 @@ class WelcomeComponent extends Component {
             signUpAddress,
         } = this.state;
 
-        fetch('/signup', { 
+        fetch('/account/signup', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -216,7 +219,7 @@ class WelcomeComponent extends Component {
                 </div>
             );
         }
-
+        { console.log(token); }
         if (!token) {
             return (
                 <div className="bg">
@@ -361,11 +364,11 @@ class WelcomeComponent extends Component {
                     </div>        
                 </div>
             );
-        }
-
-        return (
-            <MainComponent />
-        );        
+        } else {
+            return (
+                <MainComponent />
+            );
+        }                
     }
 }
 
