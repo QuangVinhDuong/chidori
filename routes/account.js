@@ -1,17 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const router = express.Router();
+import express, { Router } from "express";
+import bodyParser from "body-parser";
+const router = Router();
 const app = express();
 
 //const mongoose = require('mongoose');
-const Account = require('../models/Account');
+import Account, { find, findById, findByIdAndUpdate, findByIdAndRemove } from "../models/Account";
 
 // app.use(bodyParser.urlencoded({'extended': 'false'}));
 // app.use(bodyParser.json());
 
 /* GET ALL ACCOUNT */
 router.get('/', (req, res, next) => {
-    Account.find((err, post) => {
+    find((err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 
 /* GET SINGLE ACCOUNT BY ID */
 router.get('/:id', (req, res, next) => {
-    Account.findById(req.params.id, (err, post) => {
+    findById(req.params.id, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -81,9 +81,7 @@ router.post('/', (req, res, next) => {
         }).end();
     }
 
-    // Kiểm tra email và username không tồn tại
-    // save
-    Account.find({
+    find({
         email: email
     }, (err, post) => {
         if (err) {
@@ -94,7 +92,7 @@ router.post('/', (req, res, next) => {
                 message: 'Lỗi: Email đã tồn tại!'
             });
         } else {
-            Account.find({
+            find({
                 username: username
             }, (err, post) => {
                 if (err) {                    
@@ -128,7 +126,7 @@ router.post('/', (req, res, next) => {
 
 /* UPDATE ACCOUNT */
 router.put('/:id', (req, res, next) => {
-    Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
+    findByIdAndUpdate(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
@@ -136,10 +134,10 @@ router.put('/:id', (req, res, next) => {
 
 /* DELETE ACCOUNT */
 router.delete('/:id', (req, res, next) => {
-    Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+    findByIdAndRemove(req.params.id, req.body, (err, post) => {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-module.exports = router;
+export default router;
