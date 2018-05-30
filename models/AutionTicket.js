@@ -5,8 +5,21 @@ const AutionTicketSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    session: {
-        type: Object
+    sessionID: {
+        type: String,
+        default: ''
+    },
+    accountID: {
+        type: String,
+        default: ''
+    },
+    bidValue: {
+        type: Number,
+        default: 0        
+    },
+    status: {
+        type: Number,
+        default: 0 // 0: đang đấu; 1: thắng; -1: thua
     }
 });
 
