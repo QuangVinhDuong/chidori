@@ -9,15 +9,9 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    productType: {
-        typeID: {
-            type: String,
-            default: ''
-        },
-        typeName: {
-            type: String,
-            default: ''
-        }
+    productType: {        
+        type: String,
+        default: ''        
     },
     description: {
         type: String,
