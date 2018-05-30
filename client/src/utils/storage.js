@@ -16,7 +16,7 @@ export function getFromStorage(key) {
 
 export function setInStorage(key, obj) {
     if (!key) {
-        console.error('Lỗi: không có tìm thấy key');
+        console.error('Lỗi: không tìm thấy key');
     }
 
     try {
