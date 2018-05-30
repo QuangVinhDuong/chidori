@@ -1,14 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const router = express.Router();
+import express, { Router } from "express";
+import bodyParser from "body-parser";
+const router = Router();
 const app = express();
 
-//const mongoose = require('mongoose');
-//import Account, { find, findById, findByIdAndUpdate, findByIdAndRemove } from "../models/Account";
-const Account = require('../models/Account');
-
-// app.use(bodyParser.urlencoded({'extended': 'false'}));
-// app.use(bodyParser.json());
+import Account from "../models/Account";
+import UserSession from "../models/UserSession";
 
 /* GET ALL ACCOUNT */
 router.get('/', (req, res, next) => {
@@ -26,8 +22,67 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
+/* SIGNIN */
+router.post('/signin', (req, res, next) => {
+    const { body } = req;
+    const {
+        username,
+        password
+    } = body;
+
+    if (!username) {
+        return res.json({
+            success: false,
+            message: 'Lỗi: Tên đăng nhập không được để trống'
+        }).end();
+    }
+    if (!password) {
+        return res.json({
+            success: false,
+            message: 'Lỗi: Mật khẩu không được để trống'
+        }).end();
+    }
+
+    Account.find({
+        username: username
+    }, (err, users) => {
+        if (err) {
+            return next(err);
+        }
+        if (users.length != 1) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Người dùng không tồn tại'
+            }).end();
+        }
+
+        const user = users[0];
+        if (!user.validPassword(password)) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Mật khẩu không chính xác'
+            }).end();
+        }
+
+        // Dòng sau đây sẽ chạy nếu user và pass hợp lệ
+        const userSession = new UserSession();
+        userSession.userID = user._id;
+        userSession.save((err, data) => {
+            if (err) {
+                return next(err);
+            }
+
+            return res.json({
+                success: true,
+                message: 'Đăng nhập thành công',
+                token: data._id
+            });
+        });
+    });
+});
+
 /* SAVE ACCOUNT A.K.A SIGNUP */
-router.post('/', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     const { body } = req;
     const {
         username,
@@ -46,37 +101,37 @@ router.post('/', (req, res, next) => {
     // const address = body.address;    
 
     if (!username) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Tên đăng nhập không được để trống'
         }).end();
     }
     if (!password) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Mật khẩu không được để trống'
         }).end();
     }
     if (!fullname) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Họ tên không được để trống'
         }).end();
     }
     if (!email) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Email không được để trống'
         }).end();
     }
     if (!phone) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Số điện thoại không được để trống'
         }).end();
     }
     if (!address) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Địa chỉ không được để trống'
         }).end();
@@ -84,22 +139,22 @@ router.post('/', (req, res, next) => {
 
     Account.find({
         email: email
-    }, (err, post) => {
+    }, (err, acc) => {
         if (err) {
             return next(err);
-        } else if (post.length > 0) {
-            res.json({
+        } else if (acc.length > 0) {
+            return res.json({
                 success: false,
                 message: 'Lỗi: Email đã tồn tại!'
             });
         } else {
             Account.find({
                 username: username
-            }, (err, post) => {
+            }, (err, acc) => {
                 if (err) {                    
                     return next(err);
-                } else if (post.length > 0) {
-                    res.json({
+                } else if (acc.length > 0) {
+                    return res.json({
                         success: false,
                         message: 'Lỗi: Tên tài khoản đã tồn tại!'
                     });
@@ -114,7 +169,7 @@ router.post('/', (req, res, next) => {
                     newAcc.address = address;
                     newAcc.save((err, acc) => {
                         if (err) {return next(err)};
-                        res.json({
+                        return res.json({
                             success: true,
                             message: 'Tạo tài khoản thành công'
                         }); 
@@ -142,4 +197,4 @@ router.delete('/:id', (req, res, next) => {
 });
 
 //export default router;
-module.exports = router;
+export default router;
