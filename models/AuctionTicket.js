@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const AutionTicketSchema = mongoose.Schema({
+const AuctionTicketSchema = mongoose.Schema({
     ticketID: {
         type: String,
         default: ''
@@ -23,4 +23,4 @@ const AutionTicketSchema = mongoose.Schema({
     }
 });
 
-export default mongoose.model('AutionTicket', AutionTicketSchema);
+export default mongoose.model('AuctionTicket', AuctionTicketSchema);
