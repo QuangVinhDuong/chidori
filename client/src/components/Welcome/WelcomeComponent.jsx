@@ -40,10 +40,13 @@ class WelcomeComponent extends Component {
     }
     
     componentDidMount() {
-        this.setTokenState();
+        this.verifyToken();        
+    }
+
+    verifyToken() {
         const obj = getFromStorage('login');
 
-        if (obj && obj.token) {
+        if (obj && obj.token_key) {
             const { token_key } = obj;
             // Verify token
             fetch('/account/verify?token=' + token_key)
@@ -66,25 +69,6 @@ class WelcomeComponent extends Component {
                 token: '',
                 isLoading: false
             });
-        }
-    }
-
-    setTokenState() {
-        if (localStorage.hasOwnProperty('login')) {
-            let value = localStorage.getItem('login');
-
-            try {
-                value = JSON.parse(value);
-                this.setState({
-                    token: value,
-                    isLoading: false,
-                });
-            } catch (err) {
-                this.setState({
-                    token: '',
-                    isLoading: false,
-                });
-            }
         }
     }
 
