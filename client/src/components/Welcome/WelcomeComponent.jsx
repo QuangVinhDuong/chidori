@@ -40,9 +40,13 @@ class WelcomeComponent extends Component {
     }
     
     componentDidMount() {
+        this.verifyToken();        
+    }
+
+    verifyToken() {
         const obj = getFromStorage('login');
 
-        if (obj && obj.token) {
+        if (obj && obj.token_key) {
             const { token_key } = obj;
             // Verify token
             fetch('/account/verify?token=' + token_key)
@@ -68,6 +72,7 @@ class WelcomeComponent extends Component {
         }
     }
 
+    // Button Sign In Clicked event
     onSignIn() {
         const {
             signInUsername,
@@ -103,6 +108,7 @@ class WelcomeComponent extends Component {
             });
     }
 
+    // Button Sign Up Clicked event
     onSignUp() {
         const {
             signUpUsername,
