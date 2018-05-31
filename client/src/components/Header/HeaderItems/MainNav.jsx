@@ -36,6 +36,7 @@ class MainNav extends Component {
                                                     <li><a href="#">Menu Item<i className="fas fa-chevron-right"></i></a></li>
                                                     <li><a href="#">Menu Item<i className="fas fa-chevron-right"></i></a></li>
                                                     <li><a href="#">Menu Item<i className="fas fa-chevron-right"></i></a></li>
+                                                    <li><a href="#">Menu Item<i className="fas fa-chevron-right"></i></a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">Smartphones & Tablets<i className="fas fa-chevron-right"></i></a></li>
