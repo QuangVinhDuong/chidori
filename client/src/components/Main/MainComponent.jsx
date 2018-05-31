@@ -7,17 +7,24 @@ import BestSeller from '../BestSeller/BestSellerComponent';
 import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
 
+import './MainComStyle.css';
+
 class MainComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+
     render() {        
         return (
-            <React.Fragment>
-                <Header />
+            <React.Fragment>                
+                <Header username={this.props.username} />
                 <Characteristics />
                 <PopularCategories />
                 <BestSeller />
                 <Footer />
-                <Copyright />
-            </React.Fragment>            
+                <Copyright />                                            
+            </React.Fragment>                        
         );
     }
 }
