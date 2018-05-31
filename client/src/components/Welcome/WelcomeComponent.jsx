@@ -4,7 +4,7 @@ import { getFromStorage, setInStorage } from '../../utils/storage';
 import MainComponent from '../Main/MainComponent';
 import './WelcomeComponent.css';
 //import "./script";
-import 'whatwg-fetch';
+//import 'whatwg-fetch';
 
 class WelcomeComponent extends Component {
     constructor(props) {
@@ -40,14 +40,14 @@ class WelcomeComponent extends Component {
     }
     
     componentDidMount() {
-        this.verifyToken();        
+        this.verifyToken();       
     }
 
     verifyToken() {
         const obj = getFromStorage('login');
 
         if (obj && obj.token_key) {
-            const { token_key } = obj;
+            const { username, token_key } = obj;
             // Verify token
             fetch('/account/verify?token=' + token_key)
                 .then(res => res.json())
@@ -55,6 +55,7 @@ class WelcomeComponent extends Component {
                     if (json.success) {
                         this.setState({
                             token: token_key,
+                            signInUsername: username,                            
                             isLoading: false
                         });
                     } else {
@@ -91,12 +92,14 @@ class WelcomeComponent extends Component {
         }).then(res => res.json())
             .then(json => {
                 if (json.success) {                    
-                    setInStorage('login', { token_key: json.token });
+                    setInStorage('login', { 
+                        token_key: json.token,
+                        username: signInUsername, 
+                    });
                     this.setState({
                         signInError: json.message,
                         isLoading: false,
                         token: json.token,
-                        //signInUsername: '',
                         //signInPassword: '',                        
                     });
                 } else {                    
@@ -370,9 +373,9 @@ class WelcomeComponent extends Component {
                     </div>        
                 </div>
             );
-        } else {
+        } else {            
             return (
-                <MainComponent />
+                <MainComponent username={this.state.signInUsername} />
             );
         }                
     }

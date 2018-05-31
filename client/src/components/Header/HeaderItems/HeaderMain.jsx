@@ -21,7 +21,7 @@ class HeaderMain extends Component {
                                     <div className="header_search_form_container">
                                         <form action="#" className="header_search_form clearfix">
                                             <input type="search" required="required" className="header_search_input" placeholder="Tìm sản phẩm..."/>
-                                            <div className="custom_dropdown">
+                                            {/* <div className="custom_dropdown">
                                                 <div className="custom_dropdown_list">
                                                     <span className="custom_dropdown_placeholder clc">Mọi loại sản phẩm</span>
                                                     <i className="fas fa-chevron-down"></i>
@@ -34,7 +34,7 @@ class HeaderMain extends Component {
                                                         <li><a className="clc" href="#">SP5</a></li>
                                                     </ul>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <button type="submit" className="header_search_button trans_300" value="Submit"><img src="images/search.png" alt=""/></button>
                                         </form>
                                     </div>

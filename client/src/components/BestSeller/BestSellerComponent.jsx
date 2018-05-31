@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
+import { timer } from './script';
+
 class BestSellerComponent extends Component {
+    componentDidMount() {
+        timer();
+    }
+
     render() {
         return(
             <div className="best_sellers box_shadow">
