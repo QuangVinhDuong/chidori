@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { initPopularSlider } from './script';
+import { initPopularSlider } from './script';
 
 import OwlCarousel from 'react-owl-carousel';
 import './animate.css';
@@ -12,7 +12,7 @@ class PopularCategoriesComponent extends Component {
         options: {
             loop:true,
             autoplay:false,
-            nav:false,
+            nav:true,
             dots:false,
             responsive:
             {
@@ -26,7 +26,7 @@ class PopularCategoriesComponent extends Component {
     };
 
     componentDidMount() {
-        
+        initPopularSlider();
     }
 
     render() {
@@ -40,8 +40,7 @@ class PopularCategoriesComponent extends Component {
                                 <div className="popular_categories_slider_nav">
                                     <div className="popular_categories_prev popular_categories_nav"><i className="fas fa-angle-left ml-auto"></i></div>
                                     <div className="popular_categories_next popular_categories_nav"><i className="fas fa-angle-right ml-auto"></i></div>
-                                </div>
-                                <div className="popular_categories_link"><a href="#">full catalog</a></div>
+                                </div>                                
                             </div>
                         </div>
                         
@@ -49,7 +48,7 @@ class PopularCategoriesComponent extends Component {
 
                         <div className="col-lg-9">
                             <div className="popular_categories_slider_container">
-                                <OwlCarousel className="owl-theme" {...this.state.options} >
+                                <OwlCarousel className="owl-theme popular_categories_slider" {...this.state.options} >
                                     
                                     <div className="item">
                                         <div className="popular_category d-flex flex-column align-items-center justify-content-center">
