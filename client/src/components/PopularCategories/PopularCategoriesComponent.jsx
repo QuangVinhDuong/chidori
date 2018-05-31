@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+//import { initPopularSlider } from './script';
 
+import OwlCarousel from 'react-owl-carousel';
+import './owl.carousel.css';
+import './owl.theme.default.css';
 
 class PopularCategoriesComponent extends Component {
+    componentDidMount() {
+        initPopularSlider();
+    }
 
     render() {
         return (
