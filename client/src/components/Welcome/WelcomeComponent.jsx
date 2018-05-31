@@ -40,6 +40,7 @@ class WelcomeComponent extends Component {
     }
     
     componentDidMount() {
+        this.setTokenState();
         const obj = getFromStorage('login');
 
         if (obj && obj.token) {
@@ -68,6 +69,26 @@ class WelcomeComponent extends Component {
         }
     }
 
+    setTokenState() {
+        if (localStorage.hasOwnProperty('login')) {
+            let value = localStorage.getItem('login');
+
+            try {
+                value = JSON.parse(value);
+                this.setState({
+                    token: value,
+                    isLoading: false,
+                });
+            } catch (err) {
+                this.setState({
+                    token: '',
+                    isLoading: false,
+                });
+            }
+        }
+    }
+
+    // Button Sign In Clicked event
     onSignIn() {
         const {
             signInUsername,
@@ -103,6 +124,7 @@ class WelcomeComponent extends Component {
             });
     }
 
+    // Button Sign Up Clicked event
     onSignUp() {
         const {
             signUpUsername,
