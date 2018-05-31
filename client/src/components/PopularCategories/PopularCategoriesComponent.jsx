@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
+
 class PopularCategoriesComponent extends Component {
+
     render() {
         return (
             <div className="popular_categories">
