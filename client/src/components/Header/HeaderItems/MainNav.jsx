@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { NavLink } from "react-router-dom";
+
 class MainNav extends Component {
     render() {
         return (
@@ -12,7 +14,7 @@ class MainNav extends Component {
 
                                 {/* Categories Menu */}
 
-                                <div className="cat_menu_container" data-toggle="dropdown">
+                                {/* <div className="cat_menu_container" data-toggle="dropdown">
                                     <div className="cat_menu_title d-flex flex-row align-items-center justify-content-start">
                                         <div className="cat_burger"><span></span><span></span><span></span></div>
                                         <div className="cat_menu_text">Các loại sản phẩm</div>
@@ -47,14 +49,17 @@ class MainNav extends Component {
                                             <li><a href="#">Accessories<i className="fas fa-chevron-right"></i></a></li>
                                         </ul>
                                     </div>                                
-                                </div>
+                                </div> */}
 
                                 {/* Main Nav Menu */}
 
                                 <div className="main_nav_menu ml-auto">
                                     <ul className="standard_dropdown main_nav_dropdown">
-                                        <li><a href="home.html">Trang chủ<i className="fas fa-chevron-down"></i></a></li>
-                                        <li className="hassubs">
+                                        {/* <li><a href="home.html">Trang chủ<i className="fas fa-chevron-down"></i></a></li> */}
+                                        <li><NavLink to="/"><i className="fas fa-chevron-down"></i>Trang chủ</NavLink></li>
+                                        <li><NavLink to="/DanhMuc1">Danh mục 1</NavLink></li>
+                                        <li><NavLink to="/DanhMuc2">Danh mục 2</NavLink></li>
+                                        {/* <li className="hassubs">
                                             <a href="#">Item 1<i className="fas fa-chevron-down"></i></a>
                                             <ul>
                                                 <li>
@@ -69,8 +74,8 @@ class MainNav extends Component {
                                                 <li><a href="#">Menu Item<i className="fas fa-chevron-down"></i></a></li>
                                                 <li><a href="#">Menu Item<i className="fas fa-chevron-down"></i></a></li>
                                             </ul>
-                                        </li>
-                                        <li className="hassubs">
+                                        </li> */}
+                                        {/* <li className="hassubs">
                                             <a href="#">Item 2<i className="fas fa-chevron-down"></i></a>
                                             <ul>
                                                 <li>
@@ -85,8 +90,8 @@ class MainNav extends Component {
                                                 <li><a href="#">Menu Item<i className="fas fa-chevron-down"></i></a></li>
                                                 <li><a href="#">Menu Item<i className="fas fa-chevron-down"></i></a></li>
                                             </ul>
-                                        </li>
-                                        <li className="hassubs">
+                                        </li> */}
+                                        {/* <li className="hassubs">
                                             <a href="#">Pages<i className="fas fa-chevron-down"></i></a>
                                             <ul>
                                                 <li><a href="index.html">Landing page<i className="fas fa-chevron-down"></i></a></li>
@@ -94,7 +99,7 @@ class MainNav extends Component {
                                                 <li><a href="product.html">Product<i className="fas fa-chevron-down"></i></a></li>                                            
                                                 <li><a href="cart.html">Cart<i className="fas fa-chevron-down"></i></a></li>
                                             </ul>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
 
