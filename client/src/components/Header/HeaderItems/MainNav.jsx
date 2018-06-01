@@ -57,8 +57,8 @@ class MainNav extends Component {
                                     <ul className="standard_dropdown main_nav_dropdown">
                                         {/* <li><a href="home.html">Trang chủ<i className="fas fa-chevron-down"></i></a></li> */}
                                         <li><NavLink to="/"><i className="fas fa-chevron-down"></i>Trang chủ</NavLink></li>
-                                        <li><NavLink to="/DanhMuc1">Danh mục 1</NavLink></li>
-                                        <li><NavLink to="/DanhMuc2">Danh mục 2</NavLink></li>
+                                        <li><NavLink to="/Figures">Figures</NavLink></li>
+                                        <li><NavLink to="/Electronics">Electronics</NavLink></li>
                                         {/* <li className="hassubs">
                                             <a href="#">Item 1<i className="fas fa-chevron-down"></i></a>
                                             <ul>
