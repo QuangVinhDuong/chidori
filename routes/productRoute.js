@@ -15,4 +15,54 @@ router.get('/getAllFigures', (req, res, next) => {
     });
 });
 
+router.get('/getAllElectronics', (req, res, next) => {
+    Product.find({
+        productType: 'Electronics'
+    }, (err, products) => {
+        if (err) return next(err);
+
+        return res.json(products);
+    });
+});
+
+router.get('/getAllComputers', (req, res, next) => {
+    Product.find({
+        productType: 'Computers'
+    }, (err, products) => {
+        if (err) return next(err);
+
+        return res.json(products);
+    });
+});
+
+router.get('/getAllAppliances', (req, res, next) => {
+    Product.find({
+        productType: 'Appliances'
+    }, (err, products) => {
+        if (err) return next(err);
+
+        return res.json(products);
+    });
+});
+
+router.get('/getAllLuggageAndTravelGear', (req, res, next) => {
+    Product.find({
+        productType: 'Luggage & Travel Gear'
+    }, (err, products) => {
+        if (err) return next(err);
+
+        return res.json(products);
+    });
+});
+
+router.get('/getAllSportsAndOutdoors', (req, res, next) => {
+    Product.find({
+        productType: 'Sports & Outdoors'
+    }, (err, products) => {
+        if (err) return next(err);
+
+        return res.json(products);
+    });
+});
+
 export default router;
