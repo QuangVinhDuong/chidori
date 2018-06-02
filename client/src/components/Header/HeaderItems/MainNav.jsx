@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 
 class MainNav extends Component {
+    
     render() {
+        // const navStyle = {
+        //     position: 'fixed',
+        //     top: '0',
+        //     width: '100%'
+        // }
         return (
             <nav className="main_nav" id="navbar">
                 <div className="container">
