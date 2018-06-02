@@ -59,6 +59,10 @@ class MainNav extends Component {
                                         <li><NavLink to="/"><i className="fas fa-chevron-down"></i>Trang chủ</NavLink></li>
                                         <li><NavLink to="/Figures">Figures</NavLink></li>
                                         <li><NavLink to="/Electronics">Electronics</NavLink></li>
+                                        <li><NavLink to="/Computers">Computers</NavLink></li>
+                                        <li><NavLink to="/Appliances">Appliances</NavLink></li>
+                                        <li><NavLink to="/LuggageAndTravelGear">Luggage & Travel Gear</NavLink></li>
+                                        <li><NavLink to="/SportsAndOutdoors">Sports & Outdoors</NavLink></li>
                                         {/* <li className="hassubs">
                                             <a href="#">Item 1<i className="fas fa-chevron-down"></i></a>
                                             <ul>

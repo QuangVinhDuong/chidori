@@ -15,6 +15,17 @@ router.get('/getAllFigures', (req, res, next) => {
     });
 });
 
+router.get('/getFigureByID/:id', (req, res, next) => {    
+    Product.find({
+        productID: req.params.id,
+        productType: 'Figures'
+    }, (err, product) => {
+        if (err) return next(err);
+
+        return res.json(product);
+    });
+});
+
 router.get('/getAllElectronics', (req, res, next) => {
     Product.find({
         productType: 'Electronics'

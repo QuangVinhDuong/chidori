@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { Route, HashRouter } from 'react-router-dom';
+import { BrowserRouter as Link ,Route, HashRouter, Switch } from 'react-router-dom';
 
 import Header from '../Header/HeaderComponent';
 import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
 import Characteristics from '../Characteristics/CharacteristicsComponent';
 import Home from '../Home/Home';
+
 import Figures from '../Categories/Figures';
 import Electronics from '../Categories/Electronics';
+import Computers from '../Categories/Computers';
+import Appliances from '../Categories/Appliances';
+import LuggageAndTravelGear from '../Categories/LuggageAndTravelGear';
+import SportsAndOutdoors from '../Categories/SportsAndOutdoors';
+
+import FigureProduct from '../Product/Figures/FigureProduct';
 
 import './MainComStyle.css';
 
@@ -20,19 +27,28 @@ class MainComponent extends Component {
     render() {        
         return (
             
-            <HashRouter>
+            //<HashRouter>
+            <Link>
                 <React.Fragment>
                     <Header username={this.props.username} />
                     <Characteristics />                                            
-                    <div className="content">
+                    {/* <div className="content"> */}
+                    <Switch>
                         <Route exact path="/" component={Home}/>
                         <Route path="/Figures" component={Figures}/>
                         <Route path="/Electronics" component={Electronics}/>
-                    </div>                    
+                        <Route path="/Computers" component={Computers}/>
+                        <Route path="/Appliances" component={Appliances}/>
+                        <Route path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
+                        <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
+                        <Route path="/Auction/:id" component={FigureProduct}/>
+                    </Switch>
+                    {/* </div>                     */}
                     <Footer />
                     <Copyright />
                 </React.Fragment>
-            </HashRouter>                                                                            
+            </Link>
+            //</HashRouter>                                                                            
                                     
         );
     }

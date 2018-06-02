@@ -14,10 +14,10 @@ class CopyrightComponent extends Component {
                                 </div>
                                 <div className="logos ml-sm-auto">
                                     <ul className="logos_list">
-                                        <li><a href="#"><img src="images/logos_1.png" alt=""/></a></li>
-                                        <li><a href="#"><img src="images/logos_2.png" alt=""/></a></li>
-                                        <li><a href="#"><img src="images/logos_3.png" alt=""/></a></li>
-                                        <li><a href="#"><img src="images/logos_4.png" alt=""/></a></li>
+                                        <li><a href="#"><img src="../images/logos_1.png" alt=""/></a></li>
+                                        <li><a href="#"><img src="../images/logos_2.png" alt=""/></a></li>
+                                        <li><a href="#"><img src="../images/logos_3.png" alt=""/></a></li>
+                                        <li><a href="#"><img src="../images/logos_4.png" alt=""/></a></li>
                                     </ul>
                                 </div>
                             </div>

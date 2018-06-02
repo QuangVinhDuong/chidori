@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { NavLink } from 'react-router-dom';
 
 class Figures extends Component {
     constructor(props) {
@@ -84,7 +84,8 @@ class Figures extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="bid_btn">
-                                                                <a href="javascript:void(0)">Đấu giá ngay</a>
+                                                                <NavLink to={'Auction/'+item.productID}>Đấu giá ngay</NavLink>
+                                                                {/* <a href="javascript:void(0)"></a> */}
                                                             </div>
                                                         </div>
                                                     </div>
