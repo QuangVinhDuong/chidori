@@ -1,41 +1,46 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { timer } from '../../utils/timer';
+import { timer } from '../../utils/timer'
 
-class BestSellerComponent extends Component {
+class Figures extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            obj: []
-        }
-    }
+            figObject: []
+        }                
+    }        
 
     componentDidMount() {
-        //timer();
-        this.getAllAuction();
+        this.getProduct();
     }
 
     componentDidUpdate() {
         timer();
     }
 
-    getAllAuction() {
-        fetch('/auction/getAllAuctionSession', {
+    getProduct() {
+        fetch('/auction/getAuctionSession/Figures', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            } 
+            }            
         }).then(res => res.json())
             .then(json => {
+                //console.log(json);
                 this.setState({
-                    obj: json
+                    figObject: json
                 });
             });
     }
 
     render() {
+        const divStyle = {
+            paddingTop: '56px',
+            background: '#eff6fa',
+            paddingBottom: '50px',
+        }        
 
         const gridStyle = {
             display: 'grid',
@@ -43,33 +48,32 @@ class BestSellerComponent extends Component {
             gridGap: '10px',            
         }
 
-        const arr = this.state.obj;
+        const arr = this.state.figObject;
 
-        return(
-            <div className="best_sellers box_shadow">
+        return (
+            <div className="box_shadow" style={divStyle}>
                 <div className="container">
                     <div className="row">
                         <div className="col">
                             <div className="tabbed_container">
                                 <div className="clearfix padding">
-                                    <div className="new_arrivals_title">Sản phẩm đang đấu giá</div>                                                        
+                                    <div className="new_arrivals_title">Figures</div>  
                                     <div className="tabs_line demo"><span></span></div>
                                 </div>
 
-                                <div style={gridStyle}>
+                                <div style={gridStyle}>                                
                                 {
                                     arr.map((item, index) => 
-
+                                        
                                     <div className="bestsellers_item">
                                         <div className="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
-                                            <div className="bestsellers_image"><img src={item.p[0].productImage} alt=""/></div>
+                                            <div className="bestsellers_image"><img src={item.productImage} alt=""/></div>
                                             <div className="bestsellers_content">
-                                                
                                                 <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
                                                 <div className="bestsellers_name"><a href="#">Item {index}</a></div>
-                                                <div className="bestsellers_price">{item.currentPrice} VND</div>
+                                                <div className="bestsellers_price">{item.p[0].currentPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
-                                                    <div className="deals_timer_box clearfix" data-target-time={item.bidTime}>
+                                                    <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
                                                         <div className="deals_timer_unit">
                                                             <div id="deals_timer1_hr" className="deals_timer_hr"></div>
                                                             <span>hours</span>
@@ -85,24 +89,23 @@ class BestSellerComponent extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="bid_btn">
-                                                    <NavLink to={'Auction/'+item.p[0].productType+'/'+item.p[0].productID}>Đấu giá ngay</NavLink>
+                                                    <NavLink to={'Auction/'+item.productType+'/'+item.productID}>Đấu giá ngay</NavLink>
                                                     {/* <a href="javascript:void(0)"></a> */}
-                                                </div>                                                        
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                        
                                     )
                                 }
                                 </div>
-                                                                
-                            </div>  
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>
         );
     }
 }
 
-export default BestSellerComponent;
+export default Figures;
