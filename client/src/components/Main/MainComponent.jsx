@@ -14,7 +14,7 @@ import Appliances from '../Categories/Appliances';
 import LuggageAndTravelGear from '../Categories/LuggageAndTravelGear';
 import SportsAndOutdoors from '../Categories/SportsAndOutdoors';
 
-import FigureProduct from '../Product/Figures/FigureProduct';
+import ProductDetail from '../Product/ProductDetail';
 
 import './MainComStyle.css';
 
@@ -41,7 +41,7 @@ class MainComponent extends Component {
                         <Route path="/Appliances" component={Appliances}/>
                         <Route path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
                         <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
-                        <Route path="/Auction/:id" component={FigureProduct}/>
+                        <Route path="/Auction/:type/:id" component={ProductDetail}/>
                     </Switch>
                     {/* </div>                     */}
                     <Footer />

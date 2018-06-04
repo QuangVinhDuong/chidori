@@ -954,6 +954,54 @@ $(document).ready(function()
 	20. Init Timer
 
 	*/
+	function initTimer() {
+		if($('.deals_timer_box').length)
+		{
+			var timers = $('.deals_timer_box');
+			timers.each(function()
+			{
+				var timer = $(this);
+	
+				var targetTime;
+				//var target_date;
+	
+				targetTime = timer.data('target-time');
+				
+				// variables for time units
+				var hours, minutes, seconds;
+	
+				var h = timer.find('.deals_timer_hr');
+				var m = timer.find('.deals_timer_min');
+				var s = timer.find('.deals_timer_sec');
+				
+				var str = targetTime.split(':');
+					
+					hours = str[0];
+					minutes = str[1];
+					seconds = str[2];
+
+					// display results
+					h.text(hours);
+					m.text(minutes);
+					s.text(seconds);
+
+				// setInterval(function ()
+				// {					
+				// 	var str = targetTime.split(':');
+					
+				// 	hours = str[0];
+				// 	minutes = str[1];
+				// 	seconds = str[2];
+
+				// 	// display results
+				// 	h.text(hours);
+				// 	m.text(minutes);
+				// 	s.text(seconds); 
+					
+				// }, 1000);
+			});	
+		}
+	}
 
 	// function initTimer()
     // {

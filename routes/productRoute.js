@@ -5,6 +5,18 @@ const app = express();
 
 import Product from '../models/Product';
 
+
+router.get('/getProductDetail/:type/:id', (req, res, next) => {    
+    Product.find({
+        productID: req.params.id,
+        productType: req.params.type
+    }, (err, product) => {
+        if (err) return next(err);
+
+        return res.json(product);
+    });
+});
+
 router.get('/getAllFigures', (req, res, next) => {
     Product.find({
         productType: 'Figures'
@@ -12,17 +24,6 @@ router.get('/getAllFigures', (req, res, next) => {
         if (err) return next(err);
 
         return res.json(products);
-    });
-});
-
-router.get('/getFigureByID/:id', (req, res, next) => {    
-    Product.find({
-        productID: req.params.id,
-        productType: 'Figures'
-    }, (err, product) => {
-        if (err) return next(err);
-
-        return res.json(product);
     });
 });
 

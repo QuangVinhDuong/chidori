@@ -14,8 +14,8 @@ class FigureProduct extends Component {
     }
 
     getFigureByID() {
-        const { id } = this.props.match.params;
-        fetch('/product/getFigureByID/'+id, {
+        const { id, type } = this.props.match.params;
+        fetch('/product/getProductDetail/'+type+'/'+id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ class FigureProduct extends Component {
                     arr.map((item, index) => 
                         <div>
                         <h2>{item.productName}</h2>
-                        <img src={'../'+item.productImage} alt={item.productName}/>
+                        <img src={'../../'+item.productImage} alt={item.productName}/>
                         <p>{item.description}</p>
                         </div>
                     )
