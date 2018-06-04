@@ -13,12 +13,13 @@ mongoose.Promise = global.Promise;
 // import router
 import account from "./routes/account";
 import productRoute from "./routes/productRoute";
-//const account = require('./routes/account')
+import auctionRoute from "./routes/auctionRoute";
 
 app.use(urlencoded({'extended': 'false'}));
 app.use(json());
 app.use('/account', account);
 app.use('/product', productRoute);
+app.use('/auction', auctionRoute);
 
 
 mongoose.connect('mongodb://localhost:27017/chidori')
