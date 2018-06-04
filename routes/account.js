@@ -1,33 +1,120 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const router = express.Router();
+import express, { Router } from "express";
+import bodyParser from "body-parser";
+const router = Router();
 const app = express();
 
-//const mongoose = require('mongoose');
-//import Account, { find, findById, findByIdAndUpdate, findByIdAndRemove } from "../models/Account";
-const Account = require('../models/Account');
+import Account from "../models/Account";
+import UserSession from "../models/UserSession";
 
-// app.use(bodyParser.urlencoded({'extended': 'false'}));
-// app.use(bodyParser.json());
+// test
+const ObjectId = require('mongoose').Types.ObjectId;
 
 /* GET ALL ACCOUNT */
-router.get('/', (req, res, next) => {
-    Account.find((err, post) => {
-        if (err) return next(err);
-        res.json(post);
+// router.get('/', (req, res, next) => {
+//     Account.find((err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
+
+/* GET SINGLE ACCOUNT BY ID */
+// router.get('/:id', (req, res, next) => {
+//     Account.findById(req.params.id, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
+
+/* VERIFY */
+router.get('/verify', (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+    // Now the query should be something like this
+    //?token=<user's token>
+
+    UserSession.find({
+        _id: token,
+        isDeleted: false
+    }, (err, session) => {
+        if (err) {
+            return next(err);
+        }
+        
+        if (session.length != 1) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Không hợp lệ'
+            }).end();
+        } 
+        
+        return res.json({
+            success: true,
+            message: 'OK'
+        }).end();        
     });
 });
 
-/* GET SINGLE ACCOUNT BY ID */
-router.get('/:id', (req, res, next) => {
-    Account.findById(req.params.id, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
+/* SIGNIN */
+router.post('/signin', (req, res, next) => {
+    const { body } = req;
+    const {
+        username,
+        password
+    } = body;
+
+    if (!username) {
+        return res.json({
+            success: false,
+            message: 'Lỗi: Tên đăng nhập không được để trống'
+        }).end();
+    }
+    if (!password) {
+        return res.json({
+            success: false,
+            message: 'Lỗi: Mật khẩu không được để trống'
+        }).end();
+    }
+
+    Account.find({
+        username: username
+    }, (err, users) => {
+        if (err) {
+            return next(err);
+        }
+        if (users.length != 1) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Người dùng không tồn tại'
+            }).end();
+        }
+
+        const user = users[0];
+        if (!user.validPassword(password)) {
+            return res.json({
+                success: false,
+                message: 'Lỗi: Mật khẩu không chính xác'
+            }).end();
+        }
+
+        // Dòng sau đây sẽ chạy nếu user và pass hợp lệ
+        const userSession = new UserSession();
+        userSession.userID = user._id;
+        userSession.save((err, data) => {
+            if (err) {
+                return next(err);
+            }
+
+            return res.json({
+                success: true,
+                message: 'Đăng nhập thành công',
+                token: data._id
+            });
+        });
     });
 });
 
 /* SAVE ACCOUNT A.K.A SIGNUP */
-router.post('/', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     const { body } = req;
     const {
         username,
@@ -46,37 +133,37 @@ router.post('/', (req, res, next) => {
     // const address = body.address;    
 
     if (!username) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Tên đăng nhập không được để trống'
         }).end();
     }
     if (!password) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Mật khẩu không được để trống'
         }).end();
     }
     if (!fullname) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Họ tên không được để trống'
         }).end();
     }
     if (!email) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Email không được để trống'
         }).end();
     }
     if (!phone) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Số điện thoại không được để trống'
         }).end();
     }
     if (!address) {
-        res.json({
+        return res.json({
             success: false,
             message: 'Lỗi: Địa chỉ không được để trống'
         }).end();
@@ -84,22 +171,22 @@ router.post('/', (req, res, next) => {
 
     Account.find({
         email: email
-    }, (err, post) => {
+    }, (err, acc) => {
         if (err) {
             return next(err);
-        } else if (post.length > 0) {
-            res.json({
+        } else if (acc.length > 0) {
+            return res.json({
                 success: false,
                 message: 'Lỗi: Email đã tồn tại!'
             });
         } else {
             Account.find({
                 username: username
-            }, (err, post) => {
+            }, (err, acc) => {
                 if (err) {                    
                     return next(err);
-                } else if (post.length > 0) {
-                    res.json({
+                } else if (acc.length > 0) {
+                    return res.json({
                         success: false,
                         message: 'Lỗi: Tên tài khoản đã tồn tại!'
                     });
@@ -114,7 +201,7 @@ router.post('/', (req, res, next) => {
                     newAcc.address = address;
                     newAcc.save((err, acc) => {
                         if (err) {return next(err)};
-                        res.json({
+                        return res.json({
                             success: true,
                             message: 'Tạo tài khoản thành công'
                         }); 
@@ -125,21 +212,43 @@ router.post('/', (req, res, next) => {
     });    
 });
 
-/* UPDATE ACCOUNT */
-router.put('/:id', (req, res, next) => {
-    Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
+/* LOGOUT */
+router.get('/logout', (req, res, nexr) => {
+    const { query } = req;
+    const { token } = query;
+    //console.log(token);
+    UserSession.findOneAndUpdate({
+        _id: new ObjectId(token),
+        isDeleted: false
+    }, {
+        $set: { isDeleted: true }
+    }, null, (err, session) => {
+        if (err) {
+            return next(err);
+        }
+        
+        return res.json({
+            success: true,
+            message: 'OK'
+        }).end();        
     });
 });
+
+/* UPDATE ACCOUNT */
+// router.put('/:id', (req, res, next) => {
+//     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
 
 /* DELETE ACCOUNT */
-router.delete('/:id', (req, res, next) => {
-    Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
-    });
-});
+// router.delete('/:id', (req, res, next) => {
+//     Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+//         if (err) return next(err);
+//         res.json(post);
+//     });
+// });
 
 //export default router;
-module.exports = router;
+export default router;

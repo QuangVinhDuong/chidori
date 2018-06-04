@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class HeaderMain extends Component {
     render() {
@@ -10,7 +11,7 @@ class HeaderMain extends Component {
                         { /*Logo*/ }
                         <div className="col-lg-2 col-sm-3 col-3 order-1">
                             <div className="logo_container">
-                                <div className="logo"><a href="home.html">Chidori</a></div>
+                                <div className="logo"><NavLink to="/">Chidori</NavLink></div>
                             </div>
                         </div>
 
@@ -21,7 +22,7 @@ class HeaderMain extends Component {
                                     <div className="header_search_form_container">
                                         <form action="#" className="header_search_form clearfix">
                                             <input type="search" required="required" className="header_search_input" placeholder="Tìm sản phẩm..."/>
-                                            <div className="custom_dropdown">
+                                            {/* <div className="custom_dropdown">
                                                 <div className="custom_dropdown_list">
                                                     <span className="custom_dropdown_placeholder clc">Mọi loại sản phẩm</span>
                                                     <i className="fas fa-chevron-down"></i>
@@ -34,8 +35,8 @@ class HeaderMain extends Component {
                                                         <li><a className="clc" href="#">SP5</a></li>
                                                     </ul>
                                                 </div>
-                                            </div>
-                                            <button type="submit" className="header_search_button trans_300" value="Submit"><img src="images/search.png" alt=""/></button>
+                                            </div> */}
+                                            <button type="submit" className="header_search_button trans_300" value="Submit"><img src="../images/search.png" alt=""/></button>
                                         </form>
                                     </div>
                                 </div>

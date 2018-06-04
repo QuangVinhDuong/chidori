@@ -13,6 +13,6 @@ const ParameterSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-});
+}, {collection: 'parameter'});
 
 export default mongoose.model('Parameter', ParameterSchema);

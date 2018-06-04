@@ -7,10 +7,14 @@ import MainNav from './HeaderItems/MainNav';
 import Menu from './HeaderItems/Menu';
 
 class HeaderComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <header className="header">
-                <TopBar/>
+                <TopBar username={this.props.username} />
                 <HeaderMain/>
                 <MainNav/>
                 <Menu/>

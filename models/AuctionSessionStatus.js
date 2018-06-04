@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Collection } from 'mongoose';
 
 const AuctionSesstionStatusSchema = new mongoose.Schema({
     statusID: {
@@ -9,6 +9,6 @@ const AuctionSesstionStatusSchema = new mongoose.Schema({
         type: String,
         default: 'Chưa bắt đầu'
     }
-});
+}, { collection: 'auction_session_status' });
 
 export default mongoose.model('AuctionSesstionStatus', AuctionSesstionStatusSchema);

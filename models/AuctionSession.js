@@ -14,8 +14,8 @@ const AuctionSessionSchema = new mongoose.Schema({
         default: Date.now()
     },
     bidTime: {
-        type: Date,
-        default: Date.now()     
+        type: String,
+        default: ''     
     },
     initPrice: {
         type: Number,
@@ -25,14 +25,10 @@ const AuctionSessionSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    ticketID: {
-        type: String,
-        default: ''
-    },
     status: {
         type: Number,
         default: 0
     }
-});
+}, { collection: 'auction_session' });
 
 export default mongoose.model('AuctionSession', AuctionSessionSchema);

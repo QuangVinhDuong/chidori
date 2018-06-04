@@ -1,8 +1,9 @@
-//import express from "express";
-//import { urlencoded, json } from "body-parser";
+import express from "express";
+import { urlencoded, json } from "body-parser";
 //import { Promise, connect } from "mongoose";
-const express = require('express');
-const bodyParser = require('body-parser');
+
+//const express = require('express');
+//const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -10,12 +11,15 @@ const app = express();
 mongoose.Promise = global.Promise;
 
 // import router
-//import account from "./routes/account";
-const account = require('./routes/account')
+import account from "./routes/account";
+import productRoute from "./routes/productRoute";
+import auctionRoute from "./routes/auctionRoute";
 
-app.use(bodyParser.urlencoded({'extended': 'false'}));
-app.use(bodyParser.json());
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
 app.use('/account', account);
+app.use('/product', productRoute);
+app.use('/auction', auctionRoute);
 
 
 mongoose.connect('mongodb://localhost:27017/chidori')
@@ -25,5 +29,7 @@ mongoose.connect('mongodb://localhost:27017/chidori')
     .catch((err) => {
         console.log(err);
     });
-    
+
+
+// to run, in terminal, type: npm start
 app.listen(3001, () => {console.log("Magic happened at port 3001");});

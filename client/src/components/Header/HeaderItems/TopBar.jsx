@@ -1,6 +1,35 @@
 import React, { Component } from 'react';
+import { getFromStorage, removeFromStorage } from '../../../utils/storage';
+
 
 class TopBar extends Component {
+    constructor(props) {
+        super(props);        
+
+        this.onLogOut = this.onLogOut.bind(this);
+    }
+
+    
+
+    onLogOut() {
+        // Main quest
+        // clear local storage
+        // set isDeleted in UserSession Schema to true
+        const obj = getFromStorage('login');
+
+        if (obj && obj.token_key) {
+            const { token_key } = obj;
+            fetch('/account/logout?token=' + token_key)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {   
+                        removeFromStorage('login');
+                        window.location.reload();
+                    }
+                });                        
+        }        
+    }
+
     render() {
         return (
             <div className="top_bar">
@@ -12,8 +41,8 @@ class TopBar extends Component {
                             <div className="top_bar_content ml-auto">                            
                                 <div className="top_bar_user">
                                     <div className="user_icon"><img src="images/user.svg" alt=""/></div>
-                                    <div><a href="#">Đăng ký</a></div>
-                                    <div><a href="#">Đăng nhập</a></div>
+                                    <div><button type="button">{this.props.username}</button></div>
+                                    <div><button onClick={this.onLogOut}>Thoát</button></div>
                                 </div>
                             </div>
                         </div>

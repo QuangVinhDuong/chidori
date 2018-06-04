@@ -20,7 +20,11 @@ const ProductSchema = new mongoose.Schema({
     productImage: {
         type: String,
         default: ''
-    } 
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
 }, { collection: 'product' });
 
 export default mongoose.model('Product', ProductSchema);

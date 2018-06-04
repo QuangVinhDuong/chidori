@@ -25,8 +25,8 @@ class CharacteristicsComponent extends Component {
                             <div className="char_item d-flex flex-row align-items-center justify-content-start">
                                 <div className="char_icon"><img src="images/char_2.png" alt=""/></div>
                                 <div className="char_content">
-                                    <div className="char_title">Free Delivery</div>
-                                    <div className="char_subtitle">from $50</div>
+                                    <div className="char_title">Money back guarantee</div>
+                                    <div className="char_subtitle">within 5 days</div>
                                 </div>
                             </div>
                         </div>
