@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { timer } from '../../utils/timer'
+
 class Figures extends Component {
     constructor(props) {
         super(props);
@@ -14,8 +16,12 @@ class Figures extends Component {
         this.getProduct();
     }
 
+    componentDidUpdate() {
+        timer();
+    }
+
     getProduct() {
-        fetch('/product/getAllFigures', {
+        fetch('/auction/getAuctionSession/Figures', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,10 +70,10 @@ class Figures extends Component {
                                             <div className="bestsellers_image"><img src={item.productImage} alt=""/></div>
                                             <div className="bestsellers_content">
                                                 <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
-                                                <div className="bestsellers_name"><a href="#">Figure {index}</a></div>
-                                                <div className="bestsellers_price">69K</div>
+                                                <div className="bestsellers_name"><a href="#">Item {index}</a></div>
+                                                <div className="bestsellers_price">{item.p[0].currentPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
-                                                    <div className="deals_timer_box clearfix" data-target-time="">
+                                                    <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
                                                         <div className="deals_timer_unit">
                                                             <div id="deals_timer1_hr" className="deals_timer_hr"></div>
                                                             <span>hours</span>
