@@ -71,7 +71,7 @@ class Figures extends Component {
                                             <div className="bestsellers_content">
                                                 <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
                                                 <div className="bestsellers_name"><a href="#">Item {index}</a></div>
-                                                <div className="bestsellers_price">{item.p[0].currentPrice} VND</div>
+                                                <div className="bestsellers_price">{item.p[0].initPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
                                                     <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
                                                         <div className="deals_timer_unit">
