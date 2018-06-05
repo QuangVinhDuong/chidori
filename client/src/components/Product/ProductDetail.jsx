@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { timer } from '../../utils/timer'
+//import { timer } from '../../utils/timer'
 import { bidBoxWork } from './script'
 import './custom_grid.css';
 
@@ -9,22 +9,31 @@ class FigureProduct extends Component {
 
         this.state = {
             mainObject: [],
-            bidValue: '',
+            //bidValue: '',
         }
 
-        this.bidNow = this.bidNow.bind(this);
-        this.onTextBoxChangeBidValue = this.onTextBoxChangeBidValue.bind(this);
+        //this.bidNow = this.bidNow.bind(this);
+        //this.onTextBoxChangeBidValue = this.onTextBoxChangeBidValue.bind(this);
     }
 
     componentDidMount() {
         this.getProductByID();
-        this.bidNow();
+        //bidBoxWork();
+        //this.bidNow();
+        //this.componentDidUpdate();
+    }
+
+    componentWillMount() {
+        //this.getProductByID();
+        //bidBoxWork();
     }
 
     componentDidUpdate() {
-        timer();
+        //timer();
         bidBoxWork();
+        //this.getProductByID();
     }
+    
 
     getProductByID() {
         const { id, type } = this.props.match.params;
@@ -105,7 +114,7 @@ class FigureProduct extends Component {
 
                                 <div className="panel" id="current-price-panel">
                                     <h3>Giá thầu hiện tại</h3>
-                                    <div id="current-price">{item.p[0].initPrice}</div>
+                                    <div id="current-price">{item.p[0].currentPrice}</div>
                                 </div>
 
                                 <div className="panel" id="bidding-panel">
@@ -114,7 +123,7 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].initPrice} data-step="4" data-min={item.p[0].initPrice} disabled="true" onChange={this.onTextBoxChangeBidValue}/>
+                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].currentPrice} data-step="4" data-min={item.p[0].currentPrice} data-session={item.p[0].sessionID} disabled="true" onChange={this.onTextBoxChangeBidValue}/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>

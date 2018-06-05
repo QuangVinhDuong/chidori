@@ -40,7 +40,7 @@ router.get('/getProductDetail/:type/:id', (req, res, next) => {
                 description: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
-                "p.initPrice": 1
+                "p.currentPrice": 1
             }
         }
     ], (err, result) => {
