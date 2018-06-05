@@ -70,7 +70,7 @@ class FigureProduct extends Component {
                                     <span id="isEnd"></span>
                                     <div className="bestsellers_item">
                                         <div className="deals_timer_content ml-auto">
-                                            <div className="deals_timer_box clearfix" data-target-time="">
+                                            <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
                                                 <div className="deals_timer_unit">
                                                     <div id="deals_timer1_hr" className="deals_timer_hr"></div>
                                                     <span>hours</span>
@@ -90,7 +90,7 @@ class FigureProduct extends Component {
 
                                 <div className="panel" id="current-price-panel">
                                     <h3>Giá thầu hiện tại</h3>
-                                    <div id="current-price">1K</div>
+                                    <div id="current-price">{item.p[0].initPrice}</div>
                                 </div>
 
                                 <div className="panel" id="bidding-panel">
@@ -99,7 +99,7 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4" data-min="1" disabled="true"/>
+                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].initPrice} data-step="4" data-min={item.p[0].initPrice} disabled="true"/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>
@@ -149,11 +149,6 @@ class FigureProduct extends Component {
                 </div>
             </div>
 
-            // <div>
-            // <h2>{item.productName}</h2>
-            // <img src={'../../'+item.productImage} alt={item.productName}/>
-            // <p>{item.description}</p>
-            // </div>
         );
     }
 }
