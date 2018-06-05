@@ -66,7 +66,7 @@ class FigureProduct extends Component {
                             <div className="mx-auto right">
                                 
                                 <div className="panel" id="time-left-panel">
-                                    <h2>Kết thúc trong</h2>
+                                    <h3>Kết thúc trong</h3>
                                     <span id="isEnd"></span>
                                     <div className="bestsellers_item">
                                         <div className="deals_timer_content ml-auto">
@@ -89,18 +89,23 @@ class FigureProduct extends Component {
                                 </div>
 
                                 <div className="panel" id="current-price-panel">
-                                    <h2>Giá thầu hiện tại</h2>
+                                    <h3>Giá thầu hiện tại</h3>
                                     <div id="current-price">1K</div>
                                 </div>
 
                                 <div className="panel" id="bidding-panel">
-                                    <h2>Đấu giá ngay</h2>
+                                    <h3>Đấu giá ngay</h3>
+                                    
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
                                         <input type="text" name="bid-value" id="bid-value" value="1" data-step="4" data-min="1" disabled="true"/>
                                         <button id="plus" data-value="1">+</button>
                                         
+                                    </div>
+
+                                    <div id="bid-now">
+                                        <button id="bid-now-btn">Đấu giá ngay</button>
                                     </div>
                                 </div>
 
@@ -117,12 +122,6 @@ class FigureProduct extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>test</td>
-                                            <td>test</td>
-                                            <td>test</td>
-                                            <td>test</td>
-                                        </tr>
                                         <tr>
                                             <td>test</td>
                                             <td>test</td>
