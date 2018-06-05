@@ -58,13 +58,9 @@ class FigureProduct extends Component {
                                 <h2>{item.productName}</h2>
                             </div>
                             
-                            <div className="left">
+                            <div className="left" id="product-image">
                                 <img src={'../../'+item.productImage} alt={item.productName}/>
-                            </div>
-                            
-                            <div className="middle">
-                                Test Middle
-                            </div>
+                            </div>                            
 
                             <div className="right">
                                 Test Right
