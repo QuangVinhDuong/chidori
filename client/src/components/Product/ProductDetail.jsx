@@ -67,7 +67,7 @@ class FigureProduct extends Component {
                                 
                                 <div className="panel" id="time-left-panel">
                                     <h3>Kết thúc trong</h3>
-                                    <span id="isEnd"></span>
+                                    <span id="end"></span>
                                     <div className="bestsellers_item">
                                         <div className="deals_timer_content ml-auto">
                                             <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
@@ -123,10 +123,10 @@ class FigureProduct extends Component {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>test</td>
-                                            <td>test</td>
-                                            <td>test</td>
-                                            <td>test</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
