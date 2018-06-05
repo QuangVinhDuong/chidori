@@ -10,7 +10,7 @@ class HeaderMain extends Component {
                 <div className="col-lg-2 col-sm-3 col-3 order-1">
                   <div className="logo_container">
                     
-                    <div className="logo"><NavLink to="/"><img src="https://i.imgur.com/px0atgD.png" alt="" width="120" height="75.6" /></NavLink></div> 
+                    <div className="logo"><NavLink to="/"><img src="images/logo.png" alt="" width="120" height="75.6"/></NavLink></div> 
                     
                   </div>
                 </div>

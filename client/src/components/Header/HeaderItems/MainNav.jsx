@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './MainNav.css';
 import { NavLink } from "react-router-dom";
 
 class MainNav extends Component {
