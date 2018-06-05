@@ -1,0 +1,15 @@
+.head { grid-area: head; }
+.left { grid-area: left; }
+.right { grid-area: right; }
+.view-history { grid-area: history; }
+.content { grid-area: content; }
+
+.grid-container {
+    display: grid;
+    grid:
+        'head head head head head head'
+        'left left right right right right'
+        'history history history history history history'
+        'content content content content content content';
+    
+}
