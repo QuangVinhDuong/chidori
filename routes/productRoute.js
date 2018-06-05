@@ -7,13 +7,46 @@ import Product from '../models/Product';
 
 
 router.get('/getProductDetail/:type/:id', (req, res, next) => {    
-    Product.find({
-        productID: req.params.id,
-        productType: req.params.type
-    }, (err, product) => {
-        if (err) return next(err);
+    // Product.find({
+    //     productID: req.params.id,
+    //     productType: req.params.type
+    // }, (err, product) => {
+    //     if (err) return next(err);
 
-        return res.json(product);
+    //     return res.json(product);
+    // });
+    const { id, type } = req.params;
+    Product.aggregate([
+        {
+            $match: {
+                productType: type,
+                productID: id,
+            }
+        },
+        {
+            $lookup: {
+                from: 'auction_session',
+                localField: '_id',
+                foreignField: 'productID',
+                as: 'p'
+            }
+        },
+        {
+            $project: {                    
+                productID: 1,
+                productName: 1,
+                productType: 1,
+                productImage: 1,
+                "p.sessionID": 1,
+                "p.bidTime": 1,
+                "p.initPrice": 1
+            }
+        }
+    ], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        return res.json(result);
     });
 });
 
