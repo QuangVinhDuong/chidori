@@ -16,7 +16,7 @@ class HeaderMain extends Component {
                 </div>
 
                 {/*Search*/}
-                <div className="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+                <div className="col-lg-8 col-12 order-lg-2 order-3 text-lg-left text-right">
                   <div className="header_search">
                     <div className="header_search_content">
                       <div className="header_search_form_container">
@@ -46,7 +46,7 @@ class HeaderMain extends Component {
                 </div>
 
                 {/*Wishlist*/}
-                <div className="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+                <div className="col-lg-2 col-9 order-lg-3 order-2 text-lg-left text-right">
                   <div className="wishlist_cart d-flex flex-row align-items-center justify-content-end">
                     {/*Cart*/}
                     <div className="cart">
