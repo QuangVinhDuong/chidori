@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getFromStorage, removeFromStorage } from "../../utils/storage";
 
 class Profile extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Profile extends Component {
         this.getProfileInfo();
     } 
     getProfileInfo() {
-        fetch("/account/getInfo", {
+        const u = getFromStorage("login");
+        fetch("/account/getInfo/" + u.username, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

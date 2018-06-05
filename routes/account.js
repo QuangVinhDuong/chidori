@@ -234,8 +234,22 @@ router.get('/logout', (req, res, nexr) => {
     });
 });
 
-router.get('/getInfo', (req, res, next) => {
-    console.log("adasdasa");
+router.get('/getInfo/:username', (req, res, next) => {
+    //console.log(req.params.id);
+    const username = req.params.username
+    Account.find({
+        username: username
+    }, (err, acc) => {
+        if (err) {
+            return next(err)
+        }
+        else {
+            console.log(acc);
+            return res.json({
+                success: true, detail: acc
+            })
+        }
+    });
 })
 
 /* UPDATE ACCOUNT */
