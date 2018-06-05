@@ -94,7 +94,13 @@ class FigureProduct extends Component {
 
                                 <div className="panel" id="bidding-panel">
                                     <h2>Đấu giá ngay</h2>
-                                    <div id="bid-bar">BID BAR HERE</div>
+                                    <div id="bid-box">
+                                        
+                                        <button id="minus" data-value="-1">-</button>
+                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4"/>
+                                        <button id="plus" data-value="1">+</button>
+                                        
+                                    </div>
                                 </div>
 
                             </div>

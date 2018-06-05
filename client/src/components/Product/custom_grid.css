@@ -52,3 +52,18 @@
         border-top: 1px solid #ccc;
         padding: 10px;
     }
+
+    #bidding-panel #bid-box #plus, #bidding-panel #bid-box #minus{
+        background-color: #ccc;
+        border-top: 2px solid #ccc;
+        border-left: 2px solid #ccc;
+        border-right: 2px solid #ccc;
+        border-bottom: 2px solid #ccc;
+        width: 35px;
+        cursor: pointer;
+    }
+        #bidding-panel #bid-box input {
+            border: 2px solid #ccc;
+            text-align: center;
+            width: 100px;
+        }
