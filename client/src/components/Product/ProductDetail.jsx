@@ -128,10 +128,12 @@ class FigureProduct extends Component {
 
                             <div className="content">
                                 <div id="product-detail">
+                                    <h2>Chi tiết sản phẩm</h2>
                                     <p>Mã sản phẩm: {item.productID}</p>
                                     <p>Loại sản phẩm: {item.productType}</p>
                                 </div>
                                 <div id="product-description">
+                                    <h2>Mô tả sản phẩm</h2>
                                     <p>{item.description}</p>
                                 </div>
                             </div>

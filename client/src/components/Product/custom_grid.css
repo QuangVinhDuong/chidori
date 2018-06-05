@@ -47,3 +47,7 @@
         #history-table tbody {
             text-align: center;
         }
+
+    #product-table .content {
+        border-top: 1px solid #ccc;
+    }
