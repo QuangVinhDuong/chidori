@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getFromStorage, removeFromStorage } from "../../utils/storage";
-
+import './Profile.css';
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -22,18 +22,17 @@ class Profile extends Component {
         })
             .then((res) => res.json())
             .then((json) => {
-                this.setState({ mainData: json });
-                console.log(json);
+                this.setState({ 
+                    mainData: json.detail
+                });
+                console.log(json.detail);
             });
     }
   render() {
-      const box_shadow = {
-          padding: 10,
-          border: "1px solid blue"
-      };
+      const data = this.state.mainData;
       return (
           <div className="box_shadow" >
-              <div className="container" style={box_shadow}>
+              <div className="container">
 
                   <ul class="nav nav-tabs">
                       <li class="nav-item">
@@ -50,66 +49,72 @@ class Profile extends Component {
                   <div class="tab-content">
                         <div id="home" class="container tab-pane active"><br/>
                             <div class="row vertical-divider">
-                                <div class="col-sm-12">
-                                    <fieldset>
-                                        <legend>Thông tin tài khoản:</legend>
-                                        <form>
-                                            <div class="form-group row">
-                                                <label for="username" class="col-sm-2 col-form-label">Tên tài khoản</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="username" placeholder="Tên tài khoản" />
+                                {
+                                  
+                                    data.map((item, index) =>
+                                    <div class="col-sm-12">
+                                        <fieldset>
+                                            <legend>Thông tin tài khoản:</legend>
+                                            <form>
+                                                <div class="form-group row">
+                                                    <label for="username" class="col-sm-2 col-form-label">Tên tài khoản</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="username" placeholder="Tên tài khoản" value={item.username} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="newPassword" class="col-sm-2 col-form-label">Mật khẩu mới</label>
-                                                <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="newPassword" placeholder="Mật khẩu mới" />
+                                                <div class="form-group row">
+                                                    <label for="newPassword" class="col-sm-2 col-form-label">Mật khẩu mới</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" id="newPassword" placeholder="Mật khẩu mới" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="repeatPassword" class="col-sm-2 col-form-label">Nhập lại</label>
-                                                <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="repeatPassword" placeholder="Nhập lại" />
+                                                <div class="form-group row">
+                                                    <label for="repeatPassword" class="col-sm-2 col-form-label">Nhập lại</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" id="repeatPassword" placeholder="Nhập lại" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Thông tin cá nhân:</legend>
-                                        <form>
-                                            <div class="form-group row">
-                                                <label for="fullname" class="col-sm-2 col-form-label">Họ tên</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="fullname" placeholder="Họ tên" />
+                                            </form>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Thông tin cá nhân:</legend>
+                                            <form>
+                                                <div class="form-group row">
+                                                    <label for="fullname" class="col-sm-2 col-form-label">Họ tên</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="fullname" placeholder="Họ tên" value={item.fullname}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="address" placeholder="Địa chỉ" />
+                                                <div class="form-group row">
+                                                    <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="address" placeholder="Địa chỉ" value={item.address} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="email" placeholder="Email" />
+                                                <div class="form-group row">
+                                                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="email" class="form-control" id="email" placeholder="Email" value={item.email} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                                <div class="col-sm-10">
-                                                    <input type="number" class="form-control" id="phone" placeholder="Số điện thoại" />
+                                                <div class="form-group row">
+                                                    <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="number" class="form-control" id="phone" placeholder="Số điện thoại" value={item.phone} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="ID" class="col-sm-2 col-form-label">CMND</label>
-                                                <div class="col-sm-10">
-                                                    <input type="number" class="form-control" id="ID" placeholder="CMND" />
+                                                <div class="form-group row">
+                                                    <label for="ID" class="col-sm-2 col-form-label">CMND</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="number" class="form-control" id="ID" placeholder="CMND" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </fieldset>
-                                </div>
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                    )
+                                }
+                               
                             </div>
                             <center><button class="btn btn-primary">Cập nhật</button></center>
 				        </div>

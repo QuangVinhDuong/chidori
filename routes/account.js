@@ -244,7 +244,7 @@ router.get('/getInfo/:username', (req, res, next) => {
             return next(err)
         }
         else {
-            console.log(acc);
+            //console.log(acc);
             return res.json({
                 success: true, detail: acc
             })
