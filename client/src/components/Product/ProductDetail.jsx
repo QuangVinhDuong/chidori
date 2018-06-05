@@ -58,16 +58,72 @@ class FigureProduct extends Component {
                                 <h2>{item.productName}</h2>
                             </div>
                             
-                            <div className="left" id="product-image">
+                            <div className="mx-auto left" id="product-image">
                                 <img src={'../../'+item.productImage} alt={item.productName}/>
                             </div>                            
 
-                            <div className="right">
-                                Test Right
+                            <div className="mx-auto right">
+                                
+                                <div className="panel" id="time-left-panel">
+                                    <h2>Kết thúc trong</h2>
+                                    <span id="isEnd"></span>
+                                    <div className="bestsellers_item">
+                                        <div className="deals_timer_content ml-auto">
+                                            <div className="deals_timer_box clearfix" data-target-time="">
+                                                <div className="deals_timer_unit">
+                                                    <div id="deals_timer1_hr" className="deals_timer_hr"></div>
+                                                    <span>hours</span>
+                                                </div>
+                                                <div className="deals_timer_unit">
+                                                    <div id="deals_timer1_min" className="deals_timer_min"></div>
+                                                    <span>mins</span>
+                                                </div>
+                                                <div className="deals_timer_unit">
+                                                    <div id="deals_timer1_sec" className="deals_timer_sec"></div>
+                                                    <span>secs</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="panel" id="current-price-panel">
+                                    <h2>Giá thầu hiện tại</h2>
+                                    <div id="current-price">1K</div>
+                                </div>
+
+                                <div className="panel" id="bidding-panel">
+                                    <h2>Đấu giá ngay</h2>
+                                    <div id="bid-bar">BID BAR HERE</div>
+                                </div>
+
                             </div>
                             
                             <div className="view-history">
-                                Test View History
+                                <table className="table table-striped" id="history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tài khoản đấu giá</th>
+                                            <th>Giá dự thầu (vnd)</th>
+                                            <th>Tổng giá thầu</th>
+                                            <th>Thời gian đấu giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>test</td>
+                                            <td>test</td>
+                                            <td>test</td>
+                                            <td>test</td>
+                                        </tr>
+                                        <tr>
+                                            <td>test</td>
+                                            <td>test</td>
+                                            <td>test</td>
+                                            <td>test</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <div className="content">

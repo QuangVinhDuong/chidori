@@ -1,7 +1,7 @@
 .head { grid-area: head; }
 .left { grid-area: left; }
 .right { grid-area: right; }
-.view-history { grid-area: history; }
+.view-history { grid-area: history; margin: 10px;}
 .content { grid-area: content; }
 
 .grid-container {
@@ -28,3 +28,22 @@
     #product-image {
         padding: 10px;
     }
+
+    .panel {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        margin: 15px;
+    }
+        .panel h2 {
+            border-bottom: 1px solid #ccc;
+            padding: 5px;
+            background-color: #ccc;
+        }
+
+    #history-table {
+        border: 1px solid #ccc;
+    }
+        #history-table tbody {
+            text-align: center;
+        }
