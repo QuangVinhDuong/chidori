@@ -20,11 +20,12 @@ router.get('/getAllAuctionSession', (req, res, next) => {
             $project: {
                 sessionID: 1,
                 bidTime: 1,
-                currentPrice: 1,
+                initPrice: 1,
                 "p.productID": 1,
                 "p.productName": 1,
                 "p.productType": 1,
                 "p.productImage": 1
+                
             }
         }
     ], (err, result) => {
@@ -37,7 +38,6 @@ router.get('/getAllAuctionSession', (req, res, next) => {
 
 router.get('/getAuctionSession/:type', (req, res, next) => {
     const { type } = req.params;
-
     getAuctionByProductType(type, res, next);
 
 });
@@ -58,10 +58,6 @@ router.post('/insertAuctionSession', (req, res, next) => {
         });
     });
 });
-
-
-export default router;
-
 function getAuctionByProductType(type, res, next) {
     Product.aggregate([
         {
@@ -85,14 +81,16 @@ function getAuctionByProductType(type, res, next) {
                 productImage: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
-                "p.currentPrice": 1
+                "p.initPrice": 1
             }
         }
     ], (err, result) => {
         if (err) {
             return next(err);
         }
-
         return res.json(result);
     });
 }
+
+export default router;
+

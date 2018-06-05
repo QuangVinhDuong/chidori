@@ -27,12 +27,12 @@ class BestSellerComponent extends Component {
             headers: {
                 'Content-Type': 'application/json'
             } 
-        }).then(res => res.json())
-            .then(json => {
-                this.setState({
-                    obj: json
-                });
-            });
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({obj: json});
+        });
     }
 
     render() {
@@ -67,7 +67,7 @@ class BestSellerComponent extends Component {
                                                 
                                                 <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
                                                 <div className="bestsellers_name"><a href="#">Item {index}</a></div>
-                                                <div className="bestsellers_price">{item.currentPrice} VND</div>
+                                                <div className="bestsellers_price">{item.initPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
                                                     <div className="deals_timer_box clearfix" data-target-time={item.bidTime}>
                                                         <div className="deals_timer_unit">

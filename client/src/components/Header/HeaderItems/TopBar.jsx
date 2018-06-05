@@ -41,8 +41,8 @@ class TopBar extends Component {
                             <div className="top_bar_content ml-auto">                            
                                 <div className="top_bar_user">
                                     <div className="user_icon"><img src="images/user.svg" alt=""/></div>
-                                    <div><button type="button">{this.props.username}</button></div>
-                                    <div><button onClick={this.onLogOut}>Thoát</button></div>
+                                    <div><button className="btn btnPrimary" type="button">{this.props.username}</button></div>
+                                    <div><button className="btn btnPrimary" onClick={this.onLogOut}>Thoát</button></div>
                                 </div>
                             </div>
                         </div>
