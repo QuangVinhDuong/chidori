@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { timer } from '../../utils/timer'
-
+import { bidBoxWork } from './script'
 import './custom_grid.css';
 
 class FigureProduct extends Component {
@@ -18,6 +18,7 @@ class FigureProduct extends Component {
 
     componentDidUpdate() {
         timer();
+        bidBoxWork();
     }
 
     getProductByID() {
@@ -97,7 +98,7 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4"/>
+                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4" data-min="1"/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>
