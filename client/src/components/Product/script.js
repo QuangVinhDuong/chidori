@@ -17,5 +17,12 @@ export function bidBoxWork() {
             }
             input.val(val);
         });
+        
+        var interval = setInterval(function(){            
+            if ($('.bestsellers_item').length != 1) {
+                $("#end").text("Đã kết thúc");
+                clearInterval(interval);
+            }
+        }, 1000);        
     });
 }

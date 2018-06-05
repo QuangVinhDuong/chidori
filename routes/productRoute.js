@@ -37,6 +37,7 @@ router.get('/getProductDetail/:type/:id', (req, res, next) => {
                 productName: 1,
                 productType: 1,
                 productImage: 1,
+                description: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
                 "p.initPrice": 1
