@@ -1,5 +1,6 @@
 .head { grid-area: head; }
 .left { grid-area: left; }
+.middle { grid-area: middle; }
 .right { grid-area: right; }
 .view-history { grid-area: history; }
 .content { grid-area: content; }
@@ -8,8 +9,14 @@
     display: grid;
     grid:
         'head head head head head head'
-        'left left right right right right'
+        'left left middle middle right right'
         'history history history history history history'
         'content content content content content content';
     
+}
+
+#product-table {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 15px;
 }

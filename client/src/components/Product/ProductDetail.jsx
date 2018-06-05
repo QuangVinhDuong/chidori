@@ -62,6 +62,10 @@ class FigureProduct extends Component {
                                 <img src={'../../'+item.productImage} alt={item.productName}/>
                             </div>
                             
+                            <div className="middle">
+                                Test Middle
+                            </div>
+
                             <div className="right">
                                 Test Right
                             </div>
