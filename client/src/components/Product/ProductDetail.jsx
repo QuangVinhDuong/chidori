@@ -8,12 +8,17 @@ class FigureProduct extends Component {
         super(props);
 
         this.state = {
-            mainObject: []
+            mainObject: [],
+            bidValue: '',
         }
+
+        this.bidNow = this.bidNow.bind(this);
+        this.onTextBoxChangeBidValue = this.onTextBoxChangeBidValue.bind(this);
     }
 
     componentDidMount() {
         this.getProductByID();
+        this.bidNow();
     }
 
     componentDidUpdate() {
@@ -35,6 +40,16 @@ class FigureProduct extends Component {
                     mainObject: json
                 });
             });
+    }
+
+    bidNow() {
+        
+    }
+
+    onTextBoxChangeBidValue(event) {
+        this.setState({
+            bidValue: event.target.value
+        });
     }
 
     render() {
@@ -99,13 +114,13 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].initPrice} data-step="4" data-min={item.p[0].initPrice} disabled="true"/>
+                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].initPrice} data-step="4" data-min={item.p[0].initPrice} disabled="true" onChange={this.onTextBoxChangeBidValue}/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>
 
                                     <div id="bid-now">
-                                        <button id="bid-now-btn">Đấu giá ngay</button>
+                                        <button id="bid-now-btn" onClick={this.bidNow}>Đấu giá ngay</button>
                                     </div>
                                 </div>
 
