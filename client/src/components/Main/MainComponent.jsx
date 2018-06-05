@@ -6,7 +6,7 @@ import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
 import Characteristics from '../Characteristics/CharacteristicsComponent';
 import Home from '../Home/Home';
-
+import Profile from '../Profile/Profile';
 import Figures from '../Categories/Figures';
 import Electronics from '../Categories/Electronics';
 import Computers from '../Categories/Computers';
@@ -42,6 +42,7 @@ class MainComponent extends Component {
                         <Route path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
                         <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
                         <Route path="/Auction/:type/:id" component={ProductDetail}/>
+                        <Route path="/profile" component={Profile}/>
                     </Switch>
                     {/* </div>                     */}
                     <Footer />

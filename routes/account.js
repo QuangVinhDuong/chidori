@@ -234,6 +234,10 @@ router.get('/logout', (req, res, nexr) => {
     });
 });
 
+router.get('/getInfo', (req, res, next) => {
+    console.log("adasdasa");
+})
+
 /* UPDATE ACCOUNT */
 // router.put('/:id', (req, res, next) => {
 //     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {

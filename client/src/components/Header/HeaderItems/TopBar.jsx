@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 import './TopBar.css'
 import { getFromStorage, removeFromStorage } from '../../../utils/storage';
 
@@ -10,7 +11,7 @@ class TopBar extends Component {
 
         this.onLogOut = this.onLogOut.bind(this);
     }
-    
+
 
     onLogOut() {
         // Main quest
@@ -30,7 +31,7 @@ class TopBar extends Component {
                 });                        
         }        
     }
-
+    
     render() {
 
         return (
@@ -48,7 +49,10 @@ class TopBar extends Component {
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <button className="btn btn-primary account" type="button"><b>Tài khoản</b></button>
+                                    
+                                        <button className="btn btn-primary account" type="button">
+                                            <NavLink to="/profile"><b>Tài khoản</b></NavLink>
+                                        </button>
                                         <div class="dropdown-divider"></div>
                                         <button className="btn btn-primary account" onClick={this.onLogOut}><b>Đăng xuất</b></button>
                                         {/* <a class="dropdown-item" href="#">Đăng xuất</a> */}
