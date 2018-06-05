@@ -251,6 +251,27 @@ router.get('/getInfo/:username', (req, res, next) => {
         }
     });
 })
+router.post('/update', (req, res, next) => {
+    //console.log(req.body);
+    Account.updateOne({
+        username: req.body.id}, 
+        {
+            $set: {
+                username: req.body.username,
+                email: req.body.email,
+                address: req.body.address,
+                phone: req.body.phone,
+                fullname: req.body.fullname
+            }
+        }, (err, count) => {
+            if (err) {
+                return next(err)
+            }
+            else {
+                console.log(count);
+            }
+        })
+})
 
 /* UPDATE ACCOUNT */
 // router.put('/:id', (req, res, next) => {
