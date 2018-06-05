@@ -98,7 +98,7 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4" data-min="1"/>
+                                        <input type="text" name="bid-value" id="bid-value" value="1" data-step="4" data-min="1" disabled="true"/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>
