@@ -1,4 +1,6 @@
 import express, { Router } from "express";
+const mongodb = require("mongodb");
+const BSONRegExp = mongodb.BSONRegExp;
 import bodyParser from "body-parser";
 const router = Router();
 const app = express();
@@ -77,4 +79,29 @@ router.get('/getAllSportsAndOutdoors', (req, res, next) => {
     });
 });
 
+router.get('/search/:keyword', (req, res, next) => {
+    console.log(req.params);
+    var query = 
+    [
+        {
+            "productName": {
+                $regex: `.*${req.params.keyword}.`,
+                $options: "i"
+            }
+        },
+        {
+            "description": {
+                $regex: `.*${req.params.keyword}.`,
+                $options: "i"
+            }
+        }
+    ]
+    Product.find({"$or": query}, (err, p) => {
+        if (err) console.log(err);
+        else return res.json({
+            success: true,
+            data: p
+        });
+    })
+})
 export default router;

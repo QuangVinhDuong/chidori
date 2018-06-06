@@ -1,7 +1,6 @@
 import express from "express";
 import { urlencoded, json } from "body-parser";
 //import { Promise, connect } from "mongoose";
-
 //const express = require('express');
 //const bodyParser = require('body-parser');
 const mongoose = require('mongoose');

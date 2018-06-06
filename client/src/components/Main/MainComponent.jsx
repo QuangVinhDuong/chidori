@@ -13,7 +13,7 @@ import Computers from '../Categories/Computers';
 import Appliances from '../Categories/Appliances';
 import LuggageAndTravelGear from '../Categories/LuggageAndTravelGear';
 import SportsAndOutdoors from '../Categories/SportsAndOutdoors';
-
+import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
 
 import './MainComStyle.css';
@@ -43,6 +43,7 @@ class MainComponent extends Component {
                         <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
                         <Route path="/Auction/:type/:id" component={ProductDetail}/>
                         <Route path="/profile" component={Profile}/>
+                        <Route path="/search/:keyword" component={Search}/>
                     </Switch>
                     {/* </div>                     */}
                     <Footer />

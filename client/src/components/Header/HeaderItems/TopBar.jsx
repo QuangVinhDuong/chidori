@@ -44,8 +44,8 @@ class TopBar extends Component {
                             
                             <div className="top_bar_content ml-auto">   
                                 <div class="btn-group" id="account">
-                                    <button type="button" id="btn1" className="btn btn-primary"><i class="fa fa-user"></i>  {this.props.username}</button>
-                                    <button type="button" className="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" id="btn1" className="btn btn-primary" disabled><i class="fa fa-user"></i>  {this.props.username}</button>
+                                    <button type="  " className="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu">
