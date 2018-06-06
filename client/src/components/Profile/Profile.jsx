@@ -117,14 +117,11 @@ class Profile extends Component {
                 <div className="container info">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+                            <a class="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-                        </li>
+                            <a class="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
+                        </li>       
                     </ul>
 
                     <div className="tab-content">
@@ -184,7 +181,7 @@ class Profile extends Component {
                                             <div class="form-group row">
                                                 <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" className={this.state.phone == "" ? "form-control warning" : "form-control"} id="phone" placeholder="Số điện thoại" value={this.state.phone} onChange={this.handleChangePhone} />
+                                                    <input type="number" className={this.state.phone == "" ? "form-control warning" : "form-control"} id="phone" placeholder="Số điện thoại" value={this.state.phone} onChange={this.handleChangePhone}/>
                                                 </div>
                                                 <div className={this.state.phone == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.phone == "" ? "Không được để trống" : "✔"}</div>
                                             </div>
@@ -198,12 +195,8 @@ class Profile extends Component {
                                 <h3>Menu 1</h3>
                                 <p>t2</p>
                             </div>
-                                <div id="menu2" class="container tab-pane fade"><br/>
-                                    <h3>Menu 2</h3>
-                                    <p>t1</p>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
