@@ -125,72 +125,6 @@ class Profile extends Component {
                     <div class="tab-content">
                             <div id="home" class="container tab-pane active"><br/>
                                 <div class="row vertical-divider">
-                                    {/* Load info */}
-                                    {/* {
-                                    
-                                        data.map((item, index) =>
-                                        <div class="col-sm-12">
-                                            <fieldset>
-                                                <legend>Thông tin tài khoản:</legend>
-                                                <form>
-                                                    <div class="form-group row">
-                                                        <label for="username" class="col-sm-2 col-form-label">Tên tài khoản</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="username" placeholder="Tên tài khoản" value={item.username} onChange={this.handleChangeUsername}/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="newPassword" class="col-sm-2 col-form-label">Mật khẩu mới</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="password" class="form-control" id="newPassword" placeholder="Mật khẩu mới" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="repeatPassword" class="col-sm-2 col-form-label">Nhập lại</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="password" class="form-control" id="repeatPassword" placeholder="Nhập lại" />
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </fieldset>
-                                            <fieldset>
-                                                <legend>Thông tin cá nhân:</legend>
-                                                <form>
-                                                    <div class="form-group row">
-                                                        <label for="fullname" class="col-sm-2 col-form-label">Họ tên</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="fullname" placeholder="Họ tên" value={item.fullname}/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="address" placeholder="Địa chỉ" value={item.address} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="email" class="form-control" id="email" placeholder="Email" value={item.email} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="number" class="form-control" id="phone" placeholder="Số điện thoại" value={item.phone} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="ID" class="col-sm-2 col-form-label">CMND</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="number" class="form-control" id="ID" placeholder="CMND" />
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </fieldset>
-                                        </div>
-                                        )
-                                    } */}
                                 <div class="col-sm-12">
                                     <fieldset>
                                         <legend>Thông tin tài khoản:</legend>
@@ -240,12 +174,6 @@ class Profile extends Component {
                                                 <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
                                                 <div class="col-sm-10">
                                                     <input type="number" class="form-control" id="phone" placeholder="Số điện thoại" value={this.state.phone} onChange={this.handleChangePhone} />
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="ID" class="col-sm-2 col-form-label">CMND</label>
-                                                <div class="col-sm-10">
-                                                    <input type="number" class="form-control" id="ID" placeholder="CMND" />
                                                 </div>
                                             </div>
                                         </form>
