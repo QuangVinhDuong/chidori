@@ -1,6 +1,6 @@
-.container {
+.container.info {
     padding: 10px;
-    border: "1px solid blue";
+    border: 1px solid blue;
 }
 
 .form-control {

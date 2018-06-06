@@ -114,7 +114,7 @@ class Profile extends Component {
     render() {
         return (
             <div className="box_shadow" >
-                <div className="container">
+                <div className="container info">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
@@ -137,9 +137,9 @@ class Profile extends Component {
                                             <div class="form-group row">
                                                 <label for="username" class="col-sm-2 col-form-label">Tên tài khoản</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" className={this.state.username == "" ? "form-control warning" : "form-control"} id="username" placeholder="Tên tài khoản" value={this.state.username} onChange={this.handleChangeUsername} />
+                                                    <input type="text" className={this.state.username == "" ? "form-control warning" : "form-control"} id="username" placeholder="Tên tài khoản" value={this.state.username} disabled="disabled" />
                                                 </div>
-                                                <div className={this.state.username == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.username == "" ? "Không được để trống" : "✔"}</div>
+                                                {/* <div className={this.state.username == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.username == "" ? "Không được để trống" : "✔"}</div> */}
                                             </div>
                                             <div class="form-group row">
                                                 <label for="newPassword" class="col-sm-2 col-form-label">Mật khẩu mới</label>
