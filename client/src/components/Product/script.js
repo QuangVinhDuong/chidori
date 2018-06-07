@@ -1,38 +1,11 @@
 import $ from 'jquery';
 
-export function bidBoxWork(sessionID, bidValue) {
+export function bidBoxWork() {
     
     $(document).ready(function() {
 
         var interval;
-        initTimer();
-
-        $("#bid-now-btn").on("click", function() {
-            
-            var input = $("#bid-value");
-            var sessionID = input.data("session");
-            var bidValue = input.val(); 
-            $.ajax(
-                {
-                    url: '/bid/updateAuctionSession/'+sessionID+'/'+bidValue,
-                    method: 'PUT',
-                    success: function(data) {
-                        clearInterval(interval);
-                        $(".deals_timer_box").data("target-time", data.bidTime);
-                        initTimer();
-                        const timer = data.bidTime;
-                        const str = timer.split(":");
-                        $(".deals_timer_hr").text(str[0]);
-                        $(".deals_timer_min").text(str[1]);
-                        $(".deals_timer_sec").text(str[2]);
-                        $("#current-price").text(data.currentPrice);
-                        $("#bid-value").val(data.currentPrice);
-                        $("#bid-value").data("min", data.currentPrice);
-                        //console.log(data.bidTime);
-                    }
-                }
-            );
-        })
+        initTimer();                
 
         $("[data-value]").on("click", function() {
             var value = $(this).data("value");
@@ -123,11 +96,64 @@ export function bidBoxWork(sessionID, bidValue) {
             }
         }
 
-        // var interval = setInterval(function(){            
-        //     if ($('.bestsellers_item').length != 1) {
-        //         $("#end").text("Đã kết thúc");
-        //         clearInterval(interval);
-        //     }
-        // }, 1000);        
+        var clickHandler = function(e) {
+            var input = $("#bid-value");
+            var sessionId = input.data("session");
+            var bidVal = input.val(); 
+            $.ajax(
+                {
+                    url: '/bid/updateAuctionSession/'+sessionId+'/'+bidVal,
+                    method: 'PUT',
+                    success: function(data) {
+                        $("#bid-now-btn").one("click", clickHandler);
+                        clearInterval(interval);
+                        $(".deals_timer_box").data("target-time", data.bidTime);
+                        initTimer();
+                        const timer = data.bidTime;
+                        const str = timer.split(":");
+                        $(".deals_timer_hr").text(str[0]);
+                        $(".deals_timer_min").text(str[1]);
+                        $(".deals_timer_sec").text(str[2]);
+                        $("#current-price").text(data.currentPrice);
+                        $("#bid-value").val(data.currentPrice);
+                        $("#bid-value").data("min", data.currentPrice);
+                    },
+                    complete: function(e) {                        
+                        const key = JSON.parse(localStorage.getItem("login"));                
+                        const { username } = key;
+                        $.ajax({
+                            url: '/bid/createAuctionTicket',
+                            method: 'POST',                            
+                            data: {
+                                sessionID: sessionId,
+                                accountID: username,
+                                bidValue: bidVal,
+                                bidTime: Date.now(),
+                                status: 0
+                            },
+                            success: function(result) {
+                                $("#bid-now-btn").one("click", clickHandler);
+                                if (!result.success) {
+                                    alert("Server Error");
+                                }
+                                else {
+                                    $("#history-table tbody").prepend(
+                                        "<tr>"+
+                                            "<td>"+result.data.accountID+"</td>"+
+                                            "<td>"+result.data.bidValue+"</td>"+
+                                            "<td>"+result.data.bidTime+"</td>"+
+                                        "</tr>"
+                                    );
+                                }
+                            }
+                        });
+                    }
+                }
+            );
+            e.stopImmediatePropagation();
+            return false;
+        }
+
+        $("#bid-now-btn").one("click", clickHandler)
     });    
 }
