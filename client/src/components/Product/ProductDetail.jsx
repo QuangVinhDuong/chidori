@@ -9,31 +9,36 @@ class FigureProduct extends Component {
 
         this.state = {
             mainObject: [],
-            //bidValue: '',
+            ticketObj: [],
+            sessionID: '',
         }
-
-        //this.bidNow = this.bidNow.bind(this);
-        //this.onTextBoxChangeBidValue = this.onTextBoxChangeBidValue.bind(this);
     }
 
     componentDidMount() {
         this.getProductByID();
-        //bidBoxWork();
-        //this.bidNow();
-        //this.componentDidUpdate();
-    }
-
-    componentWillMount() {
-        //this.getProductByID();
-        //bidBoxWork();
-    }
-
-    componentDidUpdate() {
-        //timer();
-        bidBoxWork();
-        //this.getProductByID();
     }
     
+    // shouldComponentUpdate() {
+    //     this.getAuctionTicket();
+    // }
+
+    componentDidUpdate() {
+        bidBoxWork();
+    }
+    
+    getAuctionTicket() {        
+        fetch('/bid/getAuctionTicket/'+this.state.sessionID, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(json => {
+                this.setState({
+                    ticketObj: json
+                });
+            });
+    }
 
     getProductByID() {
         const { id, type } = this.props.match.params;
@@ -46,23 +51,22 @@ class FigureProduct extends Component {
         }).then(res => res.json())
             .then(json => {
                 this.setState({
-                    mainObject: json
+                    sessionID: json[0].p[0].sessionID,
+                    mainObject: json,                    
                 });
+                this.getAuctionTicket();
             });
     }
 
-    bidNow() {
-        
-    }
-
-    onTextBoxChangeBidValue(event) {
-        this.setState({
-            bidValue: event.target.value
-        });
-    }
+    // onTextBoxChangeBidValue(event) {
+    //     this.setState({
+    //         bidValue: event.target.value
+    //     });
+    // }
 
     render() {
         const arr = this.state.mainObject;
+        const ticketArr = this.state.ticketObj;
 
         const divStyle = {
             paddingTop: '56px',
@@ -70,7 +74,8 @@ class FigureProduct extends Component {
             paddingBottom: '50px',
         }
 
-        
+        // const currentDate = new Date();
+        // const datetime = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + "/" + currentDate.getFullYear() + " " + currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds();        
 
         return (
             <div className="box_shadow" style={divStyle}>
@@ -123,13 +128,13 @@ class FigureProduct extends Component {
                                     <div id="bid-box">
                                         
                                         <button id="minus" data-value="-1">-</button>
-                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].currentPrice} data-step="4" data-min={item.p[0].currentPrice} data-session={item.p[0].sessionID} disabled="true" onChange={this.onTextBoxChangeBidValue}/>
+                                        <input type="text" name="bid-value" id="bid-value" value={item.p[0].currentPrice} data-step="4000" data-min={item.p[0].currentPrice} data-session={item.p[0].sessionID} disabled="true"/>
                                         <button id="plus" data-value="1">+</button>
                                         
                                     </div>
 
                                     <div id="bid-now">
-                                        <button id="bid-now-btn" onClick={this.bidNow}>Đấu giá ngay</button>
+                                        <button id="bid-now-btn">Đấu giá ngay</button>
                                     </div>
                                 </div>
 
@@ -140,18 +145,20 @@ class FigureProduct extends Component {
                                     <thead>
                                         <tr>
                                             <th>Tài khoản đấu giá</th>
-                                            <th>Giá dự thầu (vnd)</th>
-                                            <th>Tổng giá thầu</th>
+                                            <th>Giá dự thầu (vnd)</th>                                            
                                             <th>Thời gian đấu giá</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        {
+                                            ticketArr.map(item => 
+                                                <tr>
+                                                    <td>{item.accountID}</td>
+                                                    <td>{item.bidValue}</td>
+                                                    <td>{item.bidTime}</td>
+                                                </tr>
+                                            )
+                                            }
                                     </tbody>
                                 </table>
                             </div>
