@@ -1,0 +1,11 @@
+.off {
+	display: none;
+}
+.on, .fa.fa-search.on {
+	display: inline;
+}
+
+.fa.fa-search {
+	font-size: 21px;
+	color: white;
+}

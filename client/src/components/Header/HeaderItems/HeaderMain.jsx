@@ -1,7 +1,24 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-
+import './HeaderMain.css';
 class HeaderMain extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        search: '',
+        productList: []
+      };
+      this.handleChangeSearch = this.handleChangeSearch.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      console.log(this.url)
+    }
+    handleChangeSearch(event) {
+      this.setState({search: event.target.value});
+    }
+    handleSearch(event) {
+        event.preventDefault();
+    }
     render() {
         return <div className="header_main">
             <div className="container">
@@ -9,9 +26,11 @@ class HeaderMain extends Component {
                 {/*Logo*/}
                 <div className="col-lg-2 col-sm-3 col-3 order-1">
                   <div className="logo_container">
-                    
-                    <div className="logo"><NavLink to="/"><img src="images/logo.png" alt="" width="120" height="75.6"/></NavLink></div> 
-                    
+                    <div className="logo">
+                      <NavLink to="/">
+                        <img src="images/logo.png" alt="" width="120" height="75.6" />
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
 
@@ -20,24 +39,11 @@ class HeaderMain extends Component {
                   <div className="header_search">
                     <div className="header_search_content">
                       <div className="header_search_form_container">
-                        <form action="#" className="header_search_form clearfix">
-                          <input type="search" required="required" className="header_search_input" placeholder="Tìm sản phẩm..." />
-                          {/* <div className="custom_dropdown">
-                                                <div className="custom_dropdown_list">
-                                                    <span className="custom_dropdown_placeholder clc">Mọi loại sản phẩm</span>
-                                                    <i className="fas fa-chevron-down"></i>
-                                                    <ul className="custom_list clc">
-                                                        <li><a className="clc" href="#">Mọi loại sản phẩm</a></li>
-                                                        <li><a className="clc" href="#">SP1</a></li>
-                                                        <li><a className="clc" href="#">SP2</a></li>
-                                                        <li><a className="clc" href="#">SP3</a></li>
-                                                        <li><a className="clc" href="#">SP4</a></li>
-                                                        <li><a className="clc" href="#">SP5</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div> */}
+                        <form className="header_search_form clearfix" onSubmit={this.handleSearch}>
+                          <input type="search" required className="header_search_input" placeholder="Tìm sản phẩm..." value={this.state.search} onChange={this.handleChangeSearch} />
                           <button type="submit" className="header_search_button trans_300" value="Submit">
-                            <img src="../images/search.png" alt="" />
+                          <i className={this.state.search == "" ? "fa fa-search on" : "off"}></i>
+                          <NavLink className={this.state.search == "" ? "off" : "on"} to={`/search/${this.state.search}`}><i className="fa fa-search"></i></NavLink>
                           </button>
                         </form>
                       </div>

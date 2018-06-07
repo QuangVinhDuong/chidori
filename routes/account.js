@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import bodyParser from "body-parser";
 const router = Router();
 const app = express();
+const bcrypt = require('bcrypt');
 
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
@@ -233,6 +234,54 @@ router.get('/logout', (req, res, nexr) => {
         }).end();        
     });
 });
+
+router.get('/getInfo/:username', (req, res, next) => {
+    //console.log(req.params.id);
+    const username = req.params.username
+    Account.find({
+        username: username
+    }, (err, acc) => {
+        if (err) {
+            return next(err)
+        }
+        else {
+            //console.log(acc);
+            return res.json({
+                success: true, detail: acc
+            })
+        }
+    });
+})
+router.post('/update', (req, res, next) => {
+    console.log(req.body);
+    var set = {
+        username: req.body.username,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phone,
+        fullname: req.body.fullname
+    }
+
+    // Chỉ khi client nhập pass thì mới thêm cái này.
+    if (req.body.password != "") { 
+        set.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
+    }
+
+    Account.updateOne({
+        username: req.body.id}, 
+        {
+            $set: set
+        }, (err, count) => {
+            if (err) {
+                return next(err)
+            }
+            else {
+                res.json({
+                    success: count.nModified == 1 ? true : false
+                })
+            }
+        })
+})
 
 /* UPDATE ACCOUNT */
 // router.put('/:id', (req, res, next) => {
