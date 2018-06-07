@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 const AuctionTicketSchema = mongoose.Schema({
-    ticketID: {
-        type: String,
-        default: ''
-    },
     sessionID: {
         type: String,
         default: ''
@@ -16,6 +12,10 @@ const AuctionTicketSchema = mongoose.Schema({
     bidValue: {
         type: Number,
         default: 0        
+    },
+    bidTime: {
+        type: Date,
+        default: Date.now()
     },
     status: {
         type: Number,
