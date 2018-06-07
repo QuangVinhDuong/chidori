@@ -4,7 +4,44 @@ const router = Router();
 const app = express();
 
 import AuctionSession from '../models/AuctionSession';
+import AuctionTicket from '../models/AuctionTicket';
 
+app.use(bodyParser.json());
+
+router.get('/getAuctionTicket/:sessionID', (req, res, next) => {    
+    AuctionTicket.find(
+        { sessionID: req.params.sessionID },
+        {
+            accountID: 1,
+            bidTime: 1,
+            bidValue: 1
+        },
+        {
+            sort: { bidValue: -1 }
+        }, 
+        (err, at) => {
+        if (err) return next(err);
+
+        return res.json(at);
+    });
+});
+
+router.post('/createAuctionTicket', (req, res, next) => {
+    const auctionTicket = new AuctionTicket();
+    auctionTicket.sessionID = req.body.sessionID;
+    auctionTicket.accountID = req.body.accountID;
+    auctionTicket.bidValue = req.body.bidValue;
+    auctionTicket.bidTime = req.body.bidTime;
+    auctionTicket.status = req.body.status;
+
+    auctionTicket.save((err, at) => {
+        if (err) return next(err);
+        return res.json({
+            success: true,
+            data: at
+        }); 
+    });
+});
 
 router.put('/updateAuctionSession/:sessionID/:bidValue', (req, res, next) => {
     AuctionSession.findOne(
@@ -54,7 +91,7 @@ router.put('/updateAuctionSession/:sessionID/:bidValue', (req, res, next) => {
                         },
                         {
                             bidTime: finalTime,
-                            currentPrice: result.currentPrice + Number(req.params.bidValue)
+                            currentPrice: Number(req.params.bidValue)
                         },
                         {
                             new: true // option to return an updated document
