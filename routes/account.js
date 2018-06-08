@@ -108,7 +108,8 @@ router.post('/signin', (req, res, next) => {
             return res.json({
                 success: true,
                 message: 'Đăng nhập thành công',
-                token: data._id
+                token: data._id,
+                accountType: user.accountType._id
             });
         });
     });
