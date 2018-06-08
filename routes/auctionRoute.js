@@ -21,6 +21,7 @@ router.get('/getAllAuctionSession', (req, res, next) => {
                 sessionID: 1,
                 bidTime: 1,
                 initPrice: 1,
+                currentPrice: 1,
                 "p.productID": 1,
                 "p.productName": 1,
                 "p.productType": 1,
