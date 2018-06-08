@@ -13,6 +13,8 @@ class WelcomeComponent extends Component {
         this.state = {
             isLoading: true,
             token: '',
+            accountType: 1,
+
             signUpError: '',
             signUpUsername:'',
             signUpPassword:'',
@@ -100,7 +102,7 @@ class WelcomeComponent extends Component {
                         signInError: json.message,
                         isLoading: false,
                         token: json.token,
-                        //signInPassword: '',                        
+                        accountType: json.accountType                        
                     });
                 } else {                    
                     this.setState({
@@ -209,6 +211,8 @@ class WelcomeComponent extends Component {
         const {
             isLoading,
             token,
+            accountType,
+
             signInError,
             signInUsername,
             signInPassword,
@@ -373,7 +377,7 @@ class WelcomeComponent extends Component {
                     </div>        
                 </div>
             );
-        } else {            
+        } else if (token && (accountType === 1 || accountType === 0)){            
             return (
                 <MainComponent username={this.state.signInUsername} />
             );
