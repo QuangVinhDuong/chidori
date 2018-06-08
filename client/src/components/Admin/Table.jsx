@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
 import './assets/css/Table.css';
 class Table extends Component {
-    constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: []
+    };
+  }
 
-      this.state = {
-        checked: false
-      };
+  componentDidMount() {
+    this.getProduct();
+  }
+
+  getProduct() {
+    fetch("/product/admin", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        this.setState({ list: json.list });
+        console.log(this.state.list.length);
+      });
 
       this.handleCheck = this.handleCheck.bind(this);
   }
@@ -15,17 +32,18 @@ class Table extends Component {
       event.target.checked = !event.target.checked;
       
     this.setState({checked: event.target.checked});
-    console.log("After " + event.target.checked);
+    //console.log("After " + event.target.checked);
   }
 	render() {
 		const tableStyle = {
 			"vertical-align": "middle",
 			"text-align": "center"
 		}
-		return <div className="col-md-12">
+		return (
+    <div className="col-md-12">
         <div className="card table-with-switches" style={tableStyle}>
           <div className="card-header ">
-            <h4 className="card-title">Table with Switches</h4>
+            <h4 className="card-title">{this.state.list.length}</h4>
           </div>
           <div className="card-body table-full-width">
             <table className="table table-striped">
@@ -60,7 +78,7 @@ class Table extends Component {
             </table>
           </div>
         </div>
-      </div>;
+    </div>);
 	}
 }
 

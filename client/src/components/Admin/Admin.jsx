@@ -11,24 +11,7 @@ class Admin extends Component {
             list: []
         }
     }
-    componentDidMount() {
-        this.getProduct();
-    }
-
-    getProduct() {
-        fetch("/product/admin", {
-          method: "GET",
-          headers: {    
-            "Content-Type": "application/json"
-          }
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            this.setState({ list: json });
-            console.log(this.state.list);
-          });
-    }
-
+    
     render() {
         return (
             <Link>
