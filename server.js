@@ -1,8 +1,6 @@
 import express from "express";
 import { urlencoded, json } from "body-parser";
-//import { Promise, connect } from "mongoose";
-//const express = require('express');
-//const bodyParser = require('body-parser');
+
 const mongoose = require('mongoose');
 
 const app = express();
@@ -15,14 +13,7 @@ import productRoute from "./routes/productRoute";
 import auctionRoute from "./routes/auctionRoute";
 import bidRoute from "./routes/bidRoute";
 
-app.use(urlencoded({'extended': 'false'}));
-app.use(json());
-app.use('/account', account);
-app.use('/product', productRoute);
-app.use('/auction', auctionRoute);
-app.use('/bid', bidRoute);
-
-
+// Check database connection
 mongoose.connect('mongodb://localhost:27017/chidori')
     .then(() => {
         console.log("Connection successful");
@@ -30,6 +21,44 @@ mongoose.connect('mongodb://localhost:27017/chidori')
     .catch((err) => {
         console.log(err);
     });
+
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.method === "OPTIONS") {
+      res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+      return res.status(200).json({});
+    }
+    next();
+});
+
+// Routes which should handle request
+app.use('/account', account);
+app.use('/product', productRoute);
+app.use('/auction', auctionRoute);
+app.use('/bid', bidRoute);
+
+app.use((req, res, next) => {
+    const error = new Error("Not found");
+    error.status = 404;
+    next(error);
+});
+  
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    res.json({
+        error: {
+            message: error.message
+        }
+    });
+});
 
 
 // to run, in terminal, type: npm start
