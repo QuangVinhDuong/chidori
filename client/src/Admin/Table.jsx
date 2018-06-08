@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import './css/bootstrap.min.css'
 
-import './css/light-bootstrap-dashboard.css'
 // import './js/light-bootstrap-dashboard.js'
 
 class Table extends Component {
     render() {
         return (
-            <div class="col-md-9">
+            <div class="col-md-12">
                             <div class="card table-with-switches">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Table with Switches</h4>
+                                    <h4 class="card-title">Danh sách sản phẩm</h4>
                                 </div>
                                 <div class="card-body table-full-width">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th>Name</th>
+                                                <th>Tên sản phẩm</th>
                                                 <th>Job Position</th>
                                                 <th class="text-right">Salary</th>
                                                 <th class="text-right">Active</th>
