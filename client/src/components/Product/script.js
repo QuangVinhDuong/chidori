@@ -3,10 +3,7 @@ import $ from 'jquery';
 export function bidBoxWork() {
     
     $(document).ready(function() {
-
-        var interval;
-        initTimer();                
-
+                    
         $("[data-value]").on("click", function() {
             var value = $(this).data("value");
             var input = $("#bid-value");
@@ -155,5 +152,8 @@ export function bidBoxWork() {
         }
 
         $("#bid-now-btn").one("click", clickHandler)
+
+        var interval;
+        initTimer(); 
     });    
 }

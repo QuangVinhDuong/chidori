@@ -1,14 +1,11 @@
-import express, { Router } from "express";
-const mongodb = require("mongodb");
-const BSONRegExp = mongodb.BSONRegExp;
-import bodyParser from "body-parser";
+import { Router } from "express";
 const router = Router();
-const app = express();
 
 import Product from '../models/Product';
 
+const checkAuth = require('../middleware/check-auth');
 
-router.get('/getProductDetail/:type/:id', (req, res, next) => {    
+router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {    
     // Product.find({
     //     productID: req.params.id,
     //     productType: req.params.type

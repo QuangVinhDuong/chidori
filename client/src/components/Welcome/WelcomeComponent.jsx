@@ -94,7 +94,8 @@ class WelcomeComponent extends Component {
         }).then(res => res.json())
             .then(json => {
                 if (json.success) {                    
-                    setInStorage('login', { 
+                    setInStorage('login', {
+                        access_token: json.access_token, 
                         token_key: json.token,
                         username: signInUsername, 
                     });

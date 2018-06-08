@@ -1,13 +1,13 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
+import { Router } from "express";
 const router = Router();
-const app = express();
 const bcrypt = require('bcrypt');
 
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
 // test
+const jwt = require('jsonwebtoken');
+const checkAuth = require('../middleware/check-auth');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 /* GET ALL ACCOUNT */
@@ -104,11 +104,19 @@ router.post('/signin', (req, res, next) => {
             if (err) {
                 return next(err);
             }
+            
+            const accessToken = jwt.sign(
+                {
+                    user: username
+                },
+                'kaminosekai'                
+            );
 
             return res.json({
                 success: true,
                 message: 'Đăng nhập thành công',
                 token: data._id,
+                access_token: accessToken,
                 accountType: user.accountType._id
             });
         });
@@ -236,7 +244,7 @@ router.get('/logout', (req, res, nexr) => {
     });
 });
 
-router.get('/getInfo/:username', (req, res, next) => {
+router.get('/getInfo/:username', checkAuth, (req, res, next) => {
     //console.log(req.params.id);
     const username = req.params.username
     Account.find({
@@ -253,7 +261,7 @@ router.get('/getInfo/:username', (req, res, next) => {
         }
     });
 })
-router.post('/update', (req, res, next) => {
+router.post('/update', checkAuth, (req, res, next) => {
     console.log(req.body);
     var set = {
         username: req.body.username,
