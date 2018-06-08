@@ -26,7 +26,7 @@ class Search extends Component {
           .then((res) => res.json())
           .then((json) => {
 			  this.setState({ productList: json.data});
-              console.log(this.state.productList[0].productID);
+              console.log(json);
           });
 	}
 

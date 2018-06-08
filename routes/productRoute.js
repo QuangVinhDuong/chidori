@@ -131,9 +131,10 @@ router.get('/search/:keyword', (req, res, next) => {
         }
     ]
     Product.find({"$or": query}, (err, p) => {
+        console.log(p.length);
         if (err) console.log(err);
         else return res.json({
-            success: true,
+            count: p == [] ? "0" : p.length,
             data: p
         });
     })

@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react'; 
+
+
+import { Link, Redirect, NavLink, withRouter } from 'react-router-dom';
 import './HeaderMain.css';
 class HeaderMain extends Component {
     constructor(props) {
@@ -9,10 +11,10 @@ class HeaderMain extends Component {
         search: '',
         productList: []
       };
+      
       this.handleChangeSearch = this.handleChangeSearch.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
-      console.log(this.url)
-    }
+  }
     handleChangeSearch(event) {
       this.setState({search: event.target.value});
     }
@@ -41,9 +43,10 @@ class HeaderMain extends Component {
                       <div className="header_search_form_container">
                         <form className="header_search_form clearfix" onSubmit={this.handleSearch}>
                           <input type="search" required className="header_search_input" placeholder="Tìm sản phẩm..." value={this.state.search} onChange={this.handleChangeSearch} />
+                        
                           <button type="submit" className="header_search_button trans_300" value="Submit">
                           <i className={this.state.search == "" ? "fa fa-search on" : "off"}></i>
-                          <NavLink className={this.state.search == "" ? "off" : "on"} to={`/search/${this.state.search}`}><i className="fa fa-search"></i></NavLink>
+                          {/* <Redirect className={this.state.search == "" ? "off" : "on"} to={`/search/${this.state.link}`}><i className="fa fa-search"></i></Redirect> */}
                           </button>
                         </form>
                       </div>
