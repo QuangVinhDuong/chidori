@@ -44,7 +44,7 @@ class Table extends Component {
     <div className="col-md-12">
         <div className="card table-with-switches" style={tableStyle}>
           <div className="card-header ">
-            <h4 className="card-title">{this.state.list.length}</h4>
+            <h4 className="card-title">Danh sách sản phẩm</h4>
           </div>
           <div className="card-body table-full-width">
             <table className="table table-striped">

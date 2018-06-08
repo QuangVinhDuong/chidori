@@ -12,7 +12,7 @@ class AdminComponent extends Component {
     return (
       <React.Fragment>
         <div className="wrapper">
-          <Sidebar />
+          <Sidebar/>
           <div className="main-panel">
             <div className="content">
               <div className="container-fluid">

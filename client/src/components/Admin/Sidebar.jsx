@@ -1,92 +1,80 @@
 import React, { Component } from 'react';
-
+import { getFromStorage, removeFromStorage } from "../../utils/storage";
 class Sidebar extends Component {
 	render() {
 		const iconStyle = {
 			"vertical-align": "middle"
 		}
 		return (
-			<div class="sidebar" data-color="blue" data-image="./assets/img/sidebar-5.jpg">
-				<div class="sidebar-wrapper">
-					<div class="user">
-						<div class="photo">
+			<div className="sidebar" data-color="blue" data-image="./assets/img/sidebar-5.jpg">
+				<div className="sidebar-wrapper">
+					<div className="user">
+						<div className="photo">
 							<center><i className="nc-icon nc-single-02" style={iconStyle}></i></center>
 						</div>
-						<div class="info ">
-							<a data-toggle="collapse" href="#collapseExample" class="collapsed">
-								<span>Tania Andrew
-                                <b class="caret"></b>
+						<div className="info ">
+							<a data-toggle="collapse" href="#collapseExample" className="collapsed">
+								<span>{getFromStorage('login').username}
+                                <b className="caret"></b>
 								</span>
 							</a>
-							<div class="collapse" id="collapseExample">
-								<ul class="nav">
+							<div className="collapse" id="collapseExample">
+								<ul className="nav">
 									<li>
-										<a class="profile-dropdown" href="#pablo">
-											<span class="sidebar-mini">MP</span>
-											<span class="sidebar-normal">My Profile</span>
+										<a className="profile-dropdown" href="#pablo">
+											<span className="sidebar-mini">TK</span>
+											<span className="sidebar-normal">Tài khoản</span>
 										</a>
 									</li>
 									<li>
-										<a class="profile-dropdown" href="#pablo">
-											<span class="sidebar-mini">EP</span>
-											<span class="sidebar-normal">Edit Profile</span>
-										</a>
-									</li>
-									<li>
-										<a class="profile-dropdown" href="#pablo">
-											<span class="sidebar-mini">S</span>
-											<span class="sidebar-normal">Settings</span>
+										<a className="profile-dropdown" href="#pablo">
+											<span className="sidebar-mini">ĐX</span>
+											<span className="sidebar-normal">Đăng Xuất</span>
 										</a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
-					<ul class="nav">
-						<li class="nav-item ">
-							<a class="nav-link" href="../dashboard.html">
-								<i class="nc-icon nc-chart-pie-35"></i>
+					<ul className="nav">
+						<li className="nav-item ">
+							<a className="nav-link" href="../dashboard.html">
+								<i className="nc-icon nc-grid-45"></i>
 								<p>Dashboard</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="collapse" href="#componentsExamples">
-								<i class="nc-icon nc-app"></i>
+						<li className="nav-item">
+							<a className="nav-link" data-toggle="collapse" href="#componentsExamples">
+								<i className="nc-icon nc-bullet-list-67"></i>
 								<p>
-									Components
-                                <b class="caret"></b>
+									Danh mục
+                                <b className="caret"></b>
 								</p>
 							</a>
-							<div class="collapse " id="componentsExamples">
-								<ul class="nav">
-									<li class="nav-item ">
-										<a class="nav-link" href="../components/buttons.html">
-											<span class="sidebar-mini">B</span>
-											<span class="sidebar-normal">Buttons</span>
+							<div className="collapse " id="componentsExamples">
+								<ul className="nav">
+									<li className="nav-item ">
+										<a className="nav-link" href="../components/buttons.html">
+											<span className="sidebar-mini">SP</span>
+											<span className="sidebar-normal">Sản phẩm</span>
 										</a>
 									</li>
-									<li class="nav-item ">
-										<a class="nav-link" href="../components/grid.html">
-											<span class="sidebar-mini">GS</span>
-											<span class="sidebar-normal">Grid System</span>
+									<li className="nav-item ">
+										<a className="nav-link" href="../components/grid.html">
+											<span className="sidebar-mini">PĐG</span>
+											<span className="sidebar-normal">Phiên đấu giá</span>
 										</a>
 									</li>
-									<li class="nav-item ">
-										<a class="nav-link" href="../components/panels.html">
-											<span class="sidebar-mini">P</span>
-											<span class="sidebar-normal">Panels</span>
+									<li className="nav-item ">
+										<a className="nav-link" href="../components/panels.html">
+											<span className="sidebar-mini">ND</span>
+											<span className="sidebar-normal">Người dùng</span>
 										</a>
 									</li>
-									<li class="nav-item ">
-										<a class="nav-link" href="../components/sweet-alert.html">
-											<span class="sidebar-mini">SA</span>
-											<span class="sidebar-normal">Sweet Alert</span>
-										</a>
-									</li>
-									<li class="nav-item ">
-										<a class="nav-link" href="../components/notifications.html">
-											<span class="sidebar-mini">N</span>
-											<span class="sidebar-normal">Notifications</span>
+									<li className="nav-item ">
+										<a className="nav-link" href="../components/sweet-alert.html">
+											<span className="sidebar-mini">TS</span>
+											<span className="sidebar-normal">Tham Số</span>
 										</a>
 									</li>
 								</ul>

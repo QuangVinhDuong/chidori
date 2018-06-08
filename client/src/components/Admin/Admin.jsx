@@ -8,21 +8,21 @@ class Admin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: []
+            list: [],
+            username: this.props.username
         }
     }
     
     render() {
         return (
             <Link>
-            <React.Fragment>
-                <Switch>
-                    <Route exact path="/" component={MainComponent}/>
-                    <Route path="/admin" component={AdminComponent}/>
-                    
-                </Switch>
-            </React.Fragment>
-        </Link>
+                <React.Fragment>
+                    <Switch>
+                        <Route exact path="/" component={MainComponent}/>
+                        <Route path="/admin" component={AdminComponent}/>
+                    </Switch>
+                </React.Fragment>
+            </Link>
         );
     }
 }
