@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 
 import MainComponent from '../Main/MainComponent';
-import Admin from '../../Admin/Admin';
+import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
 //import "./script";
 //import 'whatwg-fetch';

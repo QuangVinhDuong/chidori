@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import Table from './Table'
-import SideBar from './SideBar';
-import './css/bootstrap.min.css'
-import './css/light-bootstrap-dashboard.css'
+import Table from './Table';
+import Sidebar from './Sidebar';
 class AdminComponent extends Component {
     render() {
         return (
             <React.Fragment>
                 <div className="wrapper">
-                    <SideBar/>
+                    <Sidebar/>
                     <div className="main-panel">
-                    <div className="content">
-                        <div className="container-fluid">
-                            
-                        <Table/>
+                        <div className="content">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <Table/>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </React.Fragment>

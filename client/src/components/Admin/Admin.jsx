@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Link ,Route, HashRouter, Switch } from 'react-router-dom';
-import MainComponent from '../components/Main/MainComponent';
+import MainComponent from '../Main/MainComponent';
 import AdminComponent from './AdminComponent';
+import './assets/css/light-bootstrap-dashboard.css';
+
 class Admin extends Component {
     constructor(props) {
         super(props);
