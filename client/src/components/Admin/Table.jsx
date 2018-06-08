@@ -51,21 +51,21 @@ class Table extends Component {
               <thead>
                 <tr>
                   <th className="text-center">#</th>
-                  <th>Name</th>
-                  <th>Job Position</th>
-                  <th className="text-center">Salary</th>
-                  <th className="text-center">Active</th>
-                  <th className="text-center">Actions</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Loại</th>
+                  <th className="text-center">Miêu tả</th>
+                  <th className="text-center">Giao hàng</th>
+                  <th className="text-center">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   arr.map((item, index) => (
                     <tr>
-                      <td className="text-center">{item._id}</td>
-                      <td>{item.productName}</td>
-                      <td>{item.productType}}</td>
-                      <td className="text-center">{item.description}</td>
+                      <td className="text-center">{index}</td>
+                      <td className="text-center longtext">{item.productName}</td>
+                      <td className="text-center">{item.productType}}</td>
+                      <td className="text-center longtext">{item.description}</td>
                       <td className="text-center">
                         <label class="switch">
                           <input type="checkbox" onChange={this.handleCheck} on />
