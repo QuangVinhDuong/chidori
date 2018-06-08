@@ -154,7 +154,6 @@ router.get('/admin', (req, res, next) => {
     ], (err, r) => {
         if (err) console.log(err);
         else {
-            console.log(r);
             return res.json({
                 list: r
             });
