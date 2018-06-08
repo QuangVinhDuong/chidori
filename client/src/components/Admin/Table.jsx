@@ -22,10 +22,10 @@ class Table extends Component {
       .then((res) => res.json())
       .then((json) => {
         this.setState({ list: json.list });
-        console.log(this.state.list.length);
+        console.log(this.state.list);
       });
-
       this.handleCheck = this.handleCheck.bind(this);
+     
   }
   handleCheck(event) {
     if (!window.confirm("R U SURE"))
@@ -38,7 +38,8 @@ class Table extends Component {
 		const tableStyle = {
 			"vertical-align": "middle",
 			"text-align": "center"
-		}
+    }
+    const arr = this.state.list;
 		return (
     <div className="col-md-12">
         <div className="card table-with-switches" style={tableStyle}>
@@ -58,22 +59,27 @@ class Table extends Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="text-center">1</td>
-                  <td>Andrew Mike</td>
-                  <td>Develop</td>
-                  <td className="text-center">&euro; 99,225</td>
-                  <td className="text-center">
-                    <label class="switch">
-                      <input type="checkbox" onChange={this.handleCheck} on />
-                      <span class="slider round"></span>
-                    </label>
-                  </td>
-                  <td className="td-actions text-center">
-                   <button className="btn btn-danger" tooltip="Xóa" tooltip-position="buttom"><i className="nc-icon nc-simple-remove"></i></button> 
-                   <button className="btn btn-success" tooltip="Sửa" tooltip-position="buttom"><i className="nc-icon nc-settings-tool-66"></i></button>
-                  </td>
-                </tr>
+                {
+                  arr.map((item, index) => (
+                    <tr>
+                      <td className="text-center">{item._id}</td>
+                      <td>{item.productName}</td>
+                      <td>{item.productType}}</td>
+                      <td className="text-center">{item.description}</td>
+                      <td className="text-center">
+                        <label class="switch">
+                          <input type="checkbox" onChange={this.handleCheck} on />
+                          <span class="slider round"></span>
+                        </label>
+                      </td>
+                      <td className="td-actions text-center">
+                        <button className="btn btn-danger" tooltip="Xóa" tooltip-position="buttom"><i className="nc-icon nc-simple-remove"></i></button>
+                        <button className="btn btn-success" tooltip="Sửa" tooltip-position="buttom"><i className="nc-icon nc-settings-tool-66"></i></button>
+                      </td>
+                    </tr>
+                  ))
+                }
+               
               </tbody>
             </table>
           </div>
