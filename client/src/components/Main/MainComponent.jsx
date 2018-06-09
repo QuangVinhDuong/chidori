@@ -61,21 +61,7 @@ class MainComponent extends Component {
         return (
             <Link>
                 <React.Fragment>
-                    {/* 
-                    <Characteristics />                                             */}
-                    {/* <div className="content"> */}
                     <Switch>
-                        {/* <Route exact path="/" render={
-                            ()=>(
-                                <div>
-                                    
-                                    <Header username={this.props.username}/>
-                                    <Home/>
-                                </div>
-                            )
-                        }
-                        
-                        /> */}
                         <UserRoute exact path="/" component={Home}/>
                         <UserRoute path="/Figures" component={Figures}/>
                         <UserRoute path="/Electronics" component={Electronics}/>
@@ -86,17 +72,8 @@ class MainComponent extends Component {
                         <UserRoute path="/Auction/:type/:id" component={ProductDetail}/>
                         <UserRoute path="/profile" component={Profile}/>
                         <UserRoute path="/search/:keyword" component={Search}/>
-                        {/* <Route path="/admin"
-                            render={
-                                () => (
-                                    getFromStorage('login').type == 0 ? <AdminComponent/> : <div>Blocked</div>
-                                )
-                            }
-                        /> */}
                         <AdminRoute path="/admin" component={AdminComponent}/>
-                    </Switch> 
-                    {/* <Footer />
-                    <Copyright /> */}
+                    </Switch>
                 </React.Fragment>
             </Link>              
         );

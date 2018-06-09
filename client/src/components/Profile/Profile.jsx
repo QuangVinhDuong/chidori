@@ -114,10 +114,10 @@ class Profile extends Component {
                 <div className="container info">
                     <ul className="nav nav-tabs">
                         <li className="nav-item">
-                            <a className="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
+                            <a role="button" className="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
+                            <a role="button" className="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
                         </li>       
                     </ul>
 
