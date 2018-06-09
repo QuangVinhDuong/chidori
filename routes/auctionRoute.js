@@ -1,12 +1,19 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
-const router = Router();
-const app = express();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
+
 
 import AuctionSession from '../models/AuctionSession';
 import Product from '../models/Product';
 
-router.get('/getAllAuctionSession', (req, res, next) => {
+const router = Router();
+const app = express();
+const checkAuth = require('../middleware/check-auth');
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
+
+router.get('/getAllAuctionSession', checkAuth, (req, res, next) => {
     AuctionSession.aggregate([
         {
             $lookup: {
@@ -21,6 +28,7 @@ router.get('/getAllAuctionSession', (req, res, next) => {
                 sessionID: 1,
                 bidTime: 1,
                 initPrice: 1,
+                currentPrice: 1,
                 "p.productID": 1,
                 "p.productName": 1,
                 "p.productType": 1,
@@ -36,28 +44,13 @@ router.get('/getAllAuctionSession', (req, res, next) => {
     })
 });
 
-router.get('/getAuctionSession/:type', (req, res, next) => {
+router.get('/getAuctionSession/:type', checkAuth, (req, res, next) => {
     const { type } = req.params;
     getAuctionByProductType(type, res, next);
 
 });
 
-router.post('/insertAuctionSession', (req, res, next) => {
-    const auctionSession = new AuctionSession();
-    
-    const arr = req.body
-    //console.log(arr);    
-    AuctionSession.insertMany(arr, (err, data) => {
-        if (err) {
-            return next(err);
-        }
 
-        return res.json({
-            success: true,
-            message: 'Insert Auction Session OK!'
-        });
-    });
-});
 function getAuctionByProductType(type, res, next) {
     Product.aggregate([
         {

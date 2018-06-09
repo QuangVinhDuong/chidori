@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { timer } from '../../utils/timer'
+import { getFromStorage } from '../../utils/storage';
 
 class Figures extends Component {
     constructor(props) {
@@ -21,18 +22,24 @@ class Figures extends Component {
     }
 
     getProduct() {
-        fetch('/auction/getAuctionSession/Figures', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }            
-        }).then(res => res.json())
-            .then(json => {
-                //console.log(json);
-                this.setState({
-                    figObject: json
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAuctionSession/Figures', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }            
+            }).then(res => res.json())
+                .then(json => {
+                    //console.log(json);
+                    this.setState({
+                        figObject: json
+                    });
                 });
-            });
+        }        
     }
 
     render() {

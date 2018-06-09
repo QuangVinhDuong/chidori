@@ -1,14 +1,28 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
+
+// Import Models
+import Account from "../models/Account";
+import UserSession from "../models/UserSession";
+
+// Setup Enviroment Variable
+const dotenv = require('dotenv');
+dotenv.config();
+
 const router = Router();
 const app = express();
 const bcrypt = require('bcrypt');
 
-import Account from "../models/Account";
-import UserSession from "../models/UserSession";
+// use this for Authenticate
+const jwt = require('jsonwebtoken');
+const checkAuth = require('../middleware/check-auth');
 
-// test
+// ObjectId type in mongoose
 const ObjectId = require('mongoose').Types.ObjectId;
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 /* GET ALL ACCOUNT */
 // router.get('/', (req, res, next) => {
@@ -103,11 +117,19 @@ router.post('/signin', (req, res, next) => {
             if (err) {
                 return next(err);
             }
+            const accessToken = jwt.sign(
+                {
+                    user: username
+                },
+                process.env.JWT_KEY                
+            );
             return res.json({
                 success: true,
                 message: 'Đăng nhập thành công',
                 token: data._id,
-                accountType: users[0].accountType._id
+                access_token: accessToken,
+                accountType: user.accountType._id
+
             });
         });
     });
@@ -234,7 +256,7 @@ router.get('/logout', (req, res, nexr) => {
     });
 });
 
-router.get('/getInfo/:username', (req, res, next) => {
+router.get('/getInfo/:username', checkAuth, (req, res, next) => {
     //console.log(req.params.id);
     const username = req.params.username
     Account.find({
@@ -251,7 +273,7 @@ router.get('/getInfo/:username', (req, res, next) => {
         }
     });
 })
-router.post('/update', (req, res, next) => {
+router.post('/update', checkAuth, (req, res, next) => {
     console.log(req.body);
     var set = {
         username: req.body.username,

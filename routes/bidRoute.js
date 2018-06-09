@@ -1,14 +1,20 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
-const router = Router();
-const app = express();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
 import AuctionSession from '../models/AuctionSession';
 import AuctionTicket from '../models/AuctionTicket';
 
-app.use(bodyParser.json());
 
-router.get('/getAuctionTicket/:sessionID', (req, res, next) => {    
+const router = Router();
+const app = express();
+const checkAuth = require('../middleware/check-auth');
+
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
+
+router.get('/getAuctionTicket/:sessionID', checkAuth, (req, res, next) => {    
     AuctionTicket.find(
         { sessionID: req.params.sessionID },
         {
@@ -26,7 +32,7 @@ router.get('/getAuctionTicket/:sessionID', (req, res, next) => {
     });
 });
 
-router.post('/createAuctionTicket', (req, res, next) => {
+router.post('/createAuctionTicket', checkAuth, (req, res, next) => {
     const auctionTicket = new AuctionTicket();
     auctionTicket.sessionID = req.body.sessionID;
     auctionTicket.accountID = req.body.accountID;
@@ -43,7 +49,7 @@ router.post('/createAuctionTicket', (req, res, next) => {
     });
 });
 
-router.put('/updateAuctionSession/:sessionID/:bidValue', (req, res, next) => {
+router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, next) => {
     AuctionSession.findOne(
         {
             sessionID: req.params.sessionID

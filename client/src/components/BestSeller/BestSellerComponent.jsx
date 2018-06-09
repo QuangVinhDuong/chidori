@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { timer } from '../../utils/timer';
+import { getFromStorage, setInStorage } from '../../utils/storage';
 
 class BestSellerComponent extends Component {
     constructor(props) {
@@ -22,17 +23,23 @@ class BestSellerComponent extends Component {
     }
 
     getAllAuction() {
-        fetch('/auction/getAllAuctionSession', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            } 
-        })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json);
-            this.setState({obj: json});
-        });
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAllAuctionSession', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                } 
+            })
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+                this.setState({obj: json});
+            });
+        }         
     }
 
     render() {
@@ -67,7 +74,7 @@ class BestSellerComponent extends Component {
                                                 
                                                 <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
                                                 <div className="bestsellers_name"><a href="#">Item {index}</a></div>
-                                                <div className="bestsellers_price">{item.initPrice} VND</div>
+                                                <div className="bestsellers_price">{item.currentPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
                                                     <div className="deals_timer_box clearfix" data-target-time={item.bidTime}>
                                                         <div className="deals_timer_unit">

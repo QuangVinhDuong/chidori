@@ -15,6 +15,8 @@ class WelcomeComponent extends Component {
         this.state = {
             isLoading: true,
             token: '',
+            accountType: 1,
+
             signUpError: '',
             signUpUsername:'',
             signUpPassword:'',
@@ -93,9 +95,9 @@ class WelcomeComponent extends Component {
             }) 
         }).then(res => res.json())
             .then(json => {
-                if (json.success) {
+                if (json.success) {                    
                     setInStorage('login', {
-                        access_token: json.access_token,
+                        access_token: json.access_token, 
                         token_key: json.token,
                         username: signInUsername,
                     });
@@ -103,7 +105,7 @@ class WelcomeComponent extends Component {
                         signInError: json.message,
                         isLoading: false,
                         token: json.token,
-                        accountType: json.accountType
+                        accountType: json.accountType        
                     });
                 } else {
                     this.setState({
@@ -212,6 +214,8 @@ class WelcomeComponent extends Component {
         const {
             isLoading,
             token,
+            accountType,
+
             signInError,
             signInUsername,
             signInPassword,
@@ -376,12 +380,14 @@ class WelcomeComponent extends Component {
                     </div>        
                 </div>
             );
-        } else {            
+        } else if (token && (accountType === 1 || accountType === 0)){            
             return (
                  <MainComponent username={this.state.signInUsername} />
                 //<AdminComponent/>
             );
-        }                
+        } else if (token && accountType === 0) {
+
+        }             
     }
 }
 

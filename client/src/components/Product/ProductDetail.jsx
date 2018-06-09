@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 //import { timer } from '../../utils/timer'
-import { bidBoxWork } from './script'
+import { bidBoxWork, initTimer } from './script'
 import './custom_grid.css';
+
+import { getFromStorage } from '../../utils/storage';
 
 class FigureProduct extends Component {
     constructor(props) {
@@ -23,14 +25,15 @@ class FigureProduct extends Component {
     // }
 
     componentDidUpdate() {
-        bidBoxWork();
+        bidBoxWork();                
     }
     
-    getAuctionTicket() {        
+    getAuctionTicket(accessToken) {        
         fetch('/bid/getAuctionTicket/'+this.state.sessionID, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             }
         }).then(res => res.json())
             .then(json => {
@@ -42,20 +45,26 @@ class FigureProduct extends Component {
 
     getProductByID() {
         const { id, type } = this.props.match.params;
+        const obj = getFromStorage('login');
 
-        fetch('/product/getProductDetail/'+type+'/'+id, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(json => {
-                this.setState({
-                    sessionID: json[0].p[0].sessionID,
-                    mainObject: json,                    
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/product/getProductDetail/'+type+'/'+id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }).then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        sessionID: json[0].p[0].sessionID,
+                        mainObject: json,                    
+                    });
+                    this.getAuctionTicket(access_token);
+                    initTimer(1);
                 });
-                this.getAuctionTicket();
-            });
+        }        
     }
 
     // onTextBoxChangeBidValue(event) {

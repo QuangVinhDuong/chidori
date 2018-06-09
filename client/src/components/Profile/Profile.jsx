@@ -1,54 +1,62 @@
 import React, { Component } from 'react';
-import { getFromStorage, removeFromStorage } from "../../utils/storage";
+import { getFromStorage } from "../../utils/storage";
 import './Profile.css';
-import { isNullOrUndefined } from 'util';
-class Profile extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-        username: '',
-        email: '',
-        address: '',
-        phone: '',
-        fullname: '',
-        password: '',
-        repass: ''
-    };
-      this.handleChangeUsername = this.handleChangeUsername.bind(this);
-      this.handleChangeEmail = this.handleChangeEmail.bind(this);
-      this.handleChangeAddress = this.handleChangeAddress.bind(this);
-      this.handleChangePhone = this.handleChangePhone.bind(this);
-      this.handleChangeID = this.handleChangeID.bind(this);
-      this.handleChangeFullname = this.handleChangeFullname.bind(this);
-      this.handleChangePassword = this.handleChangePassword.bind(this);
-      this.handleChangeRePassword = this.handleChangeRePassword.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.passStrength = this.passStrength.bind(this);
-  }
+class Profile extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            username: '',
+            email: '',
+            address: '',
+            phone: '',
+            fullname: '',
+            password: '',
+            repass: ''
+        };
+
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangeAddress = this.handleChangeAddress.bind(this);
+        this.handleChangePhone = this.handleChangePhone.bind(this);
+        this.handleChangeID = this.handleChangeID.bind(this);
+        this.handleChangeFullname = this.handleChangeFullname.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.handleChangeRePassword = this.handleChangeRePassword.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.passStrength = this.passStrength.bind(this);
+    }
+
     componentDidMount() {
         this.getProfileInfo();
     } 
+
     getProfileInfo() {
         
-        const u = getFromStorage("login");
-        fetch("/account/getInfo/" + u.username, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                id: json.detail[0].username, // constraint PK holder
-                username: json.detail[0].username,
-                email: json.detail[0].email,
-                address: json.detail[0].address,
-                phone: json.detail[0].phone,
-                fullname: json.detail[0].fullname
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token, username } = obj;
+            fetch("/account/getInfo/" + username, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${access_token}`
+                }
+            })
+            .then((res) => res.json())
+            .then((json) => {
+                this.setState({
+                    id: json.detail[0].username, // constraint PK holder
+                    username: json.detail[0].username,
+                    email: json.detail[0].email,
+                    address: json.detail[0].address,
+                    phone: json.detail[0].phone,
+                    fullname: json.detail[0].fullname
+                });
             });
-        });
+        }                
     }
 
     handleChangeUsername(event) {this.setState({ username: event.target.value});}
@@ -69,35 +77,39 @@ class Profile extends Component {
         }
         return true;
     }
+
     handleSubmit(event) {
-        console.log(this.state);
-        fetch('/account/update', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: this.state.id,
-                username: this.state.username,
-                email: this.state.email,
-                address: this.state.address,
-                phone: this.state.phone,
-                fullname: this.state.fullname,
-                password: this.state.password
-            })
-        })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json);
-            if (json.success) {
-                alert('Thành công');
-            }
-            else {
-                alert('Xảy ra lỗi');
-            }
-        });
         event.preventDefault();
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/account/update', {
+                method: 'POST',
+                headers: {                    
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                },
+                body: JSON.stringify({
+                    id: this.state.id,
+                    username: this.state.username,
+                    email: this.state.email,
+                    address: this.state.address,
+                    phone: this.state.phone,
+                    fullname: this.state.fullname,
+                    password: this.state.password
+                })
+            })
+            .then(res => res.json())
+            .then(json => {                
+                if (json.success) {
+                    alert('Thành công');
+                }
+                else {
+                    alert('Xảy ra lỗi');
+                }
+            });
+        }                
     }
     passStrength(e) {
         if (e.length === 0) return;
