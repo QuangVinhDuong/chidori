@@ -1,14 +1,25 @@
-import { Router } from "express";
-const router = Router();
-const bcrypt = require('bcrypt');
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
+// Import Models
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
-// test
+
+const router = Router();
+const app = express();
+const bcrypt = require('bcrypt');
+
+// use this for Authenticate
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+
+// ObjectId type in mongoose
 const ObjectId = require('mongoose').Types.ObjectId;
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 /* GET ALL ACCOUNT */
 // router.get('/', (req, res, next) => {
