@@ -19,47 +19,60 @@ import ProductDetail from '../Product/ProductDetail';
 import './MainComStyle.css';
 import AdminComponent from '../Admin/AdminComponent';
 import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
-const username = getFromStorage()
+
+const username = getFromStorage('login').username;
+const PrivateRoute = ({ component: Component }) => (
+    <Route
+        render={
+            (props) => (
+                <React.Fragment>
+                    <Header username={username}/>
+                    <Characteristics />
+                    <Component {...props} />
+                    <Footer />
+                    <Copyright />
+                </React.Fragment>
+            )
+        }
+    />
+);
+
 class MainComponent extends Component {
     constructor(props) {
         super(props);
         console.log(getFromStorage('login'));
+        
     }
-
-    render() {        
+    
+    render() {
         return (
-            
-            //<HashRouter>
             <Link>
                 <React.Fragment>
-                
-                    {/* {window.location.href != 'location' ? <Header/> : <div></div>} */}
-                
                     {/* 
                     <Characteristics />                                             */}
                     {/* <div className="content"> */}
                     <Switch>
-                        <Route exact path="/" render={
+                        {/* <Route exact path="/" render={
                             ()=>(
                                 <div>
                                     
-                                <Header username={this.props.username}/>
-                                <Home/>
+                                    <Header username={this.props.username}/>
+                                    <Home/>
                                 </div>
-
                             )
                         }
                         
-                        />
-                        <Route path="/Figures" component={Figures}/>
-                        <Route path="/Electronics" component={Electronics}/>
-                        <Route path="/Computers" component={Computers}/>
-                        <Route path="/Appliances" component={Appliances}/>
-                        <Route path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
-                        <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
-                        <Route path="/Auction/:type/:id" component={ProductDetail}/>
-                        <Route path="/profile" component={Profile}/>
-                        <Route path="/search/:keyword" component={Search}/>
+                        /> */}
+                        <PrivateRoute exact path="/" component={Home}/>
+                        <PrivateRoute path="/Figures" component={Figures}/>
+                        <PrivateRoute path="/Electronics" component={Electronics}/>
+                        <PrivateRoute path="/Computers" component={Computers}/>
+                        <PrivateRoute path="/Appliances" component={Appliances}/>
+                        <PrivateRoute path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
+                        <PrivateRoute path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
+                        <PrivateRoute path="/Auction/:type/:id" component={ProductDetail}/>
+                        <PrivateRoute path="/profile" component={Profile}/>
+                        <PrivateRoute path="/search/:keyword" component={Search}/>
                         <Route path="/admin"
                             render={
                                 () => (
@@ -72,9 +85,7 @@ class MainComponent extends Component {
                     {/* <Footer />
                     <Copyright /> */}
                 </React.Fragment>
-            </Link>
-            //</HashRouter>                                                                            
-                                    
+            </Link>              
         );
     }
 }
