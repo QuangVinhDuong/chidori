@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Link ,Route, HashRouter, Switch } from 'react-router-dom';
-
+import { BrowserRouter as Link ,Route, HashRouter, Redirect,  Switch } from 'react-router-dom';
+import {getFromStorage} from '../../utils/storage';
 import Header from '../Header/HeaderComponent';
 import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
@@ -17,12 +17,14 @@ import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
 
 import './MainComStyle.css';
-
+import AdminComponent from '../Admin/AdminComponent';
+import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
+const username = getFromStorage()
 class MainComponent extends Component {
     constructor(props) {
         super(props);
+        console.log(window.location.href);
     }
-
 
     render() {        
         return (
@@ -30,11 +32,25 @@ class MainComponent extends Component {
             //<HashRouter>
             <Link>
                 <React.Fragment>
-                    <Header username={this.props.username} />
-                    <Characteristics />                                            
+                
+                    {/* {window.location.href != 'location' ? <Header/> : <div></div>} */}
+                
+                    {/* 
+                    <Characteristics />                                             */}
                     {/* <div className="content"> */}
                     <Switch>
-                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/" render={
+                            ()=>(
+                                <div>
+                                    
+                                <Header/>
+                                <Home/>
+                                </div>
+
+                            )
+                        }
+                        
+                        />
                         <Route path="/Figures" component={Figures}/>
                         <Route path="/Electronics" component={Electronics}/>
                         <Route path="/Computers" component={Computers}/>
@@ -44,10 +60,17 @@ class MainComponent extends Component {
                         <Route path="/Auction/:type/:id" component={ProductDetail}/>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/search/:keyword" component={Search}/>
-                    </Switch>
-                    {/* </div>                     */}
-                    <Footer />
-                    <Copyright />
+                        <Route path="/admin"
+                            render={
+                                () => (
+                                    getFromStorage('login').username == 'czeroc' ? <AdminComponent/> : <div>Blocked</div>
+                                )
+                            }
+                        
+                        />
+                    </Switch> 
+                    {/* <Footer />
+                    <Copyright /> */}
                 </React.Fragment>
             </Link>
             //</HashRouter>                                                                            

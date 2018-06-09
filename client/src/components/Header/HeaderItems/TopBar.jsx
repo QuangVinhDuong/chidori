@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { NavLink } from "react-router-dom";
-import './TopBar.css'
+import { NavLink, Redirect, Link } from "react-router-dom";
+import './TopBar.css';
 import { getFromStorage, removeFromStorage } from '../../../utils/storage';
 
 
 class TopBar extends Component {
         constructor(props) {
             super(props);   
-            
-
         this.onLogOut = this.onLogOut.bind(this);
     }
 
@@ -52,6 +50,9 @@ class TopBar extends Component {
                                     
                                         <button className="btn btn-primary account" type="button">
                                             <NavLink to="/profile"><b>Tài khoản</b></NavLink>
+                                        </button>
+                                        <button className="btn btn-primary account" type="button">
+                                            <NavLink to="/admin"><b>Dashboard</b></NavLink>
                                         </button>
                                         <div class="dropdown-divider"></div>
                                         <button className="btn btn-primary account" onClick={this.onLogOut}><b>Đăng xuất</b></button>

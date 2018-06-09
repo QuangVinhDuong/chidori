@@ -4,6 +4,7 @@ import { getFromStorage, setInStorage } from '../../utils/storage';
 import MainComponent from '../Main/MainComponent';
 import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
+import AdminComponent from '../Admin/AdminComponent';
 //import "./script";
 //import 'whatwg-fetch';
 
@@ -376,8 +377,8 @@ class WelcomeComponent extends Component {
             );
         } else {            
             return (
-                // <MainComponent username={this.state.signInUsername} />
-                <Admin/>
+                 <MainComponent username={this.state.signInUsername} />
+                //<AdminComponent/>
             );
         }                
     }

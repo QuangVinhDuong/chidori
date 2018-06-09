@@ -15,14 +15,15 @@ class Admin extends Component {
     
     render() {
         return (
-            <Link>
-                <React.Fragment>
-                    <Switch>
-                        <Route exact path="/" component={MainComponent}/>
-                        <Route path="/admin" component={AdminComponent}/>
-                    </Switch>
-                </React.Fragment>
-            </Link>
+            // <Link>
+            //     <React.Fragment>
+            //         <Switch>
+            //             <Route exact path="/" component={MainComponent}/>
+            //             <Route path="/admin" component={AdminComponent}/>
+            //         </Switch>
+            //     </React.Fragment>
+            // </Link>
+            <div>sadas</div>
         );
     }
 }

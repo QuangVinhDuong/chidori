@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getFromStorage, removeFromStorage } from "../../utils/storage";
-import {NavLink, Link} from 'react-router-dom';
+import {NavLink, Link, Redirect} from 'react-router-dom';
 class Sidebar extends Component {
 	render() {
 		const iconStyle = {
@@ -22,10 +22,10 @@ class Sidebar extends Component {
 							<div className="collapse" id="collapseExample">
 								<ul className="nav">
 									<li>
-										<NavLink className="profile-dropdown" to="/profile">
+										<Link className="profile-dropdown" to="/profile">
 											<span className="sidebar-mini">TK</span>
 											<span className="sidebar-normal">Tài khoản</span>
-										</NavLink>
+										</Link>
 									</li>
 									<li>
 										<a className="profile-dropdown" href="#pablo">
@@ -39,10 +39,10 @@ class Sidebar extends Component {
 					</div>
 					<ul className="nav">
 						<li className="nav-item ">
-							<NavLink className="nav-link" to="/">
+							<Link className="nav-link" to="/">
 								<i className="nc-icon nc-bank"></i>
 								<p>Trang chủ</p>
-							</NavLink>
+							</Link>
 						</li>
 						<li className="nav-item">
 							<a className="nav-link" data-toggle="collapse" href="#componentsExamples">
