@@ -23,7 +23,7 @@ const username = getFromStorage()
 class MainComponent extends Component {
     constructor(props) {
         super(props);
-        console.log(window.location.href);
+        console.log(getFromStorage('login'));
     }
 
     render() {        
@@ -43,7 +43,7 @@ class MainComponent extends Component {
                             ()=>(
                                 <div>
                                     
-                                <Header/>
+                                <Header username={this.props.username}/>
                                 <Home/>
                                 </div>
 
@@ -63,7 +63,7 @@ class MainComponent extends Component {
                         <Route path="/admin"
                             render={
                                 () => (
-                                    getFromStorage('login').username == 'czeroc' ? <AdminComponent/> : <div>Blocked</div>
+                                    getFromStorage('login').type == 0 ? <AdminComponent/> : <div>Blocked</div>
                                 )
                             }
                         

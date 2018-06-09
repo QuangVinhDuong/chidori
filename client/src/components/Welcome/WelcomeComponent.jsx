@@ -93,10 +93,11 @@ class WelcomeComponent extends Component {
             }) 
         }).then(res => res.json())
             .then(json => {
-                if (json.success) {                    
+                if (json.success) {
                     setInStorage('login', { 
                         token_key: json.token,
                         username: signInUsername, 
+                        type: json.accountType
                     });
                     this.setState({
                         signInError: json.message,

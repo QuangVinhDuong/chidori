@@ -3,7 +3,7 @@ import './assets/css/Table.css';
 import ReactOverflowTooltip from 'react-overflow-tooltip';
 class Table extends Component {
   constructor(props) {
-    super(props);
+    super(props); 
     this.state = {
       list: []
     };

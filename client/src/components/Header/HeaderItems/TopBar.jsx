@@ -8,6 +8,7 @@ class TopBar extends Component {
         constructor(props) {
             super(props);   
         this.onLogOut = this.onLogOut.bind(this);
+        console.log(getFromStorage('login').type);
     }
 
 
@@ -51,9 +52,12 @@ class TopBar extends Component {
                                         <button className="btn btn-primary account" type="button">
                                             <NavLink to="/profile"><b>Tài khoản</b></NavLink>
                                         </button>
-                                        <button className="btn btn-primary account" type="button">
+                                        {
+
+                                            getFromStorage('login').type == 0 ? <button className="btn btn-primary account" type="button">
                                             <NavLink to="/admin"><b>Dashboard</b></NavLink>
-                                        </button>
+                                        </button> : null
+                                        }
                                         <div class="dropdown-divider"></div>
                                         <button className="btn btn-primary account" onClick={this.onLogOut}><b>Đăng xuất</b></button>
                                         {/* <a class="dropdown-item" href="#">Đăng xuất</a> */}

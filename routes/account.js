@@ -88,7 +88,6 @@ router.post('/signin', (req, res, next) => {
                 message: 'Lỗi: Người dùng không tồn tại'
             }).end();
         }
-
         const user = users[0];
         if (!user.validPassword(password)) {
             return res.json({
@@ -104,11 +103,11 @@ router.post('/signin', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-
             return res.json({
                 success: true,
                 message: 'Đăng nhập thành công',
-                token: data._id
+                token: data._id,
+                accountType: users[0].accountType._id
             });
         });
     });
