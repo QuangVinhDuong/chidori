@@ -5,6 +5,9 @@ import { urlencoded, json } from "body-parser";
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
+// Setup Enviroment Variable
+const dotenv = require('dotenv');
+dotenv.config();
 
 const router = Router();
 const app = express();
@@ -120,7 +123,7 @@ router.post('/signin', (req, res, next) => {
                 {
                     user: username
                 },
-                'kaminosekai'                
+                process.env.JWT_KEY                
             );
 
             return res.json({
