@@ -20,13 +20,12 @@ import './MainComStyle.css';
 import AdminComponent from '../Admin/AdminComponent';
 import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
 
-const username = getFromStorage('login').username;
-const PrivateRoute = ({ component: Component }) => (
+const UserRoute = ({ component: Component }) => (
     <Route
         render={
             (props) => (
                 <React.Fragment>
-                    <Header username={username}/>
+                    <Header username={getFromStorage('login').username}/>
                     <Characteristics />
                     <Component {...props} />
                     <Footer />
@@ -37,11 +36,25 @@ const PrivateRoute = ({ component: Component }) => (
     />
 );
 
+const AdminRoute = ({ component: Component }) => (
+    <Route
+        render={
+            (props) => (
+                getFromStorage('login').type == 0 ? (
+                    <Component username={getFromStorage('login').username} {...props}/>
+                ) : (
+                    <Redirect to="/"/>
+                )
+            )
+        }
+    />
+)
+
+
+
 class MainComponent extends Component {
     constructor(props) {
-        super(props);
-        console.log(getFromStorage('login'));
-        
+        super(props);        
     }
     
     render() {
@@ -63,24 +76,24 @@ class MainComponent extends Component {
                         }
                         
                         /> */}
-                        <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute path="/Figures" component={Figures}/>
-                        <PrivateRoute path="/Electronics" component={Electronics}/>
-                        <PrivateRoute path="/Computers" component={Computers}/>
-                        <PrivateRoute path="/Appliances" component={Appliances}/>
-                        <PrivateRoute path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
-                        <PrivateRoute path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
-                        <PrivateRoute path="/Auction/:type/:id" component={ProductDetail}/>
-                        <PrivateRoute path="/profile" component={Profile}/>
-                        <PrivateRoute path="/search/:keyword" component={Search}/>
-                        <Route path="/admin"
+                        <UserRoute exact path="/" component={Home}/>
+                        <UserRoute path="/Figures" component={Figures}/>
+                        <UserRoute path="/Electronics" component={Electronics}/>
+                        <UserRoute path="/Computers" component={Computers}/>
+                        <UserRoute path="/Appliances" component={Appliances}/>
+                        <UserRoute path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
+                        <UserRoute path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
+                        <UserRoute path="/Auction/:type/:id" component={ProductDetail}/>
+                        <UserRoute path="/profile" component={Profile}/>
+                        <UserRoute path="/search/:keyword" component={Search}/>
+                        {/* <Route path="/admin"
                             render={
                                 () => (
                                     getFromStorage('login').type == 0 ? <AdminComponent/> : <div>Blocked</div>
                                 )
                             }
-                        
-                        />
+                        /> */}
+                        <AdminRoute path="/admin" component={AdminComponent}/>
                     </Switch> 
                     {/* <Footer />
                     <Copyright /> */}

@@ -61,10 +61,10 @@ class Profile extends Component {
     handleChangeRePassword(event) {this.setState({repass: event.target.value});}
 
     validate() {
-        if (this.state.username == "" || this.state.address == "" || this.state.email == "" || this.state.phone == "" || this.state.fullname == "") {
+        if (this.state.username === "" || this.state.address === "" || this.state.email === "" || this.state.phone === "" || this.state.fullname === "") {
             return false;
         }
-        if (this.state.password != "" && this.state.password != this.state.repass) {
+        if (this.state.password !== "" && this.state.password !== this.state.repass) {
             return false;
         }
         return true;
@@ -99,10 +99,8 @@ class Profile extends Component {
         });
         event.preventDefault();
     }
-
-    
     passStrength(e) {
-        if (e.length == 0) return;
+        if (e.length === 0) return;
         if (e.length < 6) {
             return "Quá yếu";
         }
@@ -110,88 +108,87 @@ class Profile extends Component {
             return "Tốt";
         }
     }
-
     render() {
         return (
             <div className="box_shadow" >
                 <div className="container info">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
+                    <ul className="nav nav-tabs">
+                        <li className="nav-item">
+                            <a className="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
+                        <li className="nav-item">
+                            <a className="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
                         </li>       
                     </ul>
 
                     <div className="tab-content">
-                            <div id="home" class="container tab-pane active"><br/>
-                                <div class="row vertical-divider">
-                                <div class="col-sm-12">
+                            <div id="home" className="container tab-pane active"><br/>
+                                <div className="row vertical-divider">
+                                <div className="col-sm-12">
                                     <fieldset>
                                         <legend>Thông tin tài khoản:</legend>
                                         <form>
-                                            <div class="form-group row">
-                                                <label for="username" class="col-sm-2 col-form-label">Tên tài khoản</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" className={this.state.username == "" ? "form-control warning" : "form-control"} id="username" placeholder="Tên tài khoản" value={this.state.username} disabled="disabled" />
+                                            <div className="form-group row">
+                                                <label htmlFor="username" className="col-sm-2 col-form-label">Tên tài khoản</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className={this.state.username === "" ? "form-control warning" : "form-control"} id="username" placeholder="Tên tài khoản" value={this.state.username} disabled="disabled" />
                                                 </div>
-                                                {/* <div className={this.state.username == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.username == "" ? "Không được để trống" : "✔"}</div> */}
+                                                {/* <div className={this.state.username === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.username === "" ? "Không được để trống" : "✔"}</div> */}
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="newPassword" class="col-sm-2 col-form-label">Mật khẩu mới</label>
-                                                <div class="col-sm-8">
+                                            <div className="form-group row">
+                                                <label htmlFor="newPassword" className="col-sm-2 col-form-label">Mật khẩu mới</label>
+                                                <div className="col-sm-8">
                                                     <input type="password" className="form-control" id="newPassword" placeholder="Mật khẩu mới"  value={this.state.password} onChange={this.handleChangePassword}/>
                                                 </div>
                                                 <div className="col-sm-2 warning">{this.passStrength(this.state.password)}</div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="repeatPassword" class="col-sm-2 col-form-label">Nhập lại</label>
-                                                <div class="col-sm-8">
-                                                    <input type="password" className={this.state.repass == "" ? "form-control" : this.state.repass == this.state.password ? "form-control" : "form-control warning"} id="repeatPassword" placeholder="Nhập lại" value={this.state.repass} onChange={this.handleChangeRePassword}/>
+                                            <div className="form-group row">
+                                                <label htmlFor="repeatPassword" className="col-sm-2 col-form-label">Nhập lại</label>
+                                                <div className="col-sm-8">
+                                                    <input type="password" className={this.state.repass === "" ? "form-control" : this.state.repass === this.state.password ? "form-control" : "form-control warning"} id="repeatPassword" placeholder="Nhập lại" value={this.state.repass} onChange={this.handleChangeRePassword}/>
                                                 </div>
-                                                <div className={this.state.repass == "" ? "" : this.state.repass == this.state.password ? "col-sm-2 ok" : "col-sm-2 warning"}>{this.state.repass == "" ? "" : this.state.repass == this.state.password ? "✔" : "Không khớp!"}</div>
+                                                <div className={this.state.repass === "" ? "" : this.state.repass === this.state.password ? "col-sm-2 ok" : "col-sm-2 warning"}>{this.state.repass === "" ? "" : this.state.repass === this.state.password ? "✔" : "Không khớp!"}</div>
                                             </div>
                                         </form>
                                     </fieldset>
                                     <fieldset>
                                         <legend>Thông tin cá nhân:</legend>
                                         <form>
-                                            <div class="form-group row">
-                                                <label for="fullname" class="col-sm-2 col-form-label">Họ tên</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" className={this.state.fullname == "" ? "form-control warning" : "form-control"} id="fullname" placeholder="Họ tên" value={this.state.fullname} onChange={this.handleChangeFullname} required/>
+                                            <div className="form-group row">
+                                                <label htmlFor="fullname" className="col-sm-2 col-form-label">Họ tên</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className={this.state.fullname === "" ? "form-control warning" : "form-control"} id="fullname" placeholder="Họ tên" value={this.state.fullname} onChange={this.handleChangeFullname} required/>
                                                 </div>
-                                                <div className={this.state.fullname == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.fullname == "" ? "Không được để trống" : "✔"}</div>
+                                                <div className={this.state.fullname === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.fullname === "" ? "Không được để trống" : "✔"}</div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" className={this.state.address == "" ? "form-control warning" : "form-control"} id="address" placeholder="Địa chỉ" value={this.state.address} onChange={this.handleChangeAddress} />
+                                            <div className="form-group row">
+                                                <label htmlFor="address" className="col-sm-2 col-form-label">Địa chỉ</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className={this.state.address === "" ? "form-control warning" : "form-control"} id="address" placeholder="Địa chỉ" value={this.state.address} onChange={this.handleChangeAddress} />
                                                 </div>
-                                                <div className={this.state.address == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.address == "" ? "Không được để trống" : "✔"}</div>
+                                                <div className={this.state.address === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.address === "" ? "Không được để trống" : "✔"}</div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-8">
-                                                    <input type="email" className={this.state.email == "" ? "form-control warning" : "form-control"} id="email" placeholder="Email" value={this.state.email} onChange={this.handleChangeEmail}/>
+                                            <div className="form-group row">
+                                                <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+                                                <div className="col-sm-8">
+                                                    <input type="email" className={this.state.email === "" ? "form-control warning" : "form-control"} id="email" placeholder="Email" value={this.state.email} onChange={this.handleChangeEmail}/>
                                                 </div>
-                                                <div className={this.state.email == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.email == "" ? "Không được để trống" : "✔"}</div>
+                                                <div className={this.state.email === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.email === "" ? "Không được để trống" : "✔"}</div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                                <div class="col-sm-8">
-                                                    <input type="number" className={this.state.phone == "" ? "form-control warning" : "form-control"} id="phone" placeholder="Số điện thoại" value={this.state.phone} onChange={this.handleChangePhone}/>
+                                            <div className="form-group row">
+                                                <label htmlFor="phone" className="col-sm-2 col-form-label">Số điện thoại</label>
+                                                <div className="col-sm-8">
+                                                    <input type="number" className={this.state.phone === "" ? "form-control warning" : "form-control"} id="phone" placeholder="Số điện thoại" value={this.state.phone} onChange={this.handleChangePhone}/>
                                                 </div>
-                                                <div className={this.state.phone == "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.phone == "" ? "Không được để trống" : "✔"}</div>
+                                                <div className={this.state.phone === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.phone === "" ? "Không được để trống" : "✔"}</div>
                                             </div>
                                         </form>
                                     </fieldset>
                                 </div>
                                 </div>
-                                <center><button className="btn btn-primary" disabled={this.validate() == true ? "" : "disabled"} onClick={this.handleSubmit}>Cập nhật</button></center>
+                                <center><button className="btn btn-primary" disabled={this.validate() === true ? "" : "disabled"} onClick={this.handleSubmit}>Cập nhật</button></center>
                             </div>
-                            <div id="menu1" class="container tab-pane fade"><br/>
+                            <div id="menu1" className="container tab-pane fade"><br/>
                                 <h3>Menu 1</h3>
                                 <p>t2</p>
                             </div>
