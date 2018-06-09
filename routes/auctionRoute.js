@@ -1,11 +1,17 @@
-import { Router } from "express";
-const router = Router();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
 
 import AuctionSession from '../models/AuctionSession';
 import Product from '../models/Product';
 
+const router = Router();
+const app = express();
 const checkAuth = require('../middleware/check-auth');
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 router.get('/getAllAuctionSession', checkAuth, (req, res, next) => {
     AuctionSession.aggregate([
