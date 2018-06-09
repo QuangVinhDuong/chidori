@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import { timer } from "../../utils/timer";
-
+import { getFromStorage } from "../../utils/storage";
 class Electronics extends Component {
     constructor(props) {
         super(props);
@@ -18,19 +18,24 @@ class Electronics extends Component {
     componentDidUpdate() {
         timer();
     }
-
     getProduct() {
-        fetch("/auction/getAuctionSession/Electronics", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            console.log(json);
-            this.setState({ mainData: json });
-          });
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAuctionSession/Electronics', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }).then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        mainData: json
+                    });
+                });
+        }
     }
 
     render() {
@@ -59,7 +64,7 @@ class Electronics extends Component {
                                     <div className="tabs_line demo"><span></span></div>
                                 </div>
 
-                                {/* <div style={gridStyle}>
+                                <div style={gridStyle}>
                                     {
                                         arr.map((item, index) =>
                                             <div className="bestsellers_item">
@@ -93,7 +98,7 @@ class Electronics extends Component {
                                             </div>
                                         )
                                     }
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </div>

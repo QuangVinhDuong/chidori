@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import { timer } from "../../utils/timer";
-
+import {getFromStorage} from "../../utils/storage";
 class Computers extends Component {
     constructor(props) {
         super(props);
@@ -19,17 +19,23 @@ class Computers extends Component {
     }
 
     getProduct() {
-        fetch("/auction/getAuctionSession/Computers", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then((res) => res.json())
-            .then((json) => {
-                this.setState({ mainData: json });
-                console.log(json);
-            });
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAuctionSession/Computers', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }).then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        mainData: json
+                    });
+                });
+        }
     }
 
     render() {

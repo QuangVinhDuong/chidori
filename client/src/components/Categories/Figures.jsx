@@ -34,7 +34,6 @@ class Figures extends Component {
                 }            
             }).then(res => res.json())
                 .then(json => {
-                    //console.log(json);
                     this.setState({
                         figObject: json
                     });
