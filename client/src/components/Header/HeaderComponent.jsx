@@ -14,7 +14,7 @@ class HeaderComponent extends Component {
     render() {
         return (
             <header className="header">
-                <TopBar username={this.props.username} />
+                <TopBar username={this.props.username} type={this.props.type} />
                 <HeaderMain/>
                 <MainNav/>
                 <Menu/>

@@ -16,7 +16,6 @@ class WelcomeComponent extends Component {
             isLoading: true,
             token: '',
             accountType: 1,
-
             signUpError: '',
             signUpUsername:'',
             signUpPassword:'',
@@ -99,7 +98,7 @@ class WelcomeComponent extends Component {
                     setInStorage('login', {
                         access_token: json.access_token, 
                         token_key: json.token,
-                        username: signInUsername,
+                        username: signInUsername
                     });
                     this.setState({
                         signInError: json.message,
@@ -107,6 +106,7 @@ class WelcomeComponent extends Component {
                         token: json.token,
                         accountType: json.accountType        
                     });
+                    console.log(this.state.accountType);
                 } else {
                     this.setState({
                         signInError: json.message,
@@ -230,11 +230,10 @@ class WelcomeComponent extends Component {
         } = this.state;
 
         if (isLoading) {
-            return (
-                <div>
-                    <p>Loading...</p>
-                </div>
-            );
+            return <div>
+                <p>Loading...</p>
+                <img src="https://i.imgur.com/seuaOqf.gif?1" alt=""/>
+              </div>;
         }
         if (!token) {
             return (
@@ -382,8 +381,7 @@ class WelcomeComponent extends Component {
             );
         } else if (token && (accountType === 1 || accountType === 0)){            
             return (
-                 <MainComponent username={this.state.signInUsername} />
-                //<AdminComponent/>
+                 <MainComponent username={this.state.signInUsername}/>
             );
         } else if (token && accountType === 0) {
 

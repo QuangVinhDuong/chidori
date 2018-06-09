@@ -15,17 +15,17 @@ import LuggageAndTravelGear from '../Categories/LuggageAndTravelGear';
 import SportsAndOutdoors from '../Categories/SportsAndOutdoors';
 import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
-
+import ErrorComponent from '../404/ErrorComponent';
 import './MainComStyle.css';
 import AdminComponent from '../Admin/AdminComponent';
 import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
 
-const UserRoute = ({ component: Component }) => (
+const UserRoute = ({ component: Component, username: Username, type: Type }) => (
     <Route
         render={
             (props) => (
                 <React.Fragment>
-                    <Header username={getFromStorage('login').username}/>
+                    <Header username={Username} type={Type}/>
                     <Characteristics />
                     <Component {...props} />
                     <Footer />
@@ -36,14 +36,14 @@ const UserRoute = ({ component: Component }) => (
     />
 );
 
-const AdminRoute = ({ component: Component }) => (
+const AdminRoute = ({ component: Component, username: Username, type: Type}) => (
     <Route
         render={
             (props) => (
-                getFromStorage('login').type == 0 ? (
-                    <Component username={getFromStorage('login').username} {...props}/>
+                Type === 0 ? (
+                    <Component username={Username} {...props}/>
                 ) : (
-                    <Redirect to="/"/>
+                    <ErrorComponent/>
                 )
             )
         }
@@ -54,29 +54,57 @@ const AdminRoute = ({ component: Component }) => (
 
 class MainComponent extends Component {
     constructor(props) {
-        super(props);        
+        super(props);
+        this.state = {
+            accountType: 1
+        }
+        //console.log("Look there: " + this.props.username);
+    } 
+    componentDidMount() {
+        this.getType();
+    }
+
+    getType() {
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch("/account/gettype/" + this.props.username, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${access_token}`
+              }
+            })
+              .then((res) => res.json())
+              .then((json) => {
+                this.setState({accountType: json.acc[0].accountType._id});
+                console.log(this.state.accountType);
+              });
+        }
     }
     
     render() {
-        return (
-            <Link>
-                <React.Fragment>
-                    <Switch>
-                        <UserRoute exact path="/" component={Home}/>
-                        <UserRoute path="/Figures" component={Figures}/>
-                        <UserRoute path="/Electronics" component={Electronics}/>
-                        <UserRoute path="/Computers" component={Computers}/>
-                        <UserRoute path="/Appliances" component={Appliances}/>
-                        <UserRoute path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
-                        <UserRoute path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
-                        <UserRoute path="/Auction/:type/:id" component={ProductDetail}/>
-                        <UserRoute path="/profile" component={Profile}/>
-                        <UserRoute path="/search/:keyword" component={Search}/>
-                        <AdminRoute path="/admin" component={AdminComponent}/>
-                    </Switch>
-                </React.Fragment>
-            </Link>              
-        );
+        const t = this.state.accountType;
+        const u = this.props.username;
+        return <Link>
+            <React.Fragment>
+              <Switch>
+                <UserRoute exact path="/" type={t} username={u} component={Home} />
+                <UserRoute path="/profile" type={t} username={u} component={Profile} />
+                <UserRoute path="/Figures" type={t} username={u} component={Figures} />
+                <UserRoute path="/Electronics" type={t} username={u} component={Electronics} />
+                <UserRoute path="/Computers" type={t} username={u} component={Computers} />
+                <UserRoute path="/Appliances" type={t} username={u} component={Appliances} />
+                <UserRoute path="/LuggageAndTravelGear" type={t} username={u} component={LuggageAndTravelGear} />
+                <UserRoute path="/SportsAndOutdoors" type={t} username={u} component={SportsAndOutdoors} />
+                <UserRoute path="/Auction/:type/:id" type={t} username={u} component={ProductDetail} />
+                <UserRoute path="/search/:keyword" type={t} username={u} component={Search} />
+                <AdminRoute path="/admin" type={t} username={u}  component={AdminComponent} />
+                <Route path="/:wrong" component={ErrorComponent}/>
+              </Switch>
+            </React.Fragment>
+          </Link>;
     }
 }
 

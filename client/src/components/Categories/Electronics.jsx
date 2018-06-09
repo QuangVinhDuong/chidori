@@ -28,7 +28,7 @@ class Electronics extends Component {
         })
           .then((res) => res.json())
           .then((json) => {
-            //console.log(json);
+            console.log(json);
             this.setState({ mainData: json });
           });
     }
@@ -59,7 +59,7 @@ class Electronics extends Component {
                                     <div className="tabs_line demo"><span></span></div>
                                 </div>
 
-                                <div style={gridStyle}>
+                                {/* <div style={gridStyle}>
                                     {
                                         arr.map((item, index) =>
                                             <div className="bestsellers_item">
@@ -87,14 +87,13 @@ class Electronics extends Component {
                                                         </div>
                                                         <div className="bid_btn">
                                                             <NavLink to={'Auction/' + item.productType + '/' + item.productID}>Đấu giá ngay</NavLink>
-                                                            {/* <a href="javascript:void(0)"></a> */}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         )
                                     }
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

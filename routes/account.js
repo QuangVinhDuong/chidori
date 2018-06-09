@@ -274,7 +274,6 @@ router.get('/getInfo/:username', checkAuth, (req, res, next) => {
     });
 })
 router.post('/update', checkAuth, (req, res, next) => {
-    console.log(req.body);
     var set = {
         username: req.body.username,
         email: req.body.email,
@@ -302,6 +301,22 @@ router.post('/update', checkAuth, (req, res, next) => {
                 })
             }
         })
+})
+
+router.get('/gettype/:username', checkAuth, (req, res, next) => {
+    
+    Account.find({username: req.params.username}, (err, acc) => {
+        if (err) {
+            console.log(err);
+            return "Something bad happened, try again later!";
+        }
+        else {
+            return res.json({
+                success: true,
+                acc: acc
+            })
+        }
+    })
 })
 
 /* UPDATE ACCOUNT */
