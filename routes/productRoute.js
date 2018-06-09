@@ -1,9 +1,15 @@
-import { Router } from "express";
-const router = Router();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
 import Product from '../models/Product';
 
+const router = Router();
+const app = express();
 const checkAuth = require('../middleware/check-auth');
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {    
     // Product.find({
