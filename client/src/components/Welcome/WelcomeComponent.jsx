@@ -382,7 +382,9 @@ class WelcomeComponent extends Component {
             return (
                 <MainComponent username={this.state.signInUsername} />
             );
-        }                
+        } else if (token && accountType === 0) {
+
+        }             
     }
 }
 
