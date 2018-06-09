@@ -64,7 +64,7 @@ class Table extends Component {
                     <tr>
                       <td className="text-center">{index}</td>
                       <td className="text-center longtext">{item.productName}</td>
-                      <td className="text-center">{item.productType}}</td>
+                      <td className="text-center">{item.productType}</td>
                       <td className="text-center longtext">{item.description}</td>
                       <td className="text-center">
                         <label class="switch">

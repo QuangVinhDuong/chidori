@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getFromStorage, removeFromStorage } from "../../utils/storage";
+import {NavLink, Link} from 'react-router-dom';
 class Sidebar extends Component {
 	render() {
 		const iconStyle = {
@@ -15,16 +16,16 @@ class Sidebar extends Component {
 						<div className="info ">
 							<a data-toggle="collapse" href="#collapseExample" className="collapsed">
 								<span>{getFromStorage('login').username}
-                                <b className="caret"></b>
+                                	<b className="caret"></b>
 								</span>
 							</a>
 							<div className="collapse" id="collapseExample">
 								<ul className="nav">
 									<li>
-										<a className="profile-dropdown" href="#pablo">
+										<NavLink className="profile-dropdown" to="/profile">
 											<span className="sidebar-mini">TK</span>
 											<span className="sidebar-normal">Tài khoản</span>
-										</a>
+										</NavLink>
 									</li>
 									<li>
 										<a className="profile-dropdown" href="#pablo">
@@ -38,10 +39,10 @@ class Sidebar extends Component {
 					</div>
 					<ul className="nav">
 						<li className="nav-item ">
-							<a className="nav-link" href="../dashboard.html">
-								<i className="nc-icon nc-grid-45"></i>
-								<p>Dashboard</p>
-							</a>
+							<NavLink className="nav-link" to="/">
+								<i className="nc-icon nc-bank"></i>
+								<p>Trang chủ</p>
+							</NavLink>
 						</li>
 						<li className="nav-item">
 							<a className="nav-link" data-toggle="collapse" href="#componentsExamples">
