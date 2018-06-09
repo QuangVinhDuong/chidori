@@ -115,10 +115,15 @@ input:checked+.slider:before {
 }
 
 .slider.round:before {
-	border-radius: 50%;
+	border-radius: 50%;	
 }
 
 .longtext {
 	text-overflow: ellipsis;
 	max-width: 150px;
+}
+
+td.longtext {
+	white-space: nowrap;
+	overflow: hidden;
 }

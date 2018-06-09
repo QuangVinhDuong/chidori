@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './assets/css/Table.css';
+import ReactOverflowTooltip from 'react-overflow-tooltip';
 class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: []
     };
+    this.truncateText = this.truncateText.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +36,15 @@ class Table extends Component {
     this.setState({checked: event.target.checked});
     //console.log("After " + event.target.checked);
   }
+  truncateText(string) {
+    if (string.length > 45) {
+      return string.substr(0, 45) + ".".repeat(140);
+    }
+    else {
+      return string;
+    }
+  }
+
 	render() {
 		const tableStyle = {
 			"vertical-align": "middle",
@@ -62,10 +73,14 @@ class Table extends Component {
                 {
                   arr.map((item, index) => (
                     <tr>
-                      <td className="text-center">{index}</td>
-                      <td className="text-center longtext">{item.productName}</td>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="text-center longtext" >
+                        <ReactOverflowTooltip title={item.productName}>
+                          <div>{this.truncateText(item.productName)}</div>
+                        </ReactOverflowTooltip>
+                      </td>
                       <td className="text-center">{item.productType}</td>
-                      <td className="text-center longtext">{item.description}</td>
+                      <td className="text-center longtext" >{item.description}</td>
                       <td className="text-center">
                         <label class="switch">
                           <input type="checkbox" onChange={this.handleCheck} on />
