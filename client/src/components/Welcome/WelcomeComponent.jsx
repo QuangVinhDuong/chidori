@@ -5,6 +5,7 @@ import MainComponent from '../Main/MainComponent';
 import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
 import AdminComponent from '../Admin/AdminComponent';
+import LoadingComponent from '../Loading/LoadingComponent';
 //import "./script";
 //import 'whatwg-fetch';
 
@@ -230,10 +231,7 @@ class WelcomeComponent extends Component {
         } = this.state;
 
         if (isLoading) {
-            return <div>
-                <p>Loading...</p>
-                <img src="https://i.imgur.com/seuaOqf.gif?1" alt=""/>
-              </div>;
+            return (<LoadingComponent/>);
         }
         if (!token) {
             return (
