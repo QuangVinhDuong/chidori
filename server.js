@@ -26,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/chidori')
 app.use(urlencoded({'extended': 'false'}));
 app.use(json());
 
+// Add Access Control in every header
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
