@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Link ,Route, HashRouter, Switch } from 'react-router-dom';
-
+import { BrowserRouter as Link ,Route, HashRouter, Redirect,  Switch } from 'react-router-dom';
+import {getFromStorage} from '../../utils/storage';
 import Header from '../Header/HeaderComponent';
 import Footer from '../Footer/FooterComponent';
 import Copyright from '../Copyright/CopyrightComponent';
@@ -17,41 +17,65 @@ import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
 
 import './MainComStyle.css';
+import AdminComponent from '../Admin/AdminComponent';
+import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
 
-class MainComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-
-    render() {        
-        return (
-            
-            //<HashRouter>
-            <Link>
+const UserRoute = ({ component: Component }) => (
+    <Route
+        render={
+            (props) => (
                 <React.Fragment>
-                    <Header username={this.props.username} />
-                    <Characteristics />                                            
-                    {/* <div className="content"> */}
-                    <Switch>
-                        <Route exact path="/" component={Home}/>
-                        <Route path="/Figures" component={Figures}/>
-                        <Route path="/Electronics" component={Electronics}/>
-                        <Route path="/Computers" component={Computers}/>
-                        <Route path="/Appliances" component={Appliances}/>
-                        <Route path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
-                        <Route path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
-                        <Route path="/Auction/:type/:id" component={ProductDetail}/>
-                        <Route path="/profile" component={Profile}/>
-                        <Route path="/search/:keyword" component={Search}/>
-                    </Switch>
-                    {/* </div>                     */}
+                    <Header username={getFromStorage('login').username}/>
+                    <Characteristics />
+                    <Component {...props} />
                     <Footer />
                     <Copyright />
                 </React.Fragment>
-            </Link>
-            //</HashRouter>                                                                            
-                                    
+            )
+        }
+    />
+);
+
+const AdminRoute = ({ component: Component }) => (
+    <Route
+        render={
+            (props) => (
+                getFromStorage('login').type == 0 ? (
+                    <Component username={getFromStorage('login').username} {...props}/>
+                ) : (
+                    <Redirect to="/"/>
+                )
+            )
+        }
+    />
+)
+
+
+
+class MainComponent extends Component {
+    constructor(props) {
+        super(props);        
+    }
+    
+    render() {
+        return (
+            <Link>
+                <React.Fragment>
+                    <Switch>
+                        <UserRoute exact path="/" component={Home}/>
+                        <UserRoute path="/Figures" component={Figures}/>
+                        <UserRoute path="/Electronics" component={Electronics}/>
+                        <UserRoute path="/Computers" component={Computers}/>
+                        <UserRoute path="/Appliances" component={Appliances}/>
+                        <UserRoute path="/LuggageAndTravelGear" component={LuggageAndTravelGear}/>
+                        <UserRoute path="/SportsAndOutdoors" component={SportsAndOutdoors}/>
+                        <UserRoute path="/Auction/:type/:id" component={ProductDetail}/>
+                        <UserRoute path="/profile" component={Profile}/>
+                        <UserRoute path="/search/:keyword" component={Search}/>
+                        <AdminRoute path="/admin" component={AdminComponent}/>
+                    </Switch>
+                </React.Fragment>
+            </Link>              
         );
     }
 }

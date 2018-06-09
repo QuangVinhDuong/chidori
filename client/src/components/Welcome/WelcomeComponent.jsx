@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 
 import MainComponent from '../Main/MainComponent';
+import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
+import AdminComponent from '../Admin/AdminComponent';
 //import "./script";
 //import 'whatwg-fetch';
 
@@ -97,15 +99,15 @@ class WelcomeComponent extends Component {
                     setInStorage('login', {
                         access_token: json.access_token, 
                         token_key: json.token,
-                        username: signInUsername, 
+                        username: signInUsername,
                     });
                     this.setState({
                         signInError: json.message,
                         isLoading: false,
                         token: json.token,
-                        accountType: json.accountType                        
+                        accountType: json.accountType        
                     });
-                } else {                    
+                } else {
                     this.setState({
                         signInError: json.message,
                         isLoading: false
@@ -380,7 +382,8 @@ class WelcomeComponent extends Component {
             );
         } else if (token && (accountType === 1 || accountType === 0)){            
             return (
-                <MainComponent username={this.state.signInUsername} />
+                 <MainComponent username={this.state.signInUsername} />
+                //<AdminComponent/>
             );
         } else if (token && accountType === 0) {
 
