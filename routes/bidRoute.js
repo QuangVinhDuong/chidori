@@ -1,10 +1,18 @@
-import { Router } from "express";
-const router = Router();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
 import AuctionSession from '../models/AuctionSession';
 import AuctionTicket from '../models/AuctionTicket';
 
+
+const router = Router();
+const app = express();
 const checkAuth = require('../middleware/check-auth');
+
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 router.get('/getAuctionTicket/:sessionID', checkAuth, (req, res, next) => {    
     AuctionTicket.find(
