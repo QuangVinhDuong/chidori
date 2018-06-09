@@ -43,7 +43,7 @@ const AdminRoute = ({ component: Component, username: Username, type: Type}) => 
                 Type === 0 ? (
                     <Component username={Username} {...props}/>
                 ) : (
-                    <ErrorComponent/>
+                    <ErrorComponent message="Đây là khu vực của admin, bạn không được phép truy cập!"/>
                 )
             )
         }
@@ -58,7 +58,6 @@ class MainComponent extends Component {
         this.state = {
             accountType: 1
         }
-        //console.log("Look there: " + this.props.username);
     } 
     componentDidMount() {
         this.getType();
