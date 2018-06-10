@@ -50,8 +50,6 @@ const AdminRoute = ({ component: Component, username: Username, type: Type}) => 
     />
 )
 
-
-
 class MainComponent extends Component {
     constructor(props) {
         super(props);
