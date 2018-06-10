@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import './CopyrightComponent.css';
 class CopyrightComponent extends Component {
     render() {
         return(

@@ -6807,9 +6807,6 @@ fieldset[disabled] .form-control {
     .sidebar-mini .sidebar .logo a.logo-normal {
         opacity: 0;
     }
-    .footer {
-        height: 60px;
-    }
     .footer .footer-menu {
         float: left;
     }
