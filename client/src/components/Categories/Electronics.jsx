@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import { timer } from "../../utils/timer";
-
+import { getFromStorage } from "../../utils/storage";
 class Electronics extends Component {
     constructor(props) {
         super(props);
@@ -18,19 +18,24 @@ class Electronics extends Component {
     componentDidUpdate() {
         timer();
     }
-
     getProduct() {
-        fetch("/auction/getAuctionSession/Electronics", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            //console.log(json);
-            this.setState({ mainData: json });
-          });
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAuctionSession/Electronics', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }).then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        mainData: json
+                    });
+                });
+        }
     }
 
     render() {
@@ -87,7 +92,6 @@ class Electronics extends Component {
                                                         </div>
                                                         <div className="bid_btn">
                                                             <NavLink to={'Auction/' + item.productType + '/' + item.productID}>Đấu giá ngay</NavLink>
-                                                            {/* <a href="javascript:void(0)"></a> */}
                                                         </div>
                                                     </div>
                                                 </div>

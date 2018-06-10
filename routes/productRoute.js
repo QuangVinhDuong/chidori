@@ -71,7 +71,6 @@ router.get('/getAllElectronics', (req, res, next) => {
         productType: 'Electronics'
     }, (err, products) => {
         if (err) return next(err);
-
         return res.json(products);
     });
 });
