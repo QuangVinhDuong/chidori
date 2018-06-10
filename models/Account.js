@@ -10,6 +10,16 @@ const AccountSchema = new mongoose.Schema({
     email: String,
     phone: String,
     address: String,
+    accountType: {
+        _id: {
+            type: Number,
+            default: 1
+        },
+        name: {
+            type: String,
+            default: "user"
+        }
+    },
     isDelete: {
         type: Boolean,
         default: false

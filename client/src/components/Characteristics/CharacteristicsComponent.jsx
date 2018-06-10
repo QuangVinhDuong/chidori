@@ -13,8 +13,8 @@ class CharacteristicsComponent extends Component {
                             <div className="char_item d-flex flex-row align-items-center justify-content-start">
                                 <div className="char_icon"><img src="images/char_1.png" alt=""/></div>
                                 <div className="char_content">
-                                    <div className="char_title">Free Delivery</div>
-                                    <div className="char_subtitle">from $50</div>
+                                    <div className="char_title">Giao hàng miễn phí</div>
+                                    <div className="char_subtitle">Từ 150000VND</div>
                                 </div>
                             </div>
                         </div>
@@ -25,20 +25,8 @@ class CharacteristicsComponent extends Component {
                             <div className="char_item d-flex flex-row align-items-center justify-content-start">
                                 <div className="char_icon"><img src="images/char_2.png" alt=""/></div>
                                 <div className="char_content">
-                                    <div className="char_title">Money back guarantee</div>
-                                    <div className="char_subtitle">within 5 days</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Char. Item */}
-                        <div className="col-lg-3 col-md-6 char_col">
-                            
-                            <div className="char_item d-flex flex-row align-items-center justify-content-start">
-                                <div className="char_icon"><img src="images/char_3.png" alt=""/></div>
-                                <div className="char_content">
-                                    <div className="char_title">Free Delivery</div>
-                                    <div className="char_subtitle">from $50</div>
+                                    <div className="char_title">Chính sách trả hàng</div>
+                                    <div className="char_subtitle">Trong vòng 1 tuần</div>
                                 </div>
                             </div>
                         </div>
@@ -49,8 +37,20 @@ class CharacteristicsComponent extends Component {
                             <div className="char_item d-flex flex-row align-items-center justify-content-start">
                                 <div className="char_icon"><img src="images/char_4.png" alt=""/></div>
                                 <div className="char_content">
-                                    <div className="char_title">Free Delivery</div>
-                                    <div className="char_subtitle">from $50</div>
+                                    <div className="char_title">Đấu giá an toàn</div>
+                                    <div className="char_subtitle">Nói không với hàng giả</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Char. Item */}
+                        <div className="col-lg-3 col-md-6 char_col">
+                            
+                            <div className="char_item d-flex flex-row align-items-center justify-content-start">
+                                <div className="char_icon"><img src="images/char_3.png" alt=""/></div>
+                                <div className="char_content">
+                                    <div className="char_title">Tùy chọn thanh toán</div>
+                                    <div className="char_subtitle">Thỏa sức mua hàng</div>
                                 </div>
                             </div>
                         </div>

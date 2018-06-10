@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 import MainComponent from '../Main/MainComponent';
+import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
 import BackgroundPage from './imgSrc/BackgroundPage.jpg';
 import BackgroundForm from './imgSrc/BackgroundForm.jpg';
 import { cambiar_login, cambiar_sign_up, ocultar_login_sign_up } from './Welcome.js';
+import AdminComponent from '../Admin/AdminComponent';
+import LoadingComponent from '../Loading/LoadingComponent';
 //import "./script";
 //import 'whatwg-fetch';
 
@@ -15,6 +18,7 @@ export default class WelcomeComponent extends Component {
         this.state = {
             isLoading: true,
             token: '',
+            accountType: 1,
             signUpError: '',
             signUpUsername:'',
             signUpPassword:'',
@@ -94,17 +98,19 @@ export default class WelcomeComponent extends Component {
         }).then(res => res.json())
             .then(json => {
                 if (json.success) {                    
-                    setInStorage('login', { 
+                    setInStorage('login', {
+                        access_token: json.access_token, 
                         token_key: json.token,
-                        username: signInUsername, 
+                        username: signInUsername
                     });
                     this.setState({
                         signInError: json.message,
                         isLoading: false,
                         token: json.token,
-                        //signInPassword: '',                        
+                        accountType: json.accountType        
                     });
-                } else {                    
+                    console.log(this.state.accountType);
+                } else {
                     this.setState({
                         signInError: json.message,
                         isLoading: false
@@ -211,6 +217,8 @@ export default class WelcomeComponent extends Component {
         const {
             isLoading,
             token,
+            accountType,
+
             signInError,
             signInUsername,
             signInPassword,
@@ -225,11 +233,7 @@ export default class WelcomeComponent extends Component {
         } = this.state;
 
         if (isLoading) {
-            return (
-                <div>
-                    <p>Loading...</p>
-                </div>
-            );
+            return (<LoadingComponent/>);
         }
         if (!token) {
             return (
@@ -440,10 +444,12 @@ export default class WelcomeComponent extends Component {
                     </div>
                 </div>
             );
-        } else {            
+        } else if (token && (accountType === 1 || accountType === 0)){            
             return (
-                <MainComponent username={this.state.signInUsername} />
+                 <MainComponent username={this.state.signInUsername}/>
             );
-        }                
+        } else if (token && accountType === 0) {
+
+        }             
     }
 }

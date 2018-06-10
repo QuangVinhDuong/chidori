@@ -1,13 +1,28 @@
-import express, { Router } from "express";
-import bodyParser from "body-parser";
-const router = Router();
-const app = express();
+import express ,{ Router } from "express";
+import { urlencoded, json } from "body-parser";
 
+// Import Models
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
 
-// test
+// Setup Enviroment Variable
+const dotenv = require('dotenv');
+dotenv.config();
+
+const router = Router();
+const app = express();
+const bcrypt = require('bcrypt');
+
+// use this for Authenticate
+const jwt = require('jsonwebtoken');
+const checkAuth = require('../middleware/check-auth');
+
+// ObjectId type in mongoose
 const ObjectId = require('mongoose').Types.ObjectId;
+
+app.use(urlencoded({'extended': 'false'}));
+app.use(json());
+
 
 /* GET ALL ACCOUNT */
 // router.get('/', (req, res, next) => {
@@ -87,7 +102,6 @@ router.post('/signin', (req, res, next) => {
                 message: 'Lỗi: Người dùng không tồn tại'
             }).end();
         }
-
         const user = users[0];
         if (!user.validPassword(password)) {
             return res.json({
@@ -103,11 +117,19 @@ router.post('/signin', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-
+            const accessToken = jwt.sign(
+                {
+                    user: username
+                },
+                process.env.JWT_KEY                
+            );
             return res.json({
                 success: true,
                 message: 'Đăng nhập thành công',
-                token: data._id
+                token: data._id,
+                access_token: accessToken,
+                accountType: user.accountType._id
+
             });
         });
     });
@@ -233,6 +255,69 @@ router.get('/logout', (req, res, nexr) => {
         }).end();        
     });
 });
+
+router.get('/getInfo/:username', checkAuth, (req, res, next) => {
+    //console.log(req.params.id);
+    const username = req.params.username
+    Account.find({
+        username: username
+    }, (err, acc) => {
+        if (err) {
+            return next(err)
+        }
+        else {
+            //console.log(acc);
+            return res.json({
+                success: true, detail: acc
+            })
+        }
+    });
+})
+router.post('/update', checkAuth, (req, res, next) => {
+    var set = {
+        username: req.body.username,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phone,
+        fullname: req.body.fullname
+    }
+
+    // Chỉ khi client nhập pass thì mới thêm cái này.
+    if (req.body.password != "") { 
+        set.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
+    }
+
+    Account.updateOne({
+        username: req.body.id}, 
+        {
+            $set: set
+        }, (err, count) => {
+            if (err) {
+                return next(err)
+            }
+            else {
+                res.json({
+                    success: count.nModified == 1 ? true : false
+                })
+            }
+        })
+})
+
+router.get('/gettype/:username', checkAuth, (req, res, next) => {
+    
+    Account.find({username: req.params.username}, (err, acc) => {
+        if (err) {
+            console.log(err);
+            return "Something bad happened, try again later!";
+        }
+        else {
+            return res.json({
+                success: true,
+                acc: acc
+            })
+        }
+    })
+})
 
 /* UPDATE ACCOUNT */
 // router.put('/:id', (req, res, next) => {

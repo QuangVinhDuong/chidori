@@ -68,7 +68,7 @@ export function timer() {
 					s.text(seconds); 
 					
 					targetTime = `${hours+':'+minutes+':'+seconds}`;
-
+					target.data('target-time', targetTime);
 				}, 1000);
 			});	
 		}	
