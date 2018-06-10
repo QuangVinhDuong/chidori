@@ -411,7 +411,7 @@ export default class WelcomeComponent extends Component {
                                         <img src={BackgroundForm} alt="" />
                                     </div>
                                     <div className="cont_form_login">
-                                        <a href="#" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></a>
+                                        <button className="welcomeButtonForm" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></button>
                                         <h2>ĐĂNG NHẬP</h2>
                                         <input type="text" name="username" id="lo-u-name" value={signInUsername} onChange={this.onTextboxChangeSignInUsername} placeholder="Tên đăng nhập..."/>
                                         <input type="password" name="password" id="lo-pw" value={signInPassword} onChange={this.onTextboxChangeSignInPassword} placeholder="Mật khẩu..."/>
@@ -423,7 +423,7 @@ export default class WelcomeComponent extends Component {
                                         <button className="btn_login" id="btnSignin" onClick={this.onSignIn}>ĐĂNG NHẬP</button>
                                     </div>
                                     <div className="cont_form_sign_up">
-                                        <a href="#" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></a>
+                                        <button className="welcomeButtonForm" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></button>
                                         <h2>ĐĂNG KÝ</h2>                                       
                                         <input type="text" name="username" id="reg-u-name" value={signUpUsername} onChange={this.onTextboxChangeSignUpUsername} placeholder="Tên đăng nhập..."/>
                                         <input type="password" name="password" id="reg-pw" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} placeholder="Mật khẩu..."/>
