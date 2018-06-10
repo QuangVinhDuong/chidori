@@ -1,6 +1,10 @@
 .copyright {
-	height: 40px;
-	position: fixed;
+	height: 17px;
+	position: absolute;
 	bottom: 0;
 	width: 100%;
+	background: #d3e5fb;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Courier New', Courier, monospace;
 }
