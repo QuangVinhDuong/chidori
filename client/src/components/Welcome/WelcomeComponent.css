@@ -23,6 +23,14 @@
 
 }
 
+.signupNoti {
+  color: limegreen;
+}
+
+.loginNoti {
+  color: crimson;
+}
+
 .welcomeButtonForm {
   color: #757575;
   position: relative;

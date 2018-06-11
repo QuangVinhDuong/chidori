@@ -417,7 +417,7 @@ export default class WelcomeComponent extends Component {
                                         <input type="password" name="password" id="lo-pw" value={signInPassword} onChange={this.onTextboxChangeSignInPassword} placeholder="Mật khẩu..."/>
                                         {
                                             (signInError) ? (
-                                                <p>{signInError}</p>
+                                                <p className="loginNoti">{signInError}</p>
                                             ) : (null)
                                         }
                                         <button className="btn_login" id="btnSignin" onClick={this.onSignIn}>ĐĂNG NHẬP</button>
@@ -433,7 +433,7 @@ export default class WelcomeComponent extends Component {
                                         <input type="text" name="address" id="reg-address" value={signUpAddress} onChange={this.onTextboxChangeSignUpAddress} placeholder="Địa chỉ..."/>
                                         {
                                             (signUpError) ? (
-                                                <p>{signUpError}</p>
+                                                <p className="signupNoti">{signUpError}</p>
                                             ) : (null)
                                         }
                                         <button className="btn_sign_up" id="btnSignup" onClick={this.onSignUp}>ĐĂNG KÝ</button>
