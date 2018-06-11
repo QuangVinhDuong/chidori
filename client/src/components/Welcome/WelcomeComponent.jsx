@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { getFromStorage, setInStorage } from '../../utils/storage';
-
 import MainComponent from '../Main/MainComponent';
 import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
+import BackgroundPage from './imgSrc/BackgroundPage.jpg';
+import BackgroundForm from './imgSrc/BackgroundForm.jpg';
+import { cambiar_login, cambiar_sign_up, ocultar_login_sign_up } from './Welcome.js';
 import AdminComponent from '../Admin/AdminComponent';
+import LoadingComponent from '../Loading/LoadingComponent';
 //import "./script";
 //import 'whatwg-fetch';
 
-class WelcomeComponent extends Component {
+export default class WelcomeComponent extends Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +19,6 @@ class WelcomeComponent extends Component {
             isLoading: true,
             token: '',
             accountType: 1,
-
             signUpError: '',
             signUpUsername:'',
             signUpPassword:'',
@@ -99,7 +101,7 @@ class WelcomeComponent extends Component {
                     setInStorage('login', {
                         access_token: json.access_token, 
                         token_key: json.token,
-                        username: signInUsername,
+                        username: signInUsername
                     });
                     this.setState({
                         signInError: json.message,
@@ -107,6 +109,7 @@ class WelcomeComponent extends Component {
                         token: json.token,
                         accountType: json.accountType        
                     });
+                    console.log(this.state.accountType);
                 } else {
                     this.setState({
                         signInError: json.message,
@@ -230,165 +233,223 @@ class WelcomeComponent extends Component {
         } = this.state;
 
         if (isLoading) {
-            return (
-                <div>
-                    <p>Loading...</p>
-                </div>
-            );
+            return (<LoadingComponent/>);
         }
         if (!token) {
             return (
-                <div className="bg">
-                    <div className="screen d-flex align-items-center">
-                        <div className="container">
-                            <div className="main">
-                                <div id="title">
-                                    <h1>Chidori</h1>
-                                    <p>Chào mừng đến với dịch vụ đấu giá của chúng tôi</p>
-                                </div>
-                                <div id="btn-section">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#register">Đăng ký</a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#login">Đăng nhập</a>                        
-                                </div>
-                                <a href="home">Vào trang chủ</a>
-                            </div>
+                // <div className="bg">
+                //     <div className="screen d-flex align-items-center">
+                //         <div className="container">
+                //             <div className="main">
+                //                 <div id="title">
+                //                     <h1>Chidori</h1>
+                //                     <p>Chào mừng đến với dịch vụ đấu giá của chúng tôi</p>
+                //                 </div>
+                //                 <div id="btn-section">
+                //                     <a href="javascript:void(0);" data-toggle="modal" data-target="#register">Đăng ký</a>
+                //                     <a href="javascript:void(0);" data-toggle="modal" data-target="#login">Đăng nhập</a>                        
+                //                 </div>
+                //                 <a href="home">Vào trang chủ</a>
+                //             </div>
     
-                            {/* Register Modal */}
-                            <div className="modal fade" id="register">
-                                <div className="modal-dialog modal-dialog-centered">
-                                    <div className="modal-content">
+                //             {/* Register Modal */}
+                //             <div className="modal fade" id="register">
+                //                 <div className="modal-dialog modal-dialog-centered">
+                //                     <div className="modal-content">
                                     
-                                        {/* Modal Header */}
-                                        <div className="modal-header">
-                                            <h4 className="modal-title">Đăng ký</h4>
-                                            <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        </div>
+                //                         {/* Modal Header */}
+                //                         <div className="modal-header">
+                //                             <h4 className="modal-title">Đăng ký</h4>
+                //                             <button type="button" className="close" data-dismiss="modal">&times;</button>
+                //                         </div>
                                         
-                                        {/* Modal body */}
-                                        <div className="modal-body">
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Tên tài khoản: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="text" name="username" id="reg-u-name" value={signUpUsername} onChange={this.onTextboxChangeSignUpUsername}/>
-                                                </div>
-                                            </div>
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Mật khẩu: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="password" name="password" id="reg-pw" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword}/>
-                                                </div>
-                                            </div>
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Họ tên: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="text" name="fullname" id="reg-fu-name" value={signUpFullname} onChange={this.onTextboxChangeSignUpFullname}/>
-                                                </div>
-                                            </div>    
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Email: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="email" name="email" id="email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail}/>
-                                                </div>
-                                            </div>
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Điện thoại: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="text" name="phone" id="reg-phone" value={signUpPhone} onChange={this.onTextboxChangeSignUpPhone}/>
-                                                </div>
-                                            </div>
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Địa chỉ: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="text" name="address" id="reg-address" value={signUpAddress} onChange={this.onTextboxChangeSignUpAddress}/>
-                                                </div>
-                                            </div>
-                                            {
-                                                (signUpError) ? (
-                                                    <p>{signUpError}</p>
-                                                ) : (null)
-                                            }     
-                                        </div>
+                //                         {/* Modal body */}
+                //                         <div className="modal-body">
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Tên tài khoản: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="text" name="username" id="reg-u-name" value={signUpUsername} onChange={this.onTextboxChangeSignUpUsername}/>
+                //                                 </div>
+                //                             </div>
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Mật khẩu: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="password" name="password" id="reg-pw" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword}/>
+                //                                 </div>
+                //                             </div>
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Họ tên: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="text" name="fullname" id="reg-fu-name" value={signUpFullname} onChange={this.onTextboxChangeSignUpFullname}/>
+                //                                 </div>
+                //                             </div>    
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Email: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="email" name="email" id="email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail}/>
+                //                                 </div>
+                //                             </div>
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Điện thoại: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="text" name="phone" id="reg-phone" value={signUpPhone} onChange={this.onTextboxChangeSignUpPhone}/>
+                //                                 </div>
+                //                             </div>
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Địa chỉ: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="text" name="address" id="reg-address" value={signUpAddress} onChange={this.onTextboxChangeSignUpAddress}/>
+                //                                 </div>
+                //                             </div>
+                //                             {
+                //                                 (signUpError) ? (
+                //                                     <p>{signUpError}</p>
+                //                                 ) : (null)
+                //                             }     
+                //                         </div>
                                         
-                                        {/* Modal footer */}
-                                        <div className="modal-footer">
-                                            {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> */}
-                                            <button type="button" className="btn btn-primary" id="btnSignup" onClick={this.onSignUp}>Xác nhận</button>
-                                        </div>
+                //                         {/* Modal footer */}
+                //                         <div className="modal-footer">
+                //                             {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> */}
+                //                             <button type="button" className="btn btn-primary" id="btnSignup" onClick={this.onSignUp}>Xác nhận</button>
+                //                         </div>
                                         
+                //                     </div>
+                //                 </div>
+                //             </div>
+    
+                //             {/* Login Modal */}
+                //             <div className="modal fade" id="login">
+                //                 <div className="modal-dialog modal-dialog-centered">
+                //                     <div className="modal-content">
+                                    
+                //                         {/* Modal Header */}
+                //                         <div className="modal-header">
+                //                             <h4 className="modal-title">Đăng nhập</h4>
+                //                             <button type="button" className="close" data-dismiss="modal">&times;</button>
+                //                         </div>
+                                        
+                //                         {/* Modal body */}
+                //                         <div className="modal-body">
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Username: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="text" name="username" id="lo-u-name" value={signInUsername} onChange={this.onTextboxChangeSignInUsername}/>
+                //                                 </div>
+                //                             </div>
+                //                             <div className="row format">
+                //                                 <div className="col">
+                //                                     <span>Password: </span>
+                //                                 </div>
+                //                                 <div className="col">
+                //                                     <input type="password" name="password" id="lo-pw" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
+                //                                 </div>
+                //                             </div>
+                //                             {
+                //                                 (signInError) ? (
+                //                                     <p>{signInError}</p>
+                //                                 ) : (null)
+                //                             }                                     
+                //                         </div>
+                                        
+                //                         {/* Modal footer */}
+                //                         <div className="modal-footer">
+                //                             {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> */}
+                //                             <button type="button" className="btn btn-primary" id="btnSignin" onClick={this.onSignIn}>Đăng nhập</button>
+                //                         </div>
+                                        
+                //                     </div>
+                //                 </div>
+                //             </div>
+                //         </div>
+                //     </div>        
+                // </div>
+                <div>
+                    <img className="imgPage" src={BackgroundPage} alt=""/>
+                    <div className="cotn_principal">
+                        <div className="cont_centrar">
+                            <br/>
+                            <span className="titlePage">Chào mừng đến với trang web đấu giá Chidori</span>
+                            <div className="cont_login">
+                                <div className="cont_info_log_sign_up">
+                                    <div className="col_md_login">
+                                        <div className="cont_ba_opcitiy">
+                                            <h2>ĐĂNG NHẬP</h2>  
+                                            <p>Đăng nhập ngay để có thể sử dụng dịch vụ của chúng tôi.</p> 
+                                            <button className="btn_login" onClick={cambiar_login}>ĐĂNG NHẬP</button>
+                                        </div>
+                                    </div>
+                                        <div className="col_md_sign_up">
+                                        <div className="cont_ba_opcitiy">
+                                            <h2>ĐĂNG KÝ</h2>
+                                            <p>Đăng ký tài khoản ngay nếu bạn chưa có tài khoản.</p>
+                                            <button className="btn_sign_up" onClick={cambiar_sign_up}>ĐĂNG KÝ</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-    
-                            {/* Login Modal */}
-                            <div className="modal fade" id="login">
-                                <div className="modal-dialog modal-dialog-centered">
-                                    <div className="modal-content">
-                                    
-                                        {/* Modal Header */}
-                                        <div className="modal-header">
-                                            <h4 className="modal-title">Đăng nhập</h4>
-                                            <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        
-                                        {/* Modal body */}
-                                        <div className="modal-body">
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Username: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="text" name="username" id="lo-u-name" value={signInUsername} onChange={this.onTextboxChangeSignInUsername}/>
-                                                </div>
-                                            </div>
-                                            <div className="row format">
-                                                <div className="col">
-                                                    <span>Password: </span>
-                                                </div>
-                                                <div className="col">
-                                                    <input type="password" name="password" id="lo-pw" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
-                                                </div>
-                                            </div>
-                                            {
-                                                (signInError) ? (
-                                                    <p>{signInError}</p>
-                                                ) : (null)
-                                            }                                     
-                                        </div>
-                                        
-                                        {/* Modal footer */}
-                                        <div className="modal-footer">
-                                            {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> */}
-                                            <button type="button" className="btn btn-primary" id="btnSignin" onClick={this.onSignIn}>Đăng nhập</button>
-                                        </div>
-                                        
+                                <div className="cont_back_info">
+                                    <div className="cont_img_back_grey">
+                                        <img src={BackgroundForm} alt="" />
+                                    </div>
+                                </div>
+                                <div className="cont_forms" >
+                                    <div className="cont_img_back_">
+                                        <img src={BackgroundForm} alt="" />
+                                    </div>
+                                    <div className="cont_form_login">
+                                        <button className="welcomeButtonForm" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></button>
+                                        <h2>ĐĂNG NHẬP</h2>
+                                        <input type="text" name="username" id="lo-u-name" value={signInUsername} onChange={this.onTextboxChangeSignInUsername} placeholder="Tên đăng nhập..."/>
+                                        <input type="password" name="password" id="lo-pw" value={signInPassword} onChange={this.onTextboxChangeSignInPassword} placeholder="Mật khẩu..."/>
+                                        {
+                                            (signInError) ? (
+                                                <p className="loginNoti">{signInError}</p>
+                                            ) : (null)
+                                        }
+                                        <button className="btn_login" id="btnSignin" onClick={this.onSignIn}>ĐĂNG NHẬP</button>
+                                    </div>
+                                    <div className="cont_form_sign_up">
+                                        <button className="welcomeButtonForm" onClick={ocultar_login_sign_up}><i className="material-icons">&#xE5C4;</i></button>
+                                        <h2>ĐĂNG KÝ</h2>                                       
+                                        <input type="text" name="username" id="reg-u-name" value={signUpUsername} onChange={this.onTextboxChangeSignUpUsername} placeholder="Tên đăng nhập..."/>
+                                        <input type="password" name="password" id="reg-pw" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} placeholder="Mật khẩu..."/>
+                                        <input type="text" name="fullname" id="reg-fu-name" value={signUpFullname} onChange={this.onTextboxChangeSignUpFullname} placeholder="Họ tên..."/>
+                                        <input type="email" name="email" id="email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} placeholder="Email..."/>
+                                        <input type="text" name="phone" id="reg-phone" value={signUpPhone} onChange={this.onTextboxChangeSignUpPhone} placeholder="Điện thoại..."/>
+                                        <input type="text" name="address" id="reg-address" value={signUpAddress} onChange={this.onTextboxChangeSignUpAddress} placeholder="Địa chỉ..."/>
+                                        {
+                                            (signUpError) ? (
+                                                <p className="signupNoti">{signUpError}</p>
+                                            ) : (null)
+                                        }
+                                        <button className="btn_sign_up" id="btnSignup" onClick={this.onSignUp}>ĐĂNG KÝ</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>        
+                    </div>
                 </div>
             );
         } else if (token && (accountType === 1 || accountType === 0)){            
             return (
-                 <MainComponent username={this.state.signInUsername} />
-                //<AdminComponent/>
+                 <MainComponent username={this.state.signInUsername}/>
             );
         } else if (token && accountType === 0) {
 
         }             
     }
 }
-
-export default WelcomeComponent;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
-
+import {getFromStorage} from '../../utils/storage';
 import { timer } from "../../utils/timer";
 
 
@@ -22,17 +22,23 @@ class Appliances extends Component {
     }
 
     getProduct() {
-        fetch("/auction/getAuctionSession/Appliances", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            this.setState({ mainData: json });
-            console.log(json);
-          });
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/auction/getAuctionSession/Appliances', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }).then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        mainData: json
+                    });
+                });
+        }
     }
     render() {
         const divStyle = {
