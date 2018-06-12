@@ -147,14 +147,7 @@ router.post('/signup', (req, res, next) => {
         email,
         phone,
         address
-    } = body;
-
-    // const username = body.username;
-    // const password = body.password;
-    // const fullname = body.fullname;
-    // const email = body.email;
-    // const phone = body.phone;
-    // const address = body.address;    
+    } = body; 
 
     if (!username) {
         return res.json({
@@ -278,30 +271,43 @@ router.get('/getInfo/:username', checkAuth, (req, res, next) => {
 
 router.get('/getOrder/:username', checkAuth, (req, res, next) => {
     const username = req.params.username;
+    //console.log(req.params.username);
     var query = {
-        winner: username,
-        status: 2 
-    }
-
-    console.log(query);
-
-    AuctionSession.aggregate([
+        accountID: req.params.username,
+        status: 1
+    };
+    AuctionTicket.aggregate([
         {
             $match: query
         },
         {
             $lookup: {
+                from: 'auction_session',
+                localField: 'sessionID',
+                foreignField: 'sessionID',
+                as: 'au'
+            }
+        },
+        {
+            $unwind: "$au"
+        },
+        {
+            $lookup: {
                 from: 'product',
-                localField: 'productID',
+                localField: 'au.productID',
                 foreignField: '_id',
                 as: 'p'
             }
         },
         {
+            $unwind: "$p"
+        },
+        {
             $project: {
                 _id: 1,
                 sessionID: 1,
-                currentPrice: 1,
+                "au.currentPrice": 1,
+                "au.productID": 1,
                 "p.productName": 1,
                 "p.description": 1
             }
@@ -317,14 +323,16 @@ router.get('/getOrder/:username', checkAuth, (req, res, next) => {
 })
 
 router.post('/updateOrder', checkAuth, (req, res, next) => {
+    //console.log(req.body);
+
     if (req.body.getL.length != 0)
-        AuctionSession.updateMany(
+        AuctionTicket.updateMany(
             {
                 _id: { $in: req.body.getL }
             }, 
             {
                 $set: {
-                    status: 3
+                    status: 2
                 }
             }, (err, result) => {
                 if (err) console.log(err);
@@ -333,16 +341,15 @@ router.post('/updateOrder', checkAuth, (req, res, next) => {
                     count: result.nModified
                 });
             }
-        
         )
     if (req.body.delL.length != 0) {
-        AuctionSession.updateMany(
+        AuctionTicket.updateMany(
             {
                 _id: { $in: req.body.delL }
             }, 
             {
                 $set: {
-                    status: 4
+                    status: 3
                 }
             }, (err, result) => {
                 if (err) console.log(err);

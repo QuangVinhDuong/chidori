@@ -40,11 +40,11 @@ class HeaderMain extends Component {
         .then((res) => res.json())
         .then((json) => {
           this.setState({ cartList: json })
-          //console.log(this.state.cartList);
+          console.log(this.state.cartList);
         });
     }    
   }
-  onOpenModal = () => {this.setState({ open: true });};
+  onOpenModal = () => { this.getCartList(); this.setState({ open: true });};
   onCloseModal = () => {this.setState({ open: false });};
 
   handleChangeSearch(event) {this.setState({search: event.target.value});}
@@ -105,7 +105,6 @@ class HeaderMain extends Component {
         .then(json => {
           if (json.success) {
             alert('Thành công');
-            this.getCartList();
             this.onCloseModal();
           }
           else {
@@ -150,12 +149,12 @@ class HeaderMain extends Component {
                         <tr>
                           <td className="text-center">{item.sessionID}</td>
                           <td className="text-center longtext" >
-                            <ReactOverflowTooltip title="{item.productName}">
-                              <div>{item.p[0].productName}</div>
+                            <ReactOverflowTooltip title={item.p.productName}>
+                              <div>{item.p.productName}</div>
                             </ReactOverflowTooltip>
                           </td>
-                          <td className="text-center longtext" >{item.p[0].description}</td>
-                          <td className="text-center">{item.currentPrice}</td>
+                          <td className="text-center longtext" >{item.p.description}</td>
+                          <td className="text-center">{item.au.currentPrice}</td>
                           <td className="text-center">
                             <label className="switch">
                               <input type="checkbox" id={`get${item._id}`} onChange={this.handleGet} />
