@@ -125,7 +125,7 @@ class HeaderMain extends Component {
         
       }
       const arr = this.state.cartList;
-      const testing = () => {
+      const tableCart = () => {
         return ( 
           <div className="col-md-12">
             <div className="card table-with-switches" style={tableStyle}>
@@ -223,7 +223,7 @@ class HeaderMain extends Component {
                               <img src="images/Bag.png" alt="" width="40" height="40" /> Giỏ hàng
                             </button>
                             <Modal open={open} onClose={this.onCloseModal} center>
-                              {testing()}
+                              {tableCart()}
                             </Modal>
                           </div>
                         </div>

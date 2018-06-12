@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getFromStorage } from "../../utils/storage";
 import './Profile.css';
+import ReactOverflowTooltip from "react-overflow-tooltip";
 
 class Profile extends Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class Profile extends Component {
             phone: '',
             fullname: '',
             password: '',
-            repass: ''
+            repass: '',
+            orderList: [],
+            delList: []
         };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -30,10 +33,10 @@ class Profile extends Component {
 
     componentDidMount() {
         this.getProfileInfo();
+        this.getOrderStatus();
     } 
 
     getProfileInfo() {
-        
         const obj = getFromStorage('login');
 
         if (obj && obj.access_token) {
@@ -57,6 +60,56 @@ class Profile extends Component {
                 });
             });
         }                
+    }
+    getOrderStatus() {
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token, username } = obj;
+            fetch("/account/getOrderStatus/" + username, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${access_token}`
+                }
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json);
+                    this.setState({orderList: json});
+                });
+        }
+    }
+    updateOrderStatus() {
+        const obj = getFromStorage('login');
+
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch('/account/updateOrderStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                },
+                body: JSON.stringify({
+                    list: this.state.delList
+                })
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    alert('Thành công');
+                }
+                else {
+                    alert('Xảy ra lỗi');
+                }
+            });
+        }  
+    }
+    handleConfirm = (e) => {
+        e.preventDefault();
+        this.updateOrderStatus();
+        this.getOrderStatus();
     }
 
     handleChangeUsername(event) {this.setState({ username: event.target.value});}
@@ -120,7 +173,72 @@ class Profile extends Component {
             return "Tốt";
         }
     }
+    handleDel = (e) => {
+        var currentID = e.target.id.substr(3);
+        if (e.target.checked === true) {
+            this.setState({ delList: [...this.state.delList, currentID] });
+        }
+        else {
+            this.setState({
+                delList: this.state.delList.filter(g => {
+                    return g !== currentID;
+                })
+            });
+        }
+    }
     render() {
+        var arr = this.state.orderList;
+        const tableOrderList = () => {
+            return (
+                <div className="col-md-12">
+                    <div className="card table-with-switches">
+                        <div className="card-header ">
+                            <h4 className="card-title"><center><h3>Danh sách đơn hàng hàng</h3></center></h4>
+                        </div>
+                        <div className="card-body table-full-width">
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th className="text-center">#</th>
+                                        <th>Ngày đấu</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th className="text-center">Miêu tả</th>
+                                        <th className="text-center">Số tiền phải trả</th>
+                                        <th className="text-center">Trạng thái</th>
+                                        <th className="text-center">Hủy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        arr.map((item, index) => (
+                                            <tr>
+                                                <td className="text-center">{index + 1}</td>
+                                                <td className="text-center">{item.au.startTime}</td>
+                                                <td className="text-center longtext" >
+                                                    <ReactOverflowTooltip title={item.p.productName}>
+                                                        <div>{item.p.productName}</div>
+                                                    </ReactOverflowTooltip>
+                                                </td>
+                                                <td className="text-center longtext" >{item.p.description}</td>
+                                                <td className="text-center">{item.au.currentPrice}</td>
+                                                <td className="text-center">{item.ats.statusName}</td>
+                                                <td className="text-center">
+                                                    <label className="switch">
+                                                        <input type="checkbox" id={`del${item._id}`} disabled={item.status === 2 ? "" : "disabled"} onChange={this.handleDel} />
+                                                        <span className="slider round del" ></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                            <button className="btn btn-success" disabled={this.state.delList.length === 0 ? "disabled" : ""} onClick={this.handleConfirm}>Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="box_shadow" >
                 <div className="container info">
@@ -201,8 +319,7 @@ class Profile extends Component {
                                 <center><button className="btn btn-primary" disabled={this.validate() === true ? "" : "disabled"} onClick={this.handleSubmit}>Cập nhật</button></center>
                             </div>
                             <div id="menu1" className="container tab-pane fade"><br/>
-                                <h3>Menu 1</h3>
-                                <p>t2</p>
+                                {tableOrderList()}
                             </div>
                     </div>
                 </div>
