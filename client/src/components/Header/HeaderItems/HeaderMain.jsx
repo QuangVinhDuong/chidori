@@ -40,7 +40,7 @@ class HeaderMain extends Component {
         .then((res) => res.json())
         .then((json) => {
           this.setState({ cartList: json })
-          console.log(this.state.cartList);
+          //console.log(this.state.cartList);
         });
     }    
   }
@@ -109,6 +109,7 @@ class HeaderMain extends Component {
           }
           else {
             alert('Xảy ra lỗi');
+            this.onCloseModal();
           }
         });
     }        

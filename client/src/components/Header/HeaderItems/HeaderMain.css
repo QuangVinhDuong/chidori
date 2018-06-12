@@ -35,6 +35,7 @@ input:checked + .slider.round.del {
 	background-color: red;
 }
 
-.btn.btn-success:disabled {
+.btn.btn-success:disabled,
+.btn.btn-success:disabled:hover {
 	background-color: green;
 }
