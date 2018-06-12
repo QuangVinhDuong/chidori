@@ -4,6 +4,8 @@ import { urlencoded, json } from "body-parser";
 // Import Models
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
+import AuctionTicket from "../models/AuctionTicket";
+import AuctionSession from "../models/AuctionSession";
 
 // Setup Enviroment Variable
 const dotenv = require('dotenv');
@@ -273,6 +275,87 @@ router.get('/getInfo/:username', checkAuth, (req, res, next) => {
         }
     });
 })
+
+router.get('/getOrder/:username', checkAuth, (req, res, next) => {
+    const username = req.params.username;
+    var query = {
+        winner: username,
+        status: 2 
+    }
+
+    console.log(query);
+
+    AuctionSession.aggregate([
+        {
+            $match: query
+        },
+        {
+            $lookup: {
+                from: 'product',
+                localField: 'productID',
+                foreignField: '_id',
+                as: 'p'
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                sessionID: 1,
+                currentPrice: 1,
+                "p.productName": 1,
+                "p.description": 1
+            }
+        }
+
+    ], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        //console.log(result);
+        return res.json(result);
+    });
+})
+
+router.post('/updateOrder', checkAuth, (req, res, next) => {
+    if (req.body.getL.length != 0)
+        AuctionSession.updateMany(
+            {
+                _id: { $in: req.body.getL }
+            }, 
+            {
+                $set: {
+                    status: 3
+                }
+            }, (err, result) => {
+                if (err) console.log(err);
+                else return res.json({
+                    success: true,
+                    count: result.nModified
+                });
+            }
+        
+        )
+    if (req.body.delL.length != 0) {
+        AuctionSession.updateMany(
+            {
+                _id: { $in: req.body.delL }
+            }, 
+            {
+                $set: {
+                    status: 4
+                }
+            }, (err, result) => {
+                if (err) console.log(err);
+                else return res.json({
+                    success: true,
+                    count: result.nModified
+                });
+            }
+        
+        )
+    }
+})
+
 router.post('/update', checkAuth, (req, res, next) => {
     var set = {
         username: req.body.username,

@@ -26,8 +26,16 @@ const AuctionSessionSchema = new mongoose.Schema({
         default: 0
     },
     status: {
-        type: Number,
+        type: Number, // 0: initial | 1: in process | 2: end/unconfirmed | 3: delivering | 4: canceled/declined | 5: done
         default: 0
+    },
+    winner: {
+        type: String,
+        default: ''
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 }, { collection: 'auction_session' });
 

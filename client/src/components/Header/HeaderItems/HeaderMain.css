@@ -30,3 +30,11 @@
 .styles_modal__gNwvD {
 	
 }
+
+input:checked + .slider.round.del {
+	background-color: red;
+}
+
+.btn.btn-success:disabled {
+	background-color: green;
+}

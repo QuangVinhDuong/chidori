@@ -16,6 +16,11 @@ app.use(json());
 router.get('/getAllAuctionSession', checkAuth, (req, res, next) => {
     AuctionSession.aggregate([
         {
+            $match: {
+                status: 0
+            }
+        },
+        {
             $lookup: {
                    from: "product",
                    localField: "productID",
@@ -65,24 +70,35 @@ function getAuctionByProductType(type, res, next) {
                 foreignField: 'productID',
                 as: 'p'
             } 
-        },
+        }, 
         {
-            $project: {                    
+            $project: {
                 productID: 1,
                 productName: 1,
                 productType: 1,
                 productImage: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
-                "p.initPrice": 1
+                "p.initPrice": 1,
+                "p.status": 1
+            }
+        },
+        {
+            $match: {
+                "p.status" : 0 // 0: đang đấu | -1: kết thúc.
             }
         }
+        
     ], (err, result) => {
         if (err) {
             return next(err);
         }
+        //console.log(result[0].p);
         return res.json(result);
     });
+
+
+    
 }
 
 export default router;
