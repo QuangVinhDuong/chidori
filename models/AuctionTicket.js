@@ -19,7 +19,7 @@ const AuctionTicketSchema = mongoose.Schema({
     },
     status: {
         type: Number,
-        default: 0 // 0: đang đấu; 1: thắng; -1: thua
+        default: 0 // 0: đang đấu | 1: thắng | -1: thua | 2: nhận hàng | 3: hủy đơn hàng | 4: đã nhận hàng
     }
 }, {collection: 'auction_ticket'});
 

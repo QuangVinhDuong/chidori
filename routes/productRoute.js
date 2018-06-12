@@ -26,6 +26,7 @@ router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {
             $match: {
                 productType: type,
                 productID: id,
+                
             }
         },
         {
