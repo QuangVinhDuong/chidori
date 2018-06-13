@@ -39,3 +39,8 @@ input:checked + .slider.round.del {
 .btn.btn-success:disabled:hover {
 	background-color: green;
 }
+
+.header_search_input {
+	width: 100%;
+	text-align: left;
+}
