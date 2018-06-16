@@ -143,4 +143,25 @@ td.longtext {
 input:checked+.slider.round.disable {
 	background: #FB404B;
 }
+.btn.btn-primary:disabled,
+.btn.btn-primary:disabled:hover {
+	background: #2196F3;
+}
+.styles_modal__gNwvD {
+	max-width: 1000px;
+	width: 1000px;
+}
 
+.form-control.pt {
+	margin-left: 0px;
+	width: 268px;
+	padding: 5px;
+	font-size: 16px;
+	line-height: 1;
+	border: 0;
+	border-radius: 5px;
+	height: 34px;
+	background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+	-webkit-appearance: none;
+	background-position-x: 244px;
+}
