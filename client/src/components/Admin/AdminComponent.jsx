@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from './Table';
+import TableProduct from "./TableProduct";
 import Sidebar from './Sidebar';
 class AdminComponent extends Component {
   constructor(props) {
@@ -9,22 +9,20 @@ class AdminComponent extends Component {
     };
   }
   render() {
-    return (
-      <React.Fragment>
+    return <React.Fragment>
         <div className="wrapper">
-          <Sidebar/>
+          <Sidebar />
           <div className="main-panel">
             <div className="content">
               <div className="container-fluid">
                 <div className="row">
-                  <Table/>
+                  <TableProduct />  
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
+      </React.Fragment>;
   }
 }
 

@@ -47,24 +47,21 @@ class Sidebar extends Component {
 						<li className="nav-item">
 							<a className="nav-link" data-toggle="collapse" href="#componentsExamples">
 								<i className="nc-icon nc-bullet-list-67"></i>
-								<p>
-									Danh mục
-                                <b className="caret"></b>
-								</p>
+								<p>Danh mục<b className="caret"></b></p>
 							</a>
 							<div className="collapse " id="componentsExamples">
 								<ul className="nav">
 									<li className="nav-item ">
-										<a className="nav-link" href="../components/buttons.html">
+										<Link className="nav-link" to="/admin">
 											<span className="sidebar-mini">SP</span>
 											<span className="sidebar-normal">Sản phẩm</span>
-										</a>
+										</Link>
 									</li>
 									<li className="nav-item ">
-										<a className="nav-link" href="../components/grid.html">
+										<Link className="nav-link" to="/admin/auction">
 											<span className="sidebar-mini">PĐG</span>
 											<span className="sidebar-normal">Phiên đấu giá</span>
-										</a>
+										</Link>
 									</li>
 									<li className="nav-item ">
 										<a className="nav-link" href="../components/panels.html">

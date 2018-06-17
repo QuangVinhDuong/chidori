@@ -1,6 +1,13 @@
 import express, {Router} from "express";
 import {urlencoded,	json} from "body-parser";
+
 import Product from '../models/Product';
+import AuctionSession from '../models/AuctionSession';
+import AuctionSessionStatus from '../models/AuctionSessionStatus';
+import AuctionTicket from '../models/AuctionTicket';
+import AuctionTicketStatus from '../models/AuctionTicketStatus';
+import Account from '../models/Account';
+import Parameter from '../models/Parameter';
 
 const router = Router();
 const app = express();
@@ -83,5 +90,20 @@ router.post('/addProduct', checkAuth, (req, res, next) => {
 			});
 		}
 	})
+});
+
+router.get('/auction', checkAuth, (req, res, next) => {
+	// forEach(function (obj) {
+	// 	AuctionSession.insert(obj)
+	// });
+})
+router.post('/auction', checkAuth, (req, res, next) => {
+	console.log("post");
+})
+router.put('/auction', checkAuth, (req, res, next) => {
+	console.log("put");
+})
+router.delete('/auction', checkAuth, (req, res, next) => {
+	console.log("delete");
 })
 export default router;

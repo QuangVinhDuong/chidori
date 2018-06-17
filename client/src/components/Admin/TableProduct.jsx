@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './assets/css/Table.css';
+import "./assets/css/Table.css";
 import ReactOverflowTooltip from 'react-overflow-tooltip';
 import Modal from 'react-responsive-modal';
 import {getFromStorage} from '../../utils/storage';
 
-class Table extends Component {
+class TableProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -150,9 +150,6 @@ class Table extends Component {
   handleSubmit = () => {
     this.submitProduct();
     this.onCloseModal();
-  }
-  addProduct = () => {
-
   }
   submitProduct = () => {
     const obj = getFromStorage('login');
@@ -365,4 +362,4 @@ class Table extends Component {
   }
 }
 
-export default Table;
+export default TableProduct;

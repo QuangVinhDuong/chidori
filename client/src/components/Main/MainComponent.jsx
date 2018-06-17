@@ -17,7 +17,9 @@ import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
 import ErrorComponent from '../404/ErrorComponent';
 import './MainComStyle.css';
-import AdminComponent from '../Admin/AdminComponent';
+import Sidebar from '../Admin/Sidebar';
+import TableProduct from '../Admin/TableProduct';
+import TableAuction from "../Admin/TableAuction";
 
 const UserRoute = ({ component: Component, username: Username, type: Type }) => (
     <Route
@@ -40,7 +42,20 @@ const AdminRoute = ({ component: Component, username: Username, type: Type}) => 
         render={
             (props) => (
                 Type === 0 ? (
-                    <Component username={Username} {...props}/>
+                    <React.Fragment>
+                        <div className="wrapper">
+                            <Sidebar />
+                            <div className="main-panel">
+                                <div className="content">
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <Component username={Username} {...props} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </React.Fragment>
                 ) : (
                     <ErrorComponent message="Đây là khu vực của admin, bạn không được phép truy cập!"/>
                 )
@@ -96,7 +111,8 @@ class MainComponent extends Component {
                 <UserRoute path="/SportsAndOutdoors" type={t} username={u} component={SportsAndOutdoors} />
                 <UserRoute path="/Auction/:type/:id" type={t} username={u} component={ProductDetail} />
                 <UserRoute path="/search/:keyword" type={t} username={u} component={Search} />
-                <AdminRoute path="/admin" type={t} username={u}  component={AdminComponent} />
+                <AdminRoute exact path="/admin" type={t} username={u} component={TableProduct} />
+                <AdminRoute path="/admin/auction" type={t} username={u} component={TableAuction} />
                 <Route path="/:wrong" component={ErrorComponent}/>
               </Switch>
             </React.Fragment>
