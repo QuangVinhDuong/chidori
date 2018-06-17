@@ -17,8 +17,8 @@ class Figures extends Component {
         this.getProduct();
     }
 
-    componentDidUpdate() {
-        timer();
+    componentWillUnmount() {
+        timer(0);
     }
 
     getProduct() {
@@ -37,6 +37,7 @@ class Figures extends Component {
                     this.setState({
                         figObject: json
                     });
+                    timer(1);
                 });
         }        
     }
