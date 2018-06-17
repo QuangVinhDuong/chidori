@@ -18,6 +18,8 @@ class ProductDetail extends Component {
         this.beautify = this.beautify.bind(this);
         
     }
+
+
     beautify(str) {
         
         var arr = str.split(',');
@@ -27,14 +29,13 @@ class ProductDetail extends Component {
         });
         this.setState({ description: res });
     }
+
+    
     componentDidMount() {
         this.getProductByID();
         
     }
     
-    // shouldComponentUpdate() {
-    //     this.getAuctionTicket();
-    // }
 
     componentDidUpdate() {
         bidBoxWork();                
@@ -55,8 +56,7 @@ class ProductDetail extends Component {
             });
     }
 
-    getProductByID() {
-        console.log(this.props);
+    getProductByID() {        
         const { id, type } = this.props.match.params;
         const obj = getFromStorage('login');
       
@@ -82,11 +82,7 @@ class ProductDetail extends Component {
         }        
     }
     
-    // onTextBoxChangeBidValue(event) {
-    //     this.setState({
-    //         bidValue: event.target.value
-    //     });
-    // }
+    
     render() {
         const arr = this.state.mainObject;
         const ticketArr = this.state.ticketObj;
@@ -100,15 +96,12 @@ class ProductDetail extends Component {
         const productDescriptionStyle = {
             "white-space" : "pre-line"
         }
-
-        // const currentDate = new Date();
-        // const datetime = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + "/" + currentDate.getFullYear() + " " + currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds();        
-        const des = this.state.description;
+                        
         return (
             <div className="box_shadow" style={divStyle}>
                 <div className="container">
                 {
-                    arr.map((item, index) => 
+                    arr.map((item) => 
                         <div className="grid-container" id="product-table">
                             
                             <div className="head" id="product-title">
