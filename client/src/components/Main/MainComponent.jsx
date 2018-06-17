@@ -21,21 +21,21 @@ import Sidebar from '../Admin/Sidebar';
 import TableProduct from '../Admin/TableProduct';
 import TableAuction from "../Admin/TableAuction";
 
-const UserRoute = ({ component: Component, username: Username, type: Type }) => (
-    <Route
-        render={
-            (props) => (
-                <React.Fragment>
-                    <Header username={Username} type={Type}/>
-                    <Characteristics />
-                    <Component {...props} />
-                    <Footer />
-                    <Copyright />
-                </React.Fragment>
-            )
-        }
-    />
-);
+const UserRoute = (Component, Username, Type) => {	
+	return (	
+						
+		(props) => (
+			<React.Fragment>
+				<Header username={Username} type={Type}/>
+				<Characteristics />
+				<Component {...props}/>
+				<Footer />
+				<Copyright />
+			</React.Fragment>
+		)
+		
+	)
+};
 
 const AdminRoute = ({ component: Component, username: Username, type: Type}) => (
     <Route
@@ -62,21 +62,22 @@ const AdminRoute = ({ component: Component, username: Username, type: Type}) => 
             )
         }
     />
+
 )
 
 class MainComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            accountType: 1
-        }
-    } 
-    componentDidMount() {
-        this.getType();
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			accountType: 1
+		}
+	} 
+	componentDidMount() {
+		this.getType();
+	}
 
-    getType() {
-        const obj = getFromStorage('login');
+	getType() {
+		const obj = getFromStorage('login');
 
         if (obj && obj.access_token) {
             const { access_token } = obj;
@@ -117,7 +118,34 @@ class MainComponent extends Component {
               </Switch>
             </React.Fragment>
           </Link>;
-    }
+    
+	}
+	
+	render() {
+		const type = this.state.accountType;
+		const username = this.props.username;        
+		return( 
+		<Link>
+			<React.Fragment>
+				<Switch>
+					<Route exact path="/" render={UserRoute(Home, username, type)} />
+					<Route path="/profile" render={UserRoute(Profile, username, type)} />
+					<Route path="/Figures" render={UserRoute(Figures, username, type)} />
+					<Route path="/Electronics" render={UserRoute(Electronics, username, type)} />
+					<Route path="/Computers" render={UserRoute(Computers, username, type)} />
+					<Route path="/Appliances" render={UserRoute(Appliances, username, type)} />
+					<Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, username, type)} />
+					<Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, username, type)} />
+					<Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, username, type)} />
+					{/* <Route path="/search/:keyword" type={t} username={u} component={Search} /> */}
+					<AdminRoute path="/admin" render={UserRoute(AdminComponent, username, type)} />
+					<Route path="/:wrong" component={ErrorComponent}/>
+				</Switch>
+			</React.Fragment>
+		</Link>
+		);
+	}
+
 }
 
 export default MainComponent;
