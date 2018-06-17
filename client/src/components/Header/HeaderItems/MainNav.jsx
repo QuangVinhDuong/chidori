@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './MainNav.css';
 import { NavLink } from "react-router-dom";
+import { stickyNav } from './script';
 
 class MainNav extends Component {
-    
+
+    componentDidMount() {
+        stickyNav();
+    }
+
     render() {
+
         return (
             <nav className="main_nav" id="navbar">
                 <div className="container">
