@@ -26,8 +26,12 @@ const AuctionSessionSchema = new mongoose.Schema({
         default: 0
     },
     status: {
-        type: Number,
+        type: Number, // 0: initial | 1: in process | 2: end
         default: 0
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 }, { collection: 'auction_session' });
 

@@ -61,14 +61,9 @@ class TopBar extends Component {
                                         }
                                         <div className="dropdown-divider"></div>
                                         <button className="btn btn-primary account" onClick={this.onLogOut}><b>Đăng xuất</b></button>
-                                        {/* <a className="dropdown-item" href="#">Đăng xuất</a> */}
                                     </div>
                                 </div>                              
-                                {/* <div className="top_bar_user">
-                                    <div className="user_icon"><img src="images/user.svg" alt=""/></div>
-                                    <div><button className="btn btnPrimary" type="button">{this.props.username}</button></div>
-                                    <div><button className="btn btnPrimary" onClick={this.onLogOut}>Thoát</button></div>
-                                </div> */}
+                                
                             </div>
                         </div>
                     </div>

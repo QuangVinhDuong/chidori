@@ -4,7 +4,7 @@ import {NavLink, Link, Redirect} from 'react-router-dom';
 class Sidebar extends Component {
 	render() {
 		const iconStyle = {
-			"vertical-align": "middle"
+			"verticalAlign": "middle"
 		}
 		return (
 			<div className="sidebar" data-color="blue" data-image="./assets/img/sidebar-5.jpg">

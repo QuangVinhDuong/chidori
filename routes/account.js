@@ -4,6 +4,9 @@ import { urlencoded, json } from "body-parser";
 // Import Models
 import Account from "../models/Account";
 import UserSession from "../models/UserSession";
+import AuctionTicket from "../models/AuctionTicket";
+import AuctionSession from "../models/AuctionSession";
+import AuctionTicketStatus from "../models/AuctionTicketStatus";
 
 // Setup Enviroment Variable
 const dotenv = require('dotenv');
@@ -145,14 +148,7 @@ router.post('/signup', (req, res, next) => {
         email,
         phone,
         address
-    } = body;
-
-    // const username = body.username;
-    // const password = body.password;
-    // const fullname = body.fullname;
-    // const email = body.email;
-    // const phone = body.phone;
-    // const address = body.address;    
+    } = body; 
 
     if (!username) {
         return res.json({
@@ -272,6 +268,181 @@ router.get('/getInfo/:username', checkAuth, (req, res, next) => {
             })
         }
     });
+})
+
+router.get('/getOrder/:username', checkAuth, (req, res, next) => {
+    const username = req.params.username;
+    //console.log(req.params.username);
+    var query = {
+        accountID: req.params.username,
+        status: 1
+    };
+    AuctionTicket.aggregate([
+        {
+            $match: query
+        },
+        {
+            $lookup: {
+                from: 'auction_session',
+                localField: 'sessionID',
+                foreignField: 'sessionID',
+                as: 'au'
+            }
+        },
+        {
+            $unwind: "$au"
+        },
+        {
+            $lookup: {
+                from: 'product',
+                localField: 'au.productID',
+                foreignField: '_id',
+                as: 'p'
+            }
+        },
+        {
+            $unwind: "$p"
+        },
+        {
+            $project: {
+                _id: 1,
+                sessionID: 1,
+                "au.currentPrice": 1,
+                "au.productID": 1,
+                "p.productName": 1,
+                "p.description": 1
+            }
+        }
+
+    ], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        //console.log(result);
+        return res.json(result);
+    });
+})
+
+router.get('/getOrderStatus/:username', checkAuth, (req, res, next) => {
+    var query = {
+        accountID: req.params.username,
+        status: { $in: [2, 3, 4, 5]}
+    }
+    AuctionTicket.aggregate([{
+            $match: query
+        },
+        {
+            $lookup: {
+                from: 'auction_ticket_status',
+                localField: 'status',
+                foreignField: 'statusID',
+                as: 'ats'
+            }
+        },
+        {
+            $unwind: "$ats"
+        },
+        {
+            $lookup: {
+                from: 'auction_session',
+                localField: 'sessionID',
+                foreignField: 'sessionID',
+                as: 'au'
+            }
+        },
+        {
+            $unwind: "$au"
+        },
+        {
+            $lookup: {
+                from: 'product',
+                localField: 'au.productID',
+                foreignField: '_id',
+                as: 'p'
+            }
+        },
+        {
+            $unwind: "$p"
+        },
+        {
+            $project: {
+                _id: 1,
+                sessionID: 1,
+                status: 1,
+                "ats.statusName": 1,
+                "au.currentPrice": 1,
+                "au.productID": 1,
+                "au.startTime": 1,
+                "p.productName": 1,
+                "p.description": 1
+            }
+        }
+
+    ], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        //console.log(result);
+        return res.json(result);
+    });
+})
+router.post('/updateOrder', checkAuth, (req, res, next) => {
+    //console.log(req.body);
+    if (req.body.getL.length != 0)
+        AuctionTicket.updateMany(
+            {
+                _id: { $in: req.body.getL }
+            }, 
+            {
+                $set: {
+                    status: 2
+                }
+            }, (err, result) => {
+                if (err) console.log(err);
+                else return res.json({
+                    success: true,
+                    count: result.nModified
+                });
+            }
+        )
+    if (req.body.delL.length != 0) {
+        AuctionTicket.updateMany(
+            {
+                _id: { $in: req.body.delL }
+            }, 
+            {
+                $set: {
+                    status: 3
+                }
+            }, (err, result) => {
+                if (err) console.log(err);
+                else return res.json({
+                    success: true,
+                    count: result.nModified
+                });
+            }
+        
+        )
+    }
+})
+router.post('/updateOrderStatus', checkAuth, (req, res, next) => {
+    //console.log(req.body);
+    if (req.body.list.length != 0)
+        AuctionTicket.updateMany({
+            _id: {
+                $in: req.body.list
+            }
+        }, {
+            $set: {
+                status: 3
+            }
+        }, (err, result) => {
+            if (err) console.log(err);
+            else return res.json({
+                success: true,
+                count: result.nModified
+            });
+        })
 })
 router.post('/update', checkAuth, (req, res, next) => {
     var set = {

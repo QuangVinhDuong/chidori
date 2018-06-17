@@ -13,11 +13,23 @@ class ProductDetail extends Component {
             mainObject: [],
             ticketObj: [],
             sessionID: '',
+            description: []
         }
+        this.beautify = this.beautify.bind(this);
+        
     }
-
+    beautify(str) {
+        
+        var arr = str.split(',');
+        var res = [];
+        arr.forEach(element => {
+            res += element + '\n';
+        });
+        this.setState({ description: res });
+    }
     componentDidMount() {
         this.getProductByID();
+        
     }
     
     // shouldComponentUpdate() {
@@ -47,10 +59,10 @@ class ProductDetail extends Component {
         console.log(this.props);
         const { id, type } = this.props.match.params;
         const obj = getFromStorage('login');
-
+      
         if (obj && obj.access_token) {
             const { access_token } = obj;
-            fetch('/product/getProductDetail/'+type+'/'+id, {
+            fetch('/product/getProductDetail/'+ type + '/' + id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,20 +72,21 @@ class ProductDetail extends Component {
                 .then(json => {                    
                     this.setState({
                         sessionID: json[0].p[0].sessionID,
-                        mainObject: json,                    
+                        mainObject: json,
+                        description: json[0].description                    
                     });
+                    this.beautify(this.state.description);
                     this.getAuctionTicket(access_token);
                     initTimer(1);
                 });
         }        
     }
-
+    
     // onTextBoxChangeBidValue(event) {
     //     this.setState({
     //         bidValue: event.target.value
     //     });
     // }
-
     render() {
         const arr = this.state.mainObject;
         const ticketArr = this.state.ticketObj;
@@ -84,9 +97,13 @@ class ProductDetail extends Component {
             paddingBottom: '50px',
         }
 
+        const productDescriptionStyle = {
+            "white-space" : "pre-line"
+        }
+
         // const currentDate = new Date();
         // const datetime = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + "/" + currentDate.getFullYear() + " " + currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds();        
-
+        const des = this.state.description;
         return (
             <div className="box_shadow" style={divStyle}>
                 <div className="container">
@@ -168,7 +185,7 @@ class ProductDetail extends Component {
                                                     <td>{item.bidTime}</td>
                                                 </tr>
                                             )
-                                            }
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -181,7 +198,7 @@ class ProductDetail extends Component {
                                 </div>
                                 <div id="product-description">
                                     <h2>Mô tả sản phẩm</h2>
-                                    <p>{item.description}</p>
+                                    <div style={productDescriptionStyle}>{this.state.description}</div>
                                 </div>
                             </div>
                         </div>

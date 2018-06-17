@@ -30,3 +30,17 @@
 .styles_modal__gNwvD {
 	
 }
+
+input:checked + .slider.round.del {
+	background-color: red;
+}
+
+.btn.btn-success:disabled,
+.btn.btn-success:disabled:hover {
+	background-color: green;
+}
+
+.header_search_input {
+	width: 100%;
+	text-align: left;
+}

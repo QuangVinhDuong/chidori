@@ -26,6 +26,7 @@ router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {
             $match: {
                 productType: type,
                 productID: id,
+                
             }
         },
         {
@@ -142,24 +143,4 @@ router.get('/search/:keyword', (req, res, next) => {
     })
 })
 
-router.get('/admin', (req, res, next) => {
-    Product.aggregate([
-        {
-            $lookup: 
-            {
-                from: 'auction_session',
-                localField: '_id',
-                foreignField: 'productID',
-                as: 'as'
-            }
-        }	
-    ], (err, r) => {
-        if (err) console.log(err);
-        else {
-            return res.json({
-                list: r
-            });
-        }
-    });
-})
 export default router;

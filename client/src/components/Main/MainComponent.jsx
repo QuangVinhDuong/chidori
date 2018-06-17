@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Link ,Route, HashRouter, Redirect,  Switch } from 'react-router-dom';
+import { BrowserRouter as Link ,Route,  Switch } from 'react-router-dom';
 import {getFromStorage} from '../../utils/storage';
 import Header from '../Header/HeaderComponent';
 import Footer from '../Footer/FooterComponent';
@@ -18,7 +18,6 @@ import ProductDetail from '../Product/ProductDetail';
 import ErrorComponent from '../404/ErrorComponent';
 import './MainComStyle.css';
 import AdminComponent from '../Admin/AdminComponent';
-import PopularCategoriesComponent from '../PopularCategories/PopularCategoriesComponent';
 
 const UserRoute = (Component, Username, Type) => {	
 	return (	

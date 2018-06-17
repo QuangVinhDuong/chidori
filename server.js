@@ -12,6 +12,7 @@ import account from "./routes/account";
 import productRoute from "./routes/productRoute";
 import auctionRoute from "./routes/auctionRoute";
 import bidRoute from "./routes/bidRoute";
+import admin from "./routes/admin";
 
 // Check database connection
 mongoose.connect('mongodb://localhost:27017/chidori')
@@ -45,6 +46,7 @@ app.use('/account', account);
 app.use('/product', productRoute);
 app.use('/auction', auctionRoute);
 app.use('/bid', bidRoute);
+app.use('/admin', admin);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
