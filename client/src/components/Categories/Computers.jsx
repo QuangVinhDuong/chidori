@@ -14,8 +14,8 @@ class Computers extends Component {
         this.getProduct();
     }
 
-    componentDidUpdate() {
-        timer();
+    componentWillUnmount() {
+        timer(0);
     }
 
     getProduct() {
@@ -34,6 +34,7 @@ class Computers extends Component {
                     this.setState({
                         mainData: json
                     });
+                    timer(1);
                 });
         }
     }
