@@ -57,90 +57,90 @@ router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {
     });
 });
 
-router.get('/getAllFigures', (req, res, next) => {
-    Product.find({
-        productType: 'Figures'
-    }, (err, products) => {
-        if (err) return next(err);
+// router.get('/getAllFigures', (req, res, next) => {
+//     Product.find({
+//         productType: 'Figures'
+//     }, (err, products) => {
+//         if (err) return next(err);
 
-        return res.json(products);
-    });
-});
+//         return res.json(products);
+//     });
+// });
 
-router.get('/getAllElectronics', (req, res, next) => {
-    Product.find({
-        productType: 'Electronics'
-    }, (err, products) => {
-        if (err) return next(err);
-        return res.json(products);
-    });
-});
+// router.get('/getAllElectronics', (req, res, next) => {
+//     Product.find({
+//         productType: 'Electronics'
+//     }, (err, products) => {
+//         if (err) return next(err);
+//         return res.json(products);
+//     });
+// });
 
-router.get('/getAllComputers', (req, res, next) => {
-    Product.find({
-        productType: 'Computers'
-    }, (err, products) => {
-        if (err) return next(err);
+// router.get('/getAllComputers', (req, res, next) => {
+//     Product.find({
+//         productType: 'Computers'
+//     }, (err, products) => {
+//         if (err) return next(err);
 
-        return res.json(products);
-    });
-});
+//         return res.json(products);
+//     });
+// });
 
-router.get('/getAllAppliances', (req, res, next) => {
-    Product.find({
-        productType: 'Appliances'
-    }, (err, products) => {
-        if (err) return next(err);
+// router.get('/getAllAppliances', (req, res, next) => {
+//     Product.find({
+//         productType: 'Appliances'
+//     }, (err, products) => {
+//         if (err) return next(err);
 
-        return res.json(products);
-    });
-});
+//         return res.json(products);
+//     });
+// });
 
-router.get('/getAllLuggageAndTravelGear', (req, res, next) => {
-    Product.find({
-        productType: 'Luggage & Travel Gear'
-    }, (err, products) => {
-        if (err) return next(err);
+// router.get('/getAllLuggageAndTravelGear', (req, res, next) => {
+//     Product.find({
+//         productType: 'Luggage & Travel Gear'
+//     }, (err, products) => {
+//         if (err) return next(err);
 
-        return res.json(products);
-    });
-});
+//         return res.json(products);
+//     });
+// });
 
-router.get('/getAllSportsAndOutdoors', (req, res, next) => {
-    Product.find({
-        productType: 'Sports & Outdoors'
-    }, (err, products) => {
-        if (err) return next(err);
+// router.get('/getAllSportsAndOutdoors', (req, res, next) => {
+//     Product.find({
+//         productType: 'Sports & Outdoors'
+//     }, (err, products) => {
+//         if (err) return next(err);
 
-        return res.json(products);
-    });
-});
+//         return res.json(products);
+//     });
+// });
 
-router.get('/search/:keyword', (req, res, next) => {
-    console.log(req.params);
-    var query = 
-    [
-        {
-            "productName": {
-                $regex: `.*${req.params.keyword}.`,
-                $options: "i"
-            }
-        },
-        {
-            "description": {
-                $regex: `.*${req.params.keyword}.`,
-                $options: "i"
-            }
-        }
-    ]
-    Product.find({"$or": query}, (err, p) => {
-        console.log(p.length);
-        if (err) console.log(err);
-        else return res.json({
-            count: p == [] ? "0" : p.length,
-            data: p
-        });
-    })
-})
+// router.get('/search/:keyword', (req, res, next) => {
+//     console.log(req.params);
+//     var query = 
+//     [
+//         {
+//             "productName": {
+//                 $regex: `.*${req.params.keyword}.`,
+//                 $options: "i"
+//             }
+//         },
+//         {
+//             "description": {
+//                 $regex: `.*${req.params.keyword}.`,
+//                 $options: "i"
+//             }
+//         }
+//     ]
+//     Product.find({"$or": query}, (err, p) => {
+//         console.log(p.length);
+//         if (err) console.log(err);
+//         else return res.json({
+//             count: p == [] ? "0" : p.length,
+//             data: p
+//         });
+//     })
+// })
 
 export default router;
