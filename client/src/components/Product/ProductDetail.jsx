@@ -5,7 +5,7 @@ import './custom_grid.css';
 
 import { getFromStorage } from '../../utils/storage';
 
-class FigureProduct extends Component {
+class ProductDetail extends Component {
     constructor(props) {
         super(props);
 
@@ -56,13 +56,10 @@ class FigureProduct extends Component {
     }
 
     getProductByID() {
-        var arr = window.location.pathname.split("/"); 
-        var type = arr[2];
-        var id = arr[3];
-
-        // const { id, type } = this.props.match.param;
+        console.log(this.props);
+        const { id, type } = this.props.match.params;
         const obj = getFromStorage('login');
-
+      
         if (obj && obj.access_token) {
             const { access_token } = obj;
             fetch('/product/getProductDetail/'+ type + '/' + id, {
@@ -72,7 +69,7 @@ class FigureProduct extends Component {
                     'Authorization': `Bearer ${access_token}`
                 }
             }).then(res => res.json())
-                .then(json => {
+                .then(json => {                    
                     this.setState({
                         sessionID: json[0].p[0].sessionID,
                         mainObject: json,
@@ -214,4 +211,4 @@ class FigureProduct extends Component {
     }
 }
 
-export default FigureProduct;
+export default ProductDetail;
