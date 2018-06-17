@@ -19,7 +19,6 @@ class ProductDetail extends Component {
         
     }
 
-
     beautify(str) {
         
         var arr = str.split(',');
@@ -29,18 +28,20 @@ class ProductDetail extends Component {
         });
         this.setState({ description: res });
     }
-
-    
+  
     componentDidMount() {
         this.getProductByID();
         
     }
     
-
     componentDidUpdate() {
         bidBoxWork();                
     }
     
+    componentWillUnmount() {
+        initTimer(0);
+    }
+
     getAuctionTicket(accessToken) {        
         fetch('/bid/getAuctionTicket/'+this.state.sessionID, {
             method: 'GET',
