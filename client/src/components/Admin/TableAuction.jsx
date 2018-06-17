@@ -10,9 +10,9 @@ class TableAuction extends Component {
 		this.state = {
 			list: [],
 			open: false,
+			checkType: 1, // 1 bắt đầu, 2 giao hàng
 			currentID: null,
 			modalType: 1, // 1 Thêm, 2 sửa
-			updateSessionID: null,
 			updateStartTime: null,
 			updateBidTime: null,
 			updateStatus: null,
@@ -21,7 +21,6 @@ class TableAuction extends Component {
 			productList: []
 		};
 	}
-	handleOnChangeSessionID = (e) => { this.setState({ updateSessionID: e.target.value});}
 	handleOnChangeProductID = (e) => { this.setState({ updateProductID: e.target.value});}
 	handleOnChangeStartTime = (e) => {this.setState({updateStartTime: e.target.value});}
 	handleOnChangeBidTime = (e) => {this.setState({updateBidTime: e.target.value});}
@@ -99,7 +98,6 @@ class TableAuction extends Component {
 				body: JSON.stringify({
 					key: ID,
 					val: [
-						this.state.updateSessionID,
 						this.state.updateStartTime,
 						this.state.updateBidTime,
 						this.state.updateStatus,
@@ -111,19 +109,85 @@ class TableAuction extends Component {
 				.then((res) => res.json())
 				.then((json) => {
 					if (json.success) {
-						//console.log(json);
-						if (this.state.modalType === 1) {
-							this.getAuction();
-						}
-						// else {
-						// 	var temp = JSON.parse(JSON.stringify(this.state.list));
-						// 	temp.forEach((i) => {
-						// 		if (i._id === ID) {
-						// 			(i.productName = this.state.updateName), (i.productType = this.state.updateType), (i.description = this.state.updateDesc), (i.productImage = this.state.updateLink);
-						// 		}
-						// 	});
-						// 	this.setState({ list: temp });
-						// }
+						this.getAuction();
+					} else {
+						alert("Xảy ra lỗi");
+					}
+				});
+		} 
+	}
+	handleModalYes = () => {
+		if (this.state.checkType === 3) {
+			this.deleteAU();
+		}
+		else {
+			this.beginAU();
+		}
+	}
+	deleteAU = () => {
+		const obj = getFromStorage('login');
+
+		if (obj && obj.access_token) {
+			var ID = this.state.currentID; // current row
+			var checkDisable = document.getElementById(`adel${ID}`);
+			const { access_token } = obj;
+			fetch("/admin/auction", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${access_token}`
+				},
+				body: JSON.stringify({
+					key: ID,
+					val: !checkDisable.checked
+				})
+			})
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.success) {
+						var temp = JSON.parse(JSON.stringify(this.state.list));
+						temp.forEach((i) => {
+							if (i._id === ID) {
+								i.isDeleted = !i.isDeleted;
+							}
+						});
+						this.setState({ list: temp });
+					} else {
+						alert("Xảy ra lỗi");
+					}
+				});
+		} 
+	}
+	beginAU = () => {
+		const obj = getFromStorage('login');
+
+		if (obj && obj.access_token) {
+			var ID = this.state.currentID; // current row
+			var checkBox = document.getElementById(`abeg${ID}`);
+			const { access_token } = obj;
+			fetch("/admin/beginAuction", {
+				method: "POST",	
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${access_token}`
+				},
+				body: JSON.stringify({
+					key: ID,
+					val: this.state.checkType
+				})
+			})
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.success) {
+						var temp = JSON.parse(JSON.stringify(this.state.list));
+						temp.forEach((i) => {
+							if (i._id === ID) {
+								i.status = 1;
+								i.aus.statusName = "Bắt đầu";
+							}
+						});
+						this.setState({ list: temp });
+						checkBox.checked = true;
 					} else {
 						alert("Xảy ra lỗi");
 					}
@@ -135,20 +199,48 @@ class TableAuction extends Component {
 			open: true, 
 			modalType: 1, 
 			currentID: "",
-			updateSessionID: "12",
-			updateStartTime: "12:12",
-			updateBidTime: "12:0",
+			updateStartTime: "2018-01-01T00:00:00.000",
+			updateBidTime: "00:00:00",
 			updateStatus: 0,
-			updateInitPrice: 1234,
+			updateInitPrice: 10000,
 			updateProductID: this.state.productList[0]._id // Mặc định là cái đầu tiên.
 		})
+	}
+	handleUpdate = (e) => {
+		if (e.target.id) {
+			var q = this.state.list.filter(i => {
+				return i._id === e.target.id.substr(4);
+			})[0];
+			this.setState({
+				modalType: 2,
+				currentID: q._id,
+				updateStartTime: q.startTime.slice(0, -1),
+				updateStatus: q.status,
+				updateBidTime: q.bidTime,
+				updateInitPrice: q.initPrice,
+				updateProductID: q.p._id
+			}, this.onOpenModal());
+		}
 	}
 	handleSubmit = () => {
 		this.submitAuctionSession();
 		this.onCloseModal();
 	}
+	handleCheckBegin = (e) => {
+		e.preventDefault();
+		this.setState({currentID: e.target.id.substr(4), checkType: 1});
+
+	}
+	handleDelivery = (e) => {
+		e.preventDefault();
+		//this.setState({ currentID: e.target.id.substr(4), checkType: 2 });
+	}
+	handleCheckDeleted = (e) => {
+		e.preventDefault();
+		this.setState({ currentID: e.target.id.substr(4), checkType: 3 });
+	}
 	validate = () => {
-		return (this.state.updateSessionID === "" || this.state.updateStartTime === "" || this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
+		return (this.state.updateStartTime === "" || this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
 	}
 	createForm = () => {
 		var t = this.state.productList;
@@ -156,14 +248,6 @@ class TableAuction extends Component {
           <div>
             <b><center><h2>{this.state.modalType === 1 ? "Thêm phiên đấu giá" : "Chỉnh sửa thông tin phiên đấu giá"}</h2></center></b>
             <form className="col-sm-12" onSubmit={(e) => {e.preventDefault();}}>
-              <div className="form-group row col-sm-12">
-                <label htmlFor="productName" className="col-sm-2 col-form-label">Mã phiên</label>
-                <div className="col-sm-8">
-                  <input type="number" className="form-control" required value={this.state.updateSessionID} onChange={this.handleOnChangeSessionID}/>
-                </div>
-                <div className={this.state.updateSessionID === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.updateSessionID === "" ? "Đừng bỏ trống" : "✔"}</div>
-              </div>
-
               <div className="form-group row col-sm-12">
                 <label htmlFor="productName" className="col-sm-2 col-form-label">Tên sản phẩm</label>
                 <div className="col-sm-8">
@@ -186,7 +270,7 @@ class TableAuction extends Component {
               <div className="form-group row col-sm-12">
                 <label htmlFor="productName" className="col-sm-2 col-form-label">Thời lượng</label>
                 <div className="col-sm-8">
-                  <input type="time" className="form-control" required value={this.state.updateBidTime} onChange={this.handleOnChangeBidTime}/>
+                  <input type="text" className="form-control" required value={this.state.updateBidTime} onChange={this.handleOnChangeBidTime}/>
                 </div>
                 <div className={this.state.updateBidTime === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.updateBidTime === "" ? "Đừng bỏ trống" : "✔"}</div>
               </div>
@@ -218,26 +302,27 @@ class TableAuction extends Component {
 
 				{/* Modal confirm */}
 				<div className="modal fade" id="modalConfirmDelete" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div className="modal-dialog modal-sm modal-notify modal-danger" role="document">
+					<div className="modal-dialog modal-sm modal-notify modal-primary" role="document">
 						<div className="modal-content text-center">
 						<div className="modal-header d-flex justify-content-center">
-							<p className="heading">Xác nhận thay đổi thông tin</p>
+							<p className="heading">{this.state.checkType === 1 ? "Bắt đầu phiên đấu? (Không thể hoàn tác)" : "Xác nhận thay đổi?"}</p>
 						</div>
 						<div className="modal-body">
 							<i className="fa fa-times fa-4x animated rotateIn" id="modal-x-icon" />
 						</div>
 						<div className="modal-footer flex-center">
-							<button className="btn btn-outline-danger" onClick={this.handleModalYes} data-dismiss="modal">
+							<button className="btn btn-outline-primary" onClick={this.handleModalYes} data-dismiss="modal">
 								Xác nhận
 							</button>
-							<button className="btn btn-danger waves-effect" data-dismiss="modal">
-								Hủy
+							<button className="btn btn-primary waves-effect" data-dismiss="modal">
+								Thoát
 							</button>
 						</div>
 						</div>
 					</div>
 				</div>
 				{/* Modal confirm */}
+
 				<div className="card table-with-switches" style={tableStyle}>
 					<div className="card-header ">
 						<h2 className="card-title">
@@ -264,10 +349,10 @@ class TableAuction extends Component {
 									<th className="text-center">Thời gian bắt đầu</th>
 									<th className="text-center">Thời gian đấu</th>
 									<th className="text-center">Trạng thái</th>
-									<th className="text-center">Giá hiện tại</th>
 									<th className="text-center">Giá khởi đầu</th>
+									<th className="text-center">Giá hiện tại</th>
 									<th className="text-center">Thao tác</th>
-									<th className="text-center">Hủy phiên</th>
+									<th className="text-center">Bắt đầu</th>
 									<th className="text-center">Vô hiệu hóa</th>
 								</tr>
 							</thead>
@@ -285,20 +370,23 @@ class TableAuction extends Component {
 									<td className="text-center">{item.initPrice}</td>
 									<td className="text-center">{item.currentPrice}</td>
 									<td className="td-actions text-center ">
-										<button className="btn btn-success" tooltip="Xem/Sửa" disabled={item.isDeleted} id={`afix${item._id}`} onClick={this.handleUpdate} tooltip-position="buttom">
+										<button className="btn btn-success" tooltip="Xem/Sửa" disabled={!item.isDeleted ? item.status === 0 ? null : "disabled" : "disabled"} id={`afix${item._id}`} onClick={this.handleUpdate} tooltip-position="buttom">
 											<i className="nc-icon nc-settings-tool-66" />
+										</button>
+										<button className="btn btn-primary" tooltip="Giao hàng" disabled={!item.isDeleted ? item.status === 1 ? null : "disabled" : "disabled"} id={`asen${item._id}`} onClick={this.handleDelivery} tooltip-position="buttom">
+											<i className="nc-icon nc-delivery-fast" />
 										</button>
 									</td>
 									<td className="text-center ">
 										<label className="switch">
-											<input type="checkbox" onClick={this.handleCheckDisable} disabled={!item.isDeleted ? item.status === 1 ? null : "disabled" : "disabled" } data-toggle ="modal" data-target="#modalConfirmDelete" id={`adis${item._id}`} on checked={item.isDisabled} />
-											<span className="slider round disable" />
+											<input type="checkbox" onClick={this.handleCheckBegin} disabled={!item.isDeleted ? item.status === 0 ? null : "disabled" : "disabled" } data-toggle ="modal" data-target="#modalConfirmDelete" id={`abeg${item._id}`} on checked={item.status === 1 ? true : null} />
+											<span className="slider round" />
 										</label>
 									</td>
 									<td className="text-center ">
 										<label className="switch">
-											<input type="checkbox" onClick={this.handleCheckDeleted} id={`adel${item._id}`} on checked={item.isDeleted}/>
-											<span className="slider round disable" data-toggle="modal" data-target="#modalConfirmDelete" />
+											<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleted} id={`adel${item._id}`} on checked={item.isDeleted} data-toggle="modal" data-target="#modalConfirmDelete" disabled={item.status === 1 ? "disabled" : null}/>
+											<span className="slider round disable" />
 										</label>
 									</td>
 								</tr>)}

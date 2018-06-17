@@ -54,9 +54,7 @@
 }
 
 #modal-x-icon {
-	margin: -10px;
-	color: red;
-	margin-right: 21px;
+	display: none;
 }
 
 #btnAdd {
@@ -142,6 +140,9 @@ td.longtext {
 .btn.btn-danger:disabled:hover,
 input:checked+.slider.round.disable {
 	background: #FB404B;
+}
+input:checked+.slider.round.delivery {
+	background: green;
 }
 .btn.btn-primary:disabled,
 .btn.btn-primary:disabled:hover {

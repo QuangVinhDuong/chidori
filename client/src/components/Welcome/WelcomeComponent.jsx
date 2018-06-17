@@ -233,7 +233,9 @@ export default class WelcomeComponent extends Component {
         } = this.state;
 
         if (isLoading) {
-            return (<LoadingComponent/>);
+            return (
+            <LoadingComponent/>
+        );
         }
         if (!token) {
             return (                

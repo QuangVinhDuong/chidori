@@ -46,7 +46,7 @@ router.delete('/deleteProduct', checkAuth, (req, res, next) => {
 	}, (err, count) => {
 		if (err) return next(err);
 		else {
-			console.log(count);
+			//console.log(count);
 			return res.json({ success: count.nModified == 1 ? true : false });
 		}
 	})
@@ -108,8 +108,7 @@ router.get('/productListAU', checkAuth, (req, res, next) => {
 	})
 }) 
 
-router.get('/auction', checkAuth, (req, res, next) => {
-	
+router.get('/auction', checkAuth, (req, res, next) => {	
 	AuctionSession.aggregate([
 		{
 			$lookup: {
@@ -144,6 +143,7 @@ router.get('/auction', checkAuth, (req, res, next) => {
 				bidTime: 1,
 				isDeleted: 1,
 				"p.productName": 1,
+				"p._id": 1,
 				"aus.statusName": 1
 			}
 		}], (err, out) => {
@@ -154,50 +154,106 @@ router.get('/auction', checkAuth, (req, res, next) => {
 			}
 		}
 	)
-	
-	// au.save((err, data) => {
-	// 	if (err) return next(err);
-	// 	else {
-	// 		console.log(data);
-	// 		return res.json({
-	// 			success: data != null ? true : false
-	// 		});
-	// 	}
-	// })
 })
 router.post('/auction', checkAuth, (req, res, next) => {
-	console.log(req.body);
+	const MongoClient = require('mongodb').MongoClient;
+	const url = "mongodb://localhost:27017/";
+	var ObjectId = mongoose.Types.ObjectId;
+	MongoClient.connect(url, function (err, db) {
+		if (err) throw err;
+		var dbo = db.db("chidori");
+		dbo.collection("auction_session").count((err, c) => {
+			if (err) return next(err);
+			else {
+				dbo.collection("auction_session").insert({
+					"sessionID": c++, // mã phiên tăng tự động
+					"productID": new ObjectId(req.body.val[4]),
+					"startTime": req.body.val[0],
+					"bidTime": req.body.val[1],
+					"initPrice": req.body.val[3],
+					"currentPrice": req.body.val[3],
+					"status": req.body.val[2],
+					"isDeleted": false
+				}, (err, n) => {
+					if (err) console.log(err);
+					else {
+						db.close();
+						return res.json({
+							success: n.result.ok == 1 ? true : false
+						});
+					}
+				});
+				db.close();
+			}
+		})
+	})
+})
+router.post('/beginAuction', checkAuth, (req, res, next) => {
+	//console.log(req.body);
+	AuctionSession.updateOne({
+		"_id": req.body.key
+	}, {
+		$set: {
+			status: 1
+		}
+	}, (err, count) => {
+		if (err) return next(err);
+		else {
+			//console.log(count);
+			return res.json({
+				success: count.nModified == 1 ? true : false
+			});
+		}
+	})
+})
+router.put('/auction', checkAuth, (req, res, next) => {
+	//console.log(req.body);
 	const MongoClient = require('mongodb').MongoClient;
 	const url = "mongodb://localhost:27017/";
 	var ObjectId = mongoose.Types.ObjectId;
 	MongoClient.connect(url, function (err, db) {
 		if (err) throw err;
 		var dbo = db.db("chidori")
-
-		dbo.collection("auction_session").insert({
-			"sessionID": req.body.val[0],
-			"productID": new ObjectId(req.body.val[5]),
-			"startTime": req.body.val[1],
-			"bidTime": req.body.val[2],
-			"initPrice": req.body.val[4],
-			"currentPrice": req.body.val[4],
-			"status": req.body.val[3],
-			"isDeleted": false
-		}, (err, n) => {
-			if (err) console.log(err);
-			else {
-				//console.log(n);
-				return res.json({
-					success: n.result.ok == 1 ? true : false
-				});
+		var newData = {
+			"productID": new ObjectId(req.body.val[4]),
+			"startTime": req.body.val[0],
+			"bidTime": req.body.val[1],
+			"initPrice": req.body.val[3],
+			"status": req.body.val[2]
+		}
+		
+		var query = {
+			_id: new ObjectId(req.body.key)
+		};
+		dbo.collection("auction_session").findOneAndUpdate(
+			query, {$set: newData}, (err, out) => {
+				if (err) console.log(err);
+				else {
+					//console.log(out.ok);
+					db.close();
+					return res.json({
+						success: out.ok == 1 ? true : false
+					});
+				}
 			}
-		})
+		)
 	});
 })
-router.put('/auction', checkAuth, (req, res, next) => {
-	console.log("put");
-})
 router.delete('/auction', checkAuth, (req, res, next) => {
-	console.log("delete");
+	AuctionSession.updateOne({
+		"_id": req.body.key
+	}, {
+		$set: {
+			isDeleted: req.body.val
+		}
+	}, (err, count) => {
+		if (err) return next(err);
+		else {
+			//console.log(count);
+			return res.json({
+				success: count.nModified == 1 ? true : false
+			});
+		}
+	});
 })
 export default router;

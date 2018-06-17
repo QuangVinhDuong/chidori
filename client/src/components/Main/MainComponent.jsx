@@ -22,9 +22,8 @@ import TableProduct from '../Admin/TableProduct';
 import TableAuction from "../Admin/TableAuction";
 
 const UserRoute = (Component, Username, Type) => {	
-	return (	
-						
-		(props) => (
+	return (
+        (props) => (
 			<React.Fragment>
 				<Header username={Username} type={Type}/>
 				<Characteristics />
@@ -99,53 +98,47 @@ class MainComponent extends Component {
     render() {
         const t = this.state.accountType;
         const u = this.props.username;
-        return <Link>
-            <React.Fragment>
-              <Switch>
-                <UserRoute exact path="/" type={t} username={u} component={Home} />
-                <UserRoute path="/profile" type={t} username={u} component={Profile} />
-                <UserRoute path="/Figures" type={t} username={u} component={Figures} />
-                <UserRoute path="/Electronics" type={t} username={u} component={Electronics} />
-                <UserRoute path="/Computers" type={t} username={u} component={Computers} />
-                <UserRoute path="/Appliances" type={t} username={u} component={Appliances} />
-                <UserRoute path="/LuggageAndTravelGear" type={t} username={u} component={LuggageAndTravelGear} />
-                <UserRoute path="/SportsAndOutdoors" type={t} username={u} component={SportsAndOutdoors} />
-                <UserRoute path="/Auction/:type/:id" type={t} username={u} component={ProductDetail} />
-                <UserRoute path="/search/:keyword" type={t} username={u} component={Search} />
-                <AdminRoute exact path="/admin" type={t} username={u} component={TableProduct} />
-                <AdminRoute path="/admin/auction" type={t} username={u} component={TableAuction} />
-                <Route path="/:wrong" component={ErrorComponent}/>
-              </Switch>
-            </React.Fragment>
-          </Link>;
-    
+        return (
+            // <Link>
+            //     <React.Fragment>
+            //     <Switch>
+            //         <UserRoute exact path="/" type={t} username={u} component={Home} />
+            //         <UserRoute path="/profile" type={t} username={u} component={Profile} />
+            //         <UserRoute path="/Figures" type={t} username={u} component={Figures} />
+            //         <UserRoute path="/Electronics" type={t} username={u} component={Electronics} />
+            //         <UserRoute path="/Computers" type={t} username={u} component={Computers} />
+            //         <UserRoute path="/Appliances" type={t} username={u} component={Appliances} />
+            //         <UserRoute path="/LuggageAndTravelGear" type={t} username={u} component={LuggageAndTravelGear} />
+            //         <UserRoute path="/SportsAndOutdoors" type={t} username={u} component={SportsAndOutdoors} />
+            //         <UserRoute path="/Auction/:type/:id" type={t} username={u} component={ProductDetail} />
+            //         <UserRoute path="/search/:keyword" type={t} username={u} component={Search} />
+            //         <AdminRoute exact path="/admin" type={t} username={u} component={TableProduct} />
+            //         <AdminRoute path="/admin/auction" type={t} username={u} component={TableAuction} />
+            //         <Route path="/:wrong" component={ErrorComponent}/>
+            //     </Switch>
+            //     </React.Fragment>
+            // </Link>
+            <Link>
+                <React.Fragment>
+                    <Switch>
+                        <Route exact path="/" render={UserRoute(Home, u, t)} />
+                        <Route path="/profile" render={UserRoute(Profile, u, t)} />
+                        <Route path="/Figures" render={UserRoute(Figures, u, t)} />
+                        <Route path="/Electronics" render={UserRoute(Electronics, u, t)} />
+                        <Route path="/Computers" render={UserRoute(Computers, u, t)} />
+                        <Route path="/Appliances" render={UserRoute(Appliances, u, t)} />
+                        <Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, u, t)} />
+                        <Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, u, t)} />
+                        <Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, u, t)} />
+                        {/* <Route path="/search/:keyword" type={t} u={u} component={Search} /> */}
+                        <AdminRoute exact path="/admin" component={TableProduct} username={u} type={t} />
+                        <AdminRoute path="/admin/auction" component={TableAuction} username={u} type={t} />
+                        <Route path="/:wrong" component={ErrorComponent} />
+                    </Switch>
+                </React.Fragment>
+            </Link>
+            );
 	}
-	
-	render() {
-		const type = this.state.accountType;
-		const username = this.props.username;        
-		return( 
-		<Link>
-			<React.Fragment>
-				<Switch>
-					<Route exact path="/" render={UserRoute(Home, username, type)} />
-					<Route path="/profile" render={UserRoute(Profile, username, type)} />
-					<Route path="/Figures" render={UserRoute(Figures, username, type)} />
-					<Route path="/Electronics" render={UserRoute(Electronics, username, type)} />
-					<Route path="/Computers" render={UserRoute(Computers, username, type)} />
-					<Route path="/Appliances" render={UserRoute(Appliances, username, type)} />
-					<Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, username, type)} />
-					<Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, username, type)} />
-					<Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, username, type)} />
-					{/* <Route path="/search/:keyword" type={t} username={u} component={Search} /> */}
-					<AdminRoute path="/admin" render={UserRoute(AdminComponent, username, type)} />
-					<Route path="/:wrong" component={ErrorComponent}/>
-				</Switch>
-			</React.Fragment>
-		</Link>
-		);
-	}
-
 }
 
 export default MainComponent;
