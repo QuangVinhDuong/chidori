@@ -294,4 +294,52 @@ router.get('/ticket', checkAuth, (req, res, next) => {
 		}
 	});
 });
+
+router.post('/delivery', checkAuth, (req, res, next) => {
+	AuctionTicket.updateOne(
+		{
+			_id: req.body.key
+		}, 
+		{
+			$set: {
+				status: 4
+			}
+		}, (err, result) => {
+			if (err) console.log(err);
+			else return res.json({
+				success: true,
+				count: result.nModified
+			});
+		}
+	);
+});
+
+router.delete('/ticket', checkAuth, (req, res, next) => {
+	const MongoClient = require('mongodb').MongoClient;
+	const url = "mongodb://localhost:27017/";
+	var ObjectId = mongoose.Types.ObjectId;
+	MongoClient.connect(url, function (err, db) {
+		if (err) throw err;
+		var dbo = db.db("chidori")
+		
+		var query = {
+			_id: new ObjectId(req.body.key)
+		};
+		dbo.collection("auction_ticket").findOneAndUpdate(
+			query, {
+				$set: {isDeleted: req.body.val}
+			}, (err, out) => {
+				if (err) console.log(err);
+				else {
+					//console.log(out.ok);
+					db.close();
+					return res.json({
+						success: out.ok == 1 ? true : false
+					});
+				}
+			}
+		)
+	});
+});
+
 export default router;

@@ -75,7 +75,6 @@ class Profile extends Component {
             })
                 .then((res) => res.json())
                 .then((json) => {
-                    console.log(json);
                     this.setState({orderList: json});
                 });
         }
@@ -247,7 +246,7 @@ class Profile extends Component {
                             <a role="button" className="nav-link active" data-toggle="tab" href="#home">Thông tin</a>
                         </li>
                         <li className="nav-item">
-                            <a role="button" className="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
+                            <a role="button" onClick={()=>{this.getOrderStatus()}} className="nav-link" data-toggle="tab" href="#menu1">Đơn hàng</a>
                         </li>       
                     </ul>
 

@@ -11,7 +11,7 @@ class TableAuction extends Component {
 			list: [],
 			open: false,
 			openDelivery: false,
-			checkType: 1, // 1 bắt đầu, 2 giao hàng
+			checkType: 1, // 1 bắt đầu, 
 			currentID: null,
 			modalType: 1, // 1 Thêm, 2 sửa
 			updateStartTime: null,
@@ -19,7 +19,9 @@ class TableAuction extends Component {
 			updateStatus: null,
 			updateInitPrice: null,
 			updateProductID: null,
+			openConfirm: false,
 			productList: [],
+			msg: "",
 			currentTicket: {
 				accountID: "",
 				ats: {
@@ -44,6 +46,8 @@ class TableAuction extends Component {
 	onCloseModal = () => { this.setState({ open: false }); };
 	onCloseDelivery = () => {this.setState({openDelivery: false}); };
 	onOpenDeliveryBox = () => { this.setState({openDelivery: true}); };
+	onCloseConfirm = () => {this.setState({openConfirm: false});};
+	onOpenConfirm = () => {this.setState({openConfirm: true});};
 	handleSearch = () => {
 		var input, filter, table, tr, td, i;
 		input = document.getElementById("searchInput");
@@ -174,12 +178,34 @@ class TableAuction extends Component {
 		} 
 	}
 	handleModalYes = () => {
-		if (this.state.checkType === 3) {
-			this.deleteAU();
+		switch (this.state.checkType) {
+			case 1:
+				this.beginAU();
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				this.deleteAU();
+				break;
+			case 4:
+				this.deliver();
+				this.onCloseConfirm();
+				break;
+			case 5:
+				this.deleteAT();
+				this.onCloseConfirm();
+				break;
+		
+			default:
+				break;
 		}
-		else {
-			this.beginAU();
-		}
+		// if (this.state.checkType === 3) {
+		// 	this.deleteAU();
+		// }
+		// else {
+		// 	this.beginAU();
+		// }
 	}
 	deleteAU = () => {
 		const obj = getFromStorage('login');
@@ -214,6 +240,41 @@ class TableAuction extends Component {
 					}
 				});
 		} 
+	}
+	deleteAT = () => {
+		const obj = getFromStorage('login');
+
+		if (obj && obj.access_token) {
+			var ID = this.state.currentID; // current row
+			var checkDisable = document.getElementById(`dele${ID}`);
+			const { access_token } = obj;
+			fetch("/admin/ticket", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${access_token}`
+				},
+				body: JSON.stringify({
+					key: ID,
+					val: !checkDisable.checked
+				})
+			})
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.success) {
+						var temp = JSON.parse(JSON.stringify(this.state.ticketList));
+						temp.forEach((i) => {
+							if (i._id === ID) {
+								i.isDeleted = !i.isDeleted;
+								this.setState({currentTicket: i});
+							}
+						});
+						this.setState({ ticketList: temp });
+					} else {
+						alert("Xảy ra lỗi");
+					}
+				});
+		} 	
 	}
 	beginAU = () => {
 		const obj = getFromStorage('login');
@@ -251,6 +312,42 @@ class TableAuction extends Component {
 				});
 		} 
 	}
+	deliver = () => {
+		const obj = getFromStorage('login');
+
+		if (obj && obj.access_token) {
+			var ID = this.state.currentID; // current row
+			var checkBox = document.getElementById(`deli${ID}`);
+			const { access_token } = obj;
+			fetch("/admin/delivery", {
+				method: "POST",	
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${access_token}`
+				},
+				body: JSON.stringify({
+					key: ID
+				})
+			})
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.success) {
+						var temp = JSON.parse(JSON.stringify(this.state.ticketList));
+						temp.forEach((i) => {
+							if (i._id === ID) {
+								i.status = 4;
+								i.ats.statusName = "Đang giao hàng";
+							}
+						});
+						this.setState({ ticketList: temp });
+						checkBox.checked = true;
+						checkBox.disabled = true;
+					} else {
+						alert("Xảy ra lỗi");
+					}
+				});
+		} 
+	}
 	handleAdd = () => {
 		this.setState({
 			open: true, 
@@ -262,6 +359,17 @@ class TableAuction extends Component {
 			updateInitPrice: 10000,
 			updateProductID: this.state.productList[0]._id // Mặc định là cái đầu tiên.
 		})
+	}
+	handleCheckDeleteAT = (e) => {
+		e.preventDefault();
+		if (e.target.id) {
+			this.setState({
+				currentID: e.target.id.substr(4),
+				checkType: 5,
+				msg: "Vô hiệu hóa phiếu này?",
+				openConfirm: true
+			})
+		}
 	}
 	handleUpdate = (e) => {
 		if (e.target.id) {
@@ -285,15 +393,23 @@ class TableAuction extends Component {
 	}
 	handleCheckBegin = (e) => {
 		e.preventDefault();
-		this.setState({currentID: e.target.id.substr(4), checkType: 1});
+		this.setState({currentID: e.target.id.substr(4), checkType: 1, msg: "Bắt đầu phiên đấu? (không thề hoàn tác)"});
 	}
 	
 	handleCheckDeleted = (e) => {
 		e.preventDefault();
-		this.setState({ currentID: e.target.id.substr(4), checkType: 3 });
+		this.setState({ currentID: e.target.id.substr(4), checkType: 3, msg: "Vô hiệu hóa phiên này?" });
 	}
 	handleCheckDelivery = (e) => {
-
+		e.preventDefault();
+		if (e.target.id) {
+			this.setState({ 
+				currentID: e.target.id.substr(4), 
+				checkType: 4, 
+				msg: "Tiến hành giao hàng? (không thề hoàn tác)",
+				openConfirm: true
+			});
+		}
 	}
 	validate = () => {
 		return (this.state.updateStartTime === "" || this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
@@ -373,13 +489,13 @@ class TableAuction extends Component {
 								<td className="text-center">{ct.ats.statusName}</td>
 								<td className="text-center ">
 									<label className="switch">
-										<input type="checkbox" onClick={this.handleCheckDelivery} disabled={(!ct.isDeleted || ct.status === 3) ? null : "disabled"} data-toggle="modal" data-target="#modalConfirmDelete" id={`deli${ct._id}`} on checked={ct.status === 4 ? true : null} />
+										<input type="checkbox" onClick={this.handleCheckDelivery} disabled={(!ct.isDeleted && ct.status === 2) ? null : "disabled"} id={`deli${ct._id}`} on checked={ct.status === 4 ? true : null} />
 										<span className="slider round delivery" />
 									</label>
 								</td>
 								<td className="text-center ">
 									<label className="switch">
-										<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleted} id={`dele${ct._id}`} on checked={ct.isDeleted} data-toggle="modal" data-target="#modalConfirmDelete" disabled={(ct.status !== 5 || ct.status !== 6) ? "disabled" : null} />
+										<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleteAT} id={`dele${ct._id}`} on checked={ct.isDeleted} disabled={(ct.status !== 3 && ct.status !== 5 && ct.status !== 6) ? "disabled" : null} />
 										<span className="slider round disable" />
 									</label>
 								</td>
@@ -389,6 +505,18 @@ class TableAuction extends Component {
 				</div>
 			</div>
 		);
+	}
+	
+	confirmBox = () => {
+		return <div>
+			<div className="asdasads">
+				<p className="heading">{this.state.msg}</p>
+			</div>
+			<br/><br/>
+			<div>
+				<button className="btn btn-primary" onClick={this.handleModalYes}>Xác nhận</button><button className="btn btn-danger" onClick={this.onCloseConfirm}>Hủy</button>
+			</div>
+		</div>;
 	}
 	render() {
 		const tableStyle = {
@@ -405,6 +533,9 @@ class TableAuction extends Component {
 				</Modal>
 				<Modal open={this.state.openDelivery} onClose={this.onCloseDelivery} center>
 					{this.deliveryBox()}
+				</Modal>
+				<Modal open={this.state.openConfirm} onClose={this.onCloseConfirm} center>
+					{this.confirmBox()}
 				</Modal>
 
 				{/* Modal confirm */}

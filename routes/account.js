@@ -382,31 +382,29 @@ router.post('/updateOrder', checkAuth, (req, res, next) => {
                 }
             }, (err, result) => {
                 if (err) console.log(err);
-                else return res.json({
-                    success: true,
-                    count: result.nModified
-                });
+                else {
+                    if (req.body.delL.length != 0) {
+                        AuctionTicket.updateMany({
+                                _id: {
+                                    $in: req.body.delL
+                                }
+                            }, {
+                                $set: {
+                                    status: 3
+                                }
+                            }, (err, result2) => {
+                                if (err) console.log(err);
+                                else return res.json({
+                                    success: true
+                                });
+                            }
+
+                        )
+                    }
+                } 
             }
         )
-    if (req.body.delL.length != 0) {
-        AuctionTicket.updateMany(
-            {
-                _id: { $in: req.body.delL }
-            }, 
-            {
-                $set: {
-                    status: 3
-                }
-            }, (err, result) => {
-                if (err) console.log(err);
-                else return res.json({
-                    success: true,
-                    count: result.nModified
-                });
-            }
-        
-        )
-    }
+    
 })
 router.post('/updateOrderStatus', checkAuth, (req, res, next) => {
     //console.log(req.body);
