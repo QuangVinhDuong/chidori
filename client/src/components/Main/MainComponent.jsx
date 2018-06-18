@@ -70,7 +70,8 @@ class MainComponent extends Component {
 		this.state = {
 			accountType: 1
 		}
-	} 
+	}
+	 
 	componentDidMount() {
 		this.getType();
 	}

@@ -4,6 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { timer } from '../../utils/timer';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 
+
+//const {clearInterval, setInterval} = window;
+
 class BestSellerComponent extends Component {
     constructor(props) {
         super(props);
@@ -12,15 +15,15 @@ class BestSellerComponent extends Component {
             obj: []
         }
     }
-
+    
     componentDidMount() {
-        //timer();
         this.getAllAuction();
     }
 
-    componentDidUpdate() {
-        timer();
+    componentWillUnmount() {
+        timer(0);
     }
+
 
     getAllAuction() {
         const obj = getFromStorage('login');
@@ -35,9 +38,9 @@ class BestSellerComponent extends Component {
                 } 
             })
             .then(res => res.json())
-            .then(json => {
-                console.log(json);
+            .then(json => {                
                 this.setState({obj: json});
+                timer(1);
             });
         }         
     }

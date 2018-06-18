@@ -15,9 +15,10 @@ class Electronics extends Component {
         this.getProduct();
     }
 
-    componentDidUpdate() {
-        timer();
+    componentWillUnmount() {
+        timer(0);
     }
+
     getProduct() {
         const obj = getFromStorage('login');
 
@@ -34,6 +35,7 @@ class Electronics extends Component {
                     this.setState({
                         mainData: json
                     });
+                    timer(1);
                 });
         }
     }

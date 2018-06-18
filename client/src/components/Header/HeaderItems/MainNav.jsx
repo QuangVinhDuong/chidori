@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './MainNav.css';
 import { NavLink } from "react-router-dom";
+import { stickyNav } from './script';
 
 class MainNav extends Component {
-    
+
+    componentDidMount() {
+        stickyNav();
+    }
+
     render() {
+
         return (
             <nav className="main_nav" id="navbar">
                 <div className="container">
@@ -13,7 +19,7 @@ class MainNav extends Component {
                             <div className="main_nav_content d-flex flex-row">
                                 <div className="main_nav_menu ml-auto">
                                     <ul className="standard_dropdown main_nav_dropdown">
-                                        <li><NavLink to="/"><i className="fas fa-chevron-down"></i>Trang chủ</NavLink></li>
+                                        <li><NavLink to="/">Trang chủ</NavLink></li>
                                         <li><NavLink to="/Figures">Figures</NavLink></li>
                                         <li><NavLink to="/Electronics">Đồ điện tử</NavLink></li>
                                         <li><NavLink to="/Computers">Linh kiện máy tính</NavLink></li>
