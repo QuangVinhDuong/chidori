@@ -10,6 +10,7 @@ class TableAuction extends Component {
 		this.state = {
 			list: [],
 			open: false,
+			openDelivery: false,
 			checkType: 1, // 1 bắt đầu, 2 giao hàng
 			currentID: null,
 			modalType: 1, // 1 Thêm, 2 sửa
@@ -18,16 +19,31 @@ class TableAuction extends Component {
 			updateStatus: null,
 			updateInitPrice: null,
 			updateProductID: null,
-			productList: []
+			productList: [],
+			currentTicket: {
+				accountID: "",
+				ats: {
+					statusName: ""
+				},
+				bidValue: 0,
+				sessionID: "",
+				status: 0,
+				_id: "",
+				isDeleted: false
+			},
+			ticketList: []
+
 		};
 	}
 	handleOnChangeProductID = (e) => { this.setState({ updateProductID: e.target.value});}
 	handleOnChangeStartTime = (e) => {this.setState({updateStartTime: e.target.value});}
 	handleOnChangeBidTime = (e) => {this.setState({updateBidTime: e.target.value});}
 	handleOnChangeInitPrice = (e) => {this.setState({updateInitPrice: e.target.value});}
-	componentDidMount() { this.getAuction(); this.getProduct(); }
+	componentDidMount() { this.getAuction(); this.getProduct(); this.getTicket(); }
 	onOpenModal = () => { this.setState({ open: true }); };
 	onCloseModal = () => { this.setState({ open: false }); };
+	onCloseDelivery = () => {this.setState({openDelivery: false}); };
+	onOpenDeliveryBox = () => { this.setState({openDelivery: true}); };
 	handleSearch = () => {
 		var input, filter, table, tr, td, i;
 		input = document.getElementById("searchInput");
@@ -48,7 +64,6 @@ class TableAuction extends Component {
 
 	getAuction() {
 		const obj = getFromStorage("login");
-
 		if (obj && obj.access_token) {
 			const { access_token } = obj;
 			fetch("/admin/auction", {
@@ -61,7 +76,7 @@ class TableAuction extends Component {
 			.then((res) => res.json())
 			.then((json) => {
 				this.setState({ list: json.list });
-				console.log(this.state.list);
+				//console.log(this.state.list);
 			});
 		}
 	}
@@ -83,6 +98,48 @@ class TableAuction extends Component {
 				//console.log(this.state.productList);
 			});
 		}
+	}
+	getTicket() {
+		const obj = getFromStorage("login");
+		if (obj && obj.access_token) {
+			const { access_token } = obj;
+			fetch("/admin/ticket/", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${access_token}`
+				}
+			})
+				.then((res) => res.json())
+				.then((json) => {	
+					this.setState({
+						ticketList: json.tlist
+					});
+					console.log(this.state.ticketList);
+				});
+		}
+	} 
+	handleDelivery = (e) => {
+		e.preventDefault();
+		if (e.target.id) {
+			var sID = this.state.list.filter(i => {
+				return i._id === e.target.id.substr(4);
+			})[0].sessionID; // get current row' sessionID
+			var ct = this.state.ticketList.filter(j => {
+				return j.sessionID === sID; 
+			})[0]; // Find ticket that matches current row' session ID.
+			if (ct) {
+				this.setState({
+					currentID: e.target.id.substr(4),
+					currentTicket: ct
+				}, this.onOpenDeliveryBox());
+			}
+			else {
+				alert("Lỗi ngoài ý muốn xảy ra");
+			}
+				
+		}
+		//this.setState({ currentID: e.target.id.substr(4), checkType: 2 });
 	}
 	submitAuctionSession() {
 		const obj = getFromStorage('login');
@@ -229,15 +286,14 @@ class TableAuction extends Component {
 	handleCheckBegin = (e) => {
 		e.preventDefault();
 		this.setState({currentID: e.target.id.substr(4), checkType: 1});
-
 	}
-	handleDelivery = (e) => {
-		e.preventDefault();
-		//this.setState({ currentID: e.target.id.substr(4), checkType: 2 });
-	}
+	
 	handleCheckDeleted = (e) => {
 		e.preventDefault();
 		this.setState({ currentID: e.target.id.substr(4), checkType: 3 });
+	}
+	handleCheckDelivery = (e) => {
+
 	}
 	validate = () => {
 		return (this.state.updateStartTime === "" || this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
@@ -286,6 +342,54 @@ class TableAuction extends Component {
           </div>
         );
 	}
+	deliveryBox = () => {
+		const tableStyle = {
+			verticalAlign: "middle",
+			textAlign: "center"
+		};
+		var ct = this.state.currentTicket;
+		return (
+			<div className="card table-with-switches" style={tableStyle}>
+				<div className="card-header ">
+					<h2 className="card-title">
+						<b>Quá trình giao hàng</b>
+					</h2>					
+				</div>
+				<div className="card-body table-full-width">	
+					<table className="table table-striped table-bordered" id="mainDataTable">
+						<thead>
+							<tr>
+								<th className="text-center">Tài khoản thắng phiên</th>
+								<th className="text-center">Số tiền phải trả</th>
+								<th className="text-center">Trạng thái</th>
+								<th className="text-center">Giao hàng</th>
+								<th className="text-center">Vô hiệu hóa</th>
+							</tr>
+						</thead>
+						<tbody id="mainDataTableBody">
+							<tr>
+								<td className="text-center">{ct.accountID}</td>
+								<td className="text-center">{ct.bidValue}</td>
+								<td className="text-center">{ct.ats.statusName}</td>
+								<td className="text-center ">
+									<label className="switch">
+										<input type="checkbox" onClick={this.handleCheckDelivery} disabled={(!ct.isDeleted || ct.status === 3) ? null : "disabled"} data-toggle="modal" data-target="#modalConfirmDelete" id={`deli${ct._id}`} on checked={ct.status === 4 ? true : null} />
+										<span className="slider round delivery" />
+									</label>
+								</td>
+								<td className="text-center ">
+									<label className="switch">
+										<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleted} id={`dele${ct._id}`} on checked={ct.isDeleted} data-toggle="modal" data-target="#modalConfirmDelete" disabled={(ct.status !== 5 || ct.status !== 6) ? "disabled" : null} />
+										<span className="slider round disable" />
+									</label>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		);
+	}
 	render() {
 		const tableStyle = {
 			verticalAlign: "middle",
@@ -298,6 +402,9 @@ class TableAuction extends Component {
 			<div className="col-md-12">
 				<Modal open={this.state.open} onClose={this.onCloseModal} center>
 					{this.createForm()}
+				</Modal>
+				<Modal open={this.state.openDelivery} onClose={this.onCloseDelivery} center>
+					{this.deliveryBox()}
 				</Modal>
 
 				{/* Modal confirm */}
@@ -373,7 +480,7 @@ class TableAuction extends Component {
 										<button className="btn btn-success" tooltip="Xem/Sửa" disabled={!item.isDeleted ? item.status === 0 ? null : "disabled" : "disabled"} id={`afix${item._id}`} onClick={this.handleUpdate} tooltip-position="buttom">
 											<i className="nc-icon nc-settings-tool-66" />
 										</button>
-										<button className="btn btn-primary" tooltip="Giao hàng" disabled={!item.isDeleted ? item.status === 1 ? null : "disabled" : "disabled"} id={`asen${item._id}`} onClick={this.handleDelivery} tooltip-position="buttom">
+										<button className="btn btn-primary" tooltip="Giao hàng" disabled={!item.isDeleted ? item.status === -1 ? null : "disabled" : "disabled"} id={`asen${item._id}`} onClick={this.handleDelivery} tooltip-position="buttom">
 											<i className="nc-icon nc-delivery-fast" />
 										</button>
 									</td>

@@ -33,7 +33,7 @@ router.get('/getProduct', checkAuth, (req, res, next) => {
 			});
 		}
 	});
-})
+});
 
 router.delete('/deleteProduct', checkAuth, (req, res, next) => {
 	//console.log(req.body.val);
@@ -50,7 +50,7 @@ router.delete('/deleteProduct', checkAuth, (req, res, next) => {
 			return res.json({ success: count.nModified == 1 ? true : false });
 		}
 	})
-})
+});
 
 router.put('/updateProduct', checkAuth, (req, res, next) => {
 	console.log(req.body);
@@ -72,7 +72,7 @@ router.put('/updateProduct', checkAuth, (req, res, next) => {
 			});
 		}
 	})
-})
+});
 
 router.post('/addProduct', checkAuth, (req, res, next) => {
 	//console.log(req.body);
@@ -106,7 +106,7 @@ router.get('/productListAU', checkAuth, (req, res, next) => {
 		} 
 
 	})
-}) 
+});
 
 router.get('/auction', checkAuth, (req, res, next) => {	
 	AuctionSession.aggregate([
@@ -154,7 +154,7 @@ router.get('/auction', checkAuth, (req, res, next) => {
 			}
 		}
 	)
-})
+});
 router.post('/auction', checkAuth, (req, res, next) => {
 	const MongoClient = require('mongodb').MongoClient;
 	const url = "mongodb://localhost:27017/";
@@ -187,7 +187,7 @@ router.post('/auction', checkAuth, (req, res, next) => {
 			}
 		})
 	})
-})
+});
 router.post('/beginAuction', checkAuth, (req, res, next) => {
 	//console.log(req.body);
 	AuctionSession.updateOne({
@@ -205,7 +205,7 @@ router.post('/beginAuction', checkAuth, (req, res, next) => {
 			});
 		}
 	})
-})
+});
 router.put('/auction', checkAuth, (req, res, next) => {
 	//console.log(req.body);
 	const MongoClient = require('mongodb').MongoClient;
@@ -238,7 +238,7 @@ router.put('/auction', checkAuth, (req, res, next) => {
 			}
 		)
 	});
-})
+});
 router.delete('/auction', checkAuth, (req, res, next) => {
 	AuctionSession.updateOne({
 		"_id": req.body.key
@@ -255,5 +255,43 @@ router.delete('/auction', checkAuth, (req, res, next) => {
 			});
 		}
 	});
-})
+});
+router.get('/ticket', checkAuth, (req, res, next) => {
+	AuctionTicket.aggregate([
+		{
+			$match: {
+				status: {$in: [1, 2, 3, 4, 5, 6]}
+			}
+		},
+		{
+			$lookup: {
+				from: "auction_ticket_status",
+				localField: "status",
+				foreignField: "statusID",
+				as: 'ats'
+			}
+		},
+		{
+			$unwind: "$ats"
+		},
+		{
+			$project: {
+				_id: 1,
+				accountID: 1,
+				bidValue: 1,
+				sessionID: 1,
+				status: 1,
+				"ats.statusName": 1,
+				isDeleted: 1
+			}
+		}], (err, out) => {
+		if (err) return next(err);
+		else {
+			return res.json({
+				success: true,
+				tlist: out
+			});
+		}
+	});
+});
 export default router;
