@@ -38,9 +38,11 @@ class BestSellerComponent extends Component {
                 } 
             })
             .then(res => res.json())
-            .then(json => {                
-                this.setState({obj: json});
-                timer(1);
+            .then(json => {
+                if (json.length >= 1) {
+                    this.setState({obj: json});
+                    timer(1, json[0].sessionID);
+                }                
             });
         }         
     }
