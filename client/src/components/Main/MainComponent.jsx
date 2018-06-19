@@ -36,33 +36,30 @@ const UserRoute = (Component, Username, Type) => {
 	)
 };
 
-const AdminRoute = ({ component: Component, username: Username, type: Type}) => (
-    <Route
-        render={
-            (props) => (
-                Type === 0 ? (
-                    <React.Fragment>
-                        <div className="wrapper">
-                            <Sidebar />
-                            <div className="main-panel">
-                                <div className="content">
-                                    <div className="container-fluid">
-                                        <div className="row">
-                                            <Component username={Username} {...props} />
-                                        </div>
+const AdminRoute = (Component, Username, Type) => {
+    return (
+        (props) => (
+            Type === 0 ? (
+                <React.Fragment>
+                    <div className="wrapper">
+                        <Sidebar />
+                        <div className="main-panel">
+                            <div className="content">
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <Component username={Username} {...props} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </React.Fragment>
-                ) : (
-                    <ErrorComponent message="Đây là khu vực của admin, bạn không được phép truy cập!"/>
-                )
+                    </div>
+                </React.Fragment>
+            ) : (
+                <ErrorComponent message="Đây là khu vực của admin, bạn không được phép truy cập!"/>
             )
-        }
-    />
-
-)
+        )
+    )
+};
 
 class MainComponent extends Component {
 	constructor(props) {
@@ -132,8 +129,10 @@ class MainComponent extends Component {
                         <Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, u, t)} />
                         <Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, u, t)} />
                         {/* <Route path="/search/:keyword" type={t} u={u} component={Search} /> */}
-                        <AdminRoute exact path="/admin" component={TableProduct} username={u} type={t} />
-                        <AdminRoute path="/admin/auction" component={TableAuction} username={u} type={t} />
+                        {/* <AdminRoute exact path="/admin" component={TableProduct} username={u} type={t} />
+                        <AdminRoute path="/admin/auction" component={TableAuction} username={u} type={t} /> */}
+                        <Route exact path="/admin" render={AdminRoute(TableProduct, u, t)} />
+                        <Route exact path="/admin/auction" render={AdminRoute(TableAuction, u, t)} />
                         <Route path="/:wrong" component={ErrorComponent} />
                     </Switch>
                 </React.Fragment>
