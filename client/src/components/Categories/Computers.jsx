@@ -31,10 +31,12 @@ class Computers extends Component {
                 }
             }).then(res => res.json())
                 .then(json => {
-                    this.setState({
-                        mainData: json
-                    });
-                    timer(1);
+                    if (json.length >= 1) {
+                        this.setState({
+                            mainData: json
+                        });
+                        timer(1, json[0].p[0].sessionID);
+                    }                    
                 });
         }
     }
@@ -83,7 +85,7 @@ class Computers extends Component {
                                     <a href="#">Item {index}</a>
                                 </div>
                                 <div className="bestsellers_price">
-                                    {item.p[0].initPrice} VND
+                                    {item.p[0].currentPrice} VND
                                 </div>
                                 <div className="deals_timer_content ml-auto">
                                     <div
