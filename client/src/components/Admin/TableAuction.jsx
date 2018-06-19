@@ -14,7 +14,6 @@ class TableAuction extends Component {
 			checkType: 1, // 1 bắt đầu, 
 			currentID: null,
 			modalType: 1, // 1 Thêm, 2 sửa
-			updateStartTime: null,
 			updateBidTime: null,
 			updateStatus: null,
 			updateInitPrice: null,
@@ -38,7 +37,6 @@ class TableAuction extends Component {
 		};
 	}
 	handleOnChangeProductID = (e) => { this.setState({ updateProductID: e.target.value});}
-	handleOnChangeStartTime = (e) => {this.setState({updateStartTime: e.target.value});}
 	handleOnChangeBidTime = (e) => {this.setState({updateBidTime: e.target.value});}
 	handleOnChangeInitPrice = (e) => {this.setState({updateInitPrice: e.target.value});}
 	componentDidMount() { this.getAuction(); this.getProduct(); this.getTicket(); }
@@ -159,7 +157,6 @@ class TableAuction extends Component {
 				body: JSON.stringify({
 					key: ID,
 					val: [
-						this.state.updateStartTime,
 						this.state.updateBidTime,
 						this.state.updateStatus,
 						this.state.updateInitPrice,
@@ -297,14 +294,7 @@ class TableAuction extends Component {
 				.then((res) => res.json())
 				.then((json) => {
 					if (json.success) {
-						var temp = JSON.parse(JSON.stringify(this.state.list));
-						temp.forEach((i) => {
-							if (i._id === ID) {
-								i.status = 1;
-								i.aus.statusName = "Bắt đầu";
-							}
-						});
-						this.setState({ list: temp });
+						this.getAuction();
 						checkBox.checked = true;
 					} else {
 						alert("Xảy ra lỗi");
@@ -353,7 +343,6 @@ class TableAuction extends Component {
 			open: true, 
 			modalType: 1, 
 			currentID: "",
-			updateStartTime: "2018-01-01T00:00:00.000",
 			updateBidTime: "00:00:00",
 			updateStatus: 0,
 			updateInitPrice: 10000,
@@ -379,7 +368,6 @@ class TableAuction extends Component {
 			this.setState({
 				modalType: 2,
 				currentID: q._id,
-				updateStartTime: q.startTime.slice(0, -1),
 				updateStatus: q.status,
 				updateBidTime: q.bidTime,
 				updateInitPrice: q.initPrice,
@@ -412,7 +400,7 @@ class TableAuction extends Component {
 		}
 	}
 	validate = () => {
-		return (this.state.updateStartTime === "" || this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
+		return (this.state.updateBidTime === "" || this.state.updateStatus === "" | this.state.updateInitPrice === "" || this.state.updateProductID === "");
 	}
 	createForm = () => {
 		var t = this.state.productList;
@@ -431,13 +419,6 @@ class TableAuction extends Component {
 					}
                   </select>
                 </div>
-              </div>
-              <div className="form-group row col-sm-12">
-                <label htmlFor="productName" className="col-sm-2 col-form-label">Thời gian đấu</label>
-                <div className="col-sm-8">
-                  <input type="datetime-local" className="form-control" required value={this.state.updateStartTime} onChange={this.handleOnChangeStartTime}/>
-                </div>
-                <div className={this.state.updateStartTime === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.updateStartTime === "" ? "Đừng bỏ trống" : "✔"}</div>
               </div>
               <div className="form-group row col-sm-12">
                 <label htmlFor="productName" className="col-sm-2 col-form-label">Thời lượng</label>

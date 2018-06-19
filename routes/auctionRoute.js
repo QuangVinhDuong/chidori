@@ -17,7 +17,7 @@ router.get('/getAllAuctionSession', checkAuth, (req, res, next) => {
     AuctionSession.aggregate([
         {
             $match: {
-                status: 0 // code ở đây cần chỉnh
+                status: 1 // code ở đây cần chỉnh
             }
         },
         {
@@ -86,7 +86,7 @@ function getAuctionByProductType(type, res, next) {
         {
             $match: {
                 // Code ở đây cần chỉnh
-                "p.status" : 0 // 0: đang đấu | -1: kết thúc.
+                "p.status" : 1 // 0: đang đấu | -1: kết thúc.
             }
         }
         

@@ -166,13 +166,13 @@ router.post('/auction', checkAuth, (req, res, next) => {
 			if (err) return next(err);
 			else {
 				dbo.collection("auction_session").insert({
-					"sessionID": c++, // mã phiên tăng tự động
-					"productID": new ObjectId(req.body.val[4]),
-					"startTime": req.body.val[0],
-					"bidTime": req.body.val[1],
-					"initPrice": req.body.val[3],
-					"currentPrice": req.body.val[3],
-					"status": req.body.val[2],
+					"sessionID": ++c, // mã phiên tăng tự động
+					"productID": new ObjectId(req.body.val[3]),
+					"startTime": "",
+					"bidTime": req.body.val[0],
+					"initPrice": req.body.val[2],
+					"currentPrice": req.body.val[2],
+					"status": req.body.val[1],
 					"isDeleted": false
 				}, (err, n) => {
 					if (err) console.log(err);
@@ -194,7 +194,8 @@ router.post('/beginAuction', checkAuth, (req, res, next) => {
 		"_id": req.body.key
 	}, {
 		$set: {
-			status: 1
+			status: 1,
+			startTime: Date.now()
 		}
 	}, (err, count) => {
 		if (err) return next(err);
@@ -215,11 +216,11 @@ router.put('/auction', checkAuth, (req, res, next) => {
 		if (err) throw err;
 		var dbo = db.db("chidori")
 		var newData = {
-			"productID": new ObjectId(req.body.val[4]),
-			"startTime": req.body.val[0],
-			"bidTime": req.body.val[1],
-			"initPrice": req.body.val[3],
-			"status": req.body.val[2]
+			"bidTime": req.body.val[0],
+			"status": req.body.val[1],
+			"initPrice": req.body.val[2],
+			"currentPrice": req.body.val[2],
+			"productID": new ObjectId(req.body.val[3])
 		}
 		
 		var query = {
