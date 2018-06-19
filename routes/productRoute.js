@@ -38,7 +38,8 @@ router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {
                 description: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
-                "p.currentPrice": 1
+                "p.currentPrice": 1,
+                "p.status": 1
             }
         }
     ], (err, result) => {

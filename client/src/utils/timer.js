@@ -2,9 +2,9 @@ import $ from 'jquery';
 
 var intervalID = null;
 
-export function timer(flag) {
+export function timer(flag, sessionID = null) {
     if (flag === 1) {
-        doTimer();    
+        doTimer(sessionID);    
     }                                
     else if(flag === 0) {
 		//console.log(intervalID);
@@ -14,7 +14,23 @@ export function timer(flag) {
     }                       	    
 }
 
-function doTimer() {
+function updateStatus(sessionID) {
+	var obj = JSON.parse(localStorage.getItem("login"));
+
+	if (obj && obj.access_token && sessionID) {
+		const { access_token } = obj;		
+		$.ajax({
+			method: 'PUT',
+			beforeSend: function(req) {
+				req.setRequestHeader("Authorization", `Bearer ${access_token}`);
+			},
+			url: '/auction/updateStatusAuctionSession',
+			data: { ssID: sessionID }
+		});
+	}	
+}
+
+function doTimer(sessionID) {
 		
 	if($('.bestsellers_item').length)
 	{
@@ -54,6 +70,7 @@ function doTimer() {
 				if (hours === 0 && minutes === 0 && seconds === 0) {
 					clearInterval(intervalID);
 					timer.remove();
+					updateStatus(sessionID);
 				}
 
 				if (seconds === 0 && minutes > 0) {

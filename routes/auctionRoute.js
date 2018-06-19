@@ -13,6 +13,25 @@ app.use(urlencoded({'extended': 'false'}));
 app.use(json());
 
 
+router.put('/updateStatusAuctionSession', checkAuth, (req, res, next) => {
+    AuctionSession.updateOne(
+        {
+            sessionID: req.body.ssID
+        },
+        {
+            $set: {
+                status: 2
+            }
+        },
+        (err, count) => {
+            if (err) return next(err);
+            return res.json({
+                success: count.nModified == 1 ? true : false
+            });
+        }
+    );
+});
+
 router.get('/getAllAuctionSession', checkAuth, (req, res, next) => {
     AuctionSession.aggregate([
         {
@@ -79,7 +98,7 @@ function getAuctionByProductType(type, res, next) {
                 productImage: 1,
                 "p.sessionID": 1,
                 "p.bidTime": 1,
-                "p.initPrice": 1,
+                "p.currentPrice": 1,
                 "p.status": 1
             }
         },
