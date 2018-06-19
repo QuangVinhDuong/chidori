@@ -26,23 +26,6 @@ const ObjectId = require('mongoose').Types.ObjectId;
 app.use(urlencoded({'extended': 'false'}));
 app.use(json());
 
-
-/* GET ALL ACCOUNT */
-// router.get('/', (req, res, next) => {
-//     Account.find((err, post) => {
-//         if (err) return next(err);
-//         res.json(post);
-//     });
-// });
-
-/* GET SINGLE ACCOUNT BY ID */
-// router.get('/:id', (req, res, next) => {
-//     Account.findById(req.params.id, (err, post) => {
-//         if (err) return next(err);
-//         res.json(post);
-//     });
-// });
-
 /* VERIFY */
 router.get('/verify', (req, res, next) => {
     const { query } = req;
@@ -399,31 +382,29 @@ router.post('/updateOrder', checkAuth, (req, res, next) => {
                 }
             }, (err, result) => {
                 if (err) console.log(err);
-                else return res.json({
-                    success: true,
-                    count: result.nModified
-                });
+                else {
+                    if (req.body.delL.length != 0) {
+                        AuctionTicket.updateMany({
+                                _id: {
+                                    $in: req.body.delL
+                                }
+                            }, {
+                                $set: {
+                                    status: 3
+                                }
+                            }, (err, result2) => {
+                                if (err) console.log(err);
+                                else return res.json({
+                                    success: true
+                                });
+                            }
+
+                        )
+                    }
+                } 
             }
         )
-    if (req.body.delL.length != 0) {
-        AuctionTicket.updateMany(
-            {
-                _id: { $in: req.body.delL }
-            }, 
-            {
-                $set: {
-                    status: 3
-                }
-            }, (err, result) => {
-                if (err) console.log(err);
-                else return res.json({
-                    success: true,
-                    count: result.nModified
-                });
-            }
-        
-        )
-    }
+    
 })
 router.post('/updateOrderStatus', checkAuth, (req, res, next) => {
     //console.log(req.body);
@@ -490,21 +471,4 @@ router.get('/gettype/:username', checkAuth, (req, res, next) => {
     })
 })
 
-/* UPDATE ACCOUNT */
-// router.put('/:id', (req, res, next) => {
-//     Account.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
-//         if (err) return next(err);
-//         res.json(post);
-//     });
-// });
-
-/* DELETE ACCOUNT */
-// router.delete('/:id', (req, res, next) => {
-//     Account.findByIdAndRemove(req.params.id, req.body, (err, post) => {
-//         if (err) return next(err);
-//         res.json(post);
-//     });
-// });
-
-//export default router;
 export default router;

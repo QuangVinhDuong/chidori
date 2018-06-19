@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-
+var ObjectId = require('mongodb').ObjectID;
 const AuctionSessionSchema = new mongoose.Schema({
     sessionID: {
         type: String,
         default: ''
     },
     productID: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         default: ''
     },
     startTime: {
