@@ -78,7 +78,7 @@ class ProductDetail extends Component {
                     });
                     this.beautify(this.state.description);
                     this.getAuctionTicket(access_token);
-                    initTimer(1);
+                    initTimer(1, json[0].p[0].sessionID);
                 });
         }        
     }
@@ -120,7 +120,7 @@ class ProductDetail extends Component {
                                     <span id="end"></span>
                                     <div className="bestsellers_item">
                                         <div className="deals_timer_content ml-auto">
-                                            <div className="deals_timer_box clearfix" data-target-time={item.p[0].bidTime}>
+                                            <div className="deals_timer_box clearfix" data-target-time={(item.p[0].status === 1) ? item.p[0].bidTime : "00:00:00"}>
                                                 <div className="deals_timer_unit">
                                                     <div id="deals_timer1_hr" className="deals_timer_hr"></div>
                                                     <span>hours</span>
