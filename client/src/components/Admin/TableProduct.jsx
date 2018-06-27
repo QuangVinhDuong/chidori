@@ -353,8 +353,8 @@ class TableProduct extends Component {
                     </td>
                     <td className="text-center longtext">
                       
-                      <a href={item.productImage} target="_blank">
-                        <img src={item.productImage} alt="" width="50px" height="50px" />
+                      <a href={`http://localhost:3000/${item.productImage}`} target="_blank">
+                        <img src={`http://localhost:3000/${item.productImage}`} alt="" width="50px" height="50px" />
                       </a>
                     </td>
                     <td className="td-actions text-center ">
