@@ -370,7 +370,6 @@ router.get('/getOrderStatus/:username', checkAuth, (req, res, next) => {
     });
 })
 router.post('/updateOrder', checkAuth, (req, res, next) => {
-    //console.log(req.body);
     if (req.body.getL.length != 0)
         AuctionTicket.updateMany(
             {
@@ -400,6 +399,11 @@ router.post('/updateOrder', checkAuth, (req, res, next) => {
                             }
 
                         )
+                    }
+                    else {
+                        return res.json({
+                            success: true
+                        });
                     }
                 } 
             }
