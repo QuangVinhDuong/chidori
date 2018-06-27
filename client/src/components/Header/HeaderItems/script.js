@@ -6,8 +6,6 @@ export function stickyNav() {
     
     $(window).scroll(function() {        
         var top = $(window).scrollTop();
-        console.log('sticky: '+sticky);         
-        console.log('top: '+top);
         if (top >= sticky) {
             navbar.addClass('sticky');
         }
