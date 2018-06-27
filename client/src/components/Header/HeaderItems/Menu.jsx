@@ -15,7 +15,7 @@ class Menu extends Component {
                                         <input type="search" required="required" className="page_menu_search_input" placeholder="Search for products..."/>
                                     </form>
                                 </div>
-                                <ul className="page_menu_nav">                               
+                                {/* <ul className="page_menu_nav">                               
                                     <li className="page_menu_item">
                                         <a href="#">Home<i className="fa fa-angle-down"></i></a>
                                     </li>
@@ -57,7 +57,7 @@ class Menu extends Component {
                                     </li>
                                     <li className="page_menu_item"><a href="blog.html">blog<i className="fa fa-angle-down"></i></a></li>
                                     <li className="page_menu_item"><a href="contact.html">contact<i className="fa fa-angle-down"></i></a></li>
-                                </ul>
+                                </ul> */}
                                 
                                 <div className="menu_contact">
                                     <div className="menu_contact_item"><div className="menu_contact_icon"><img src="images/phone_white.png" alt=""/></div>+38 068 005 3570</div>
