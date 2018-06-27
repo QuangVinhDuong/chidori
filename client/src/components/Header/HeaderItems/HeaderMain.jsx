@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import Modal from 'react-responsive-modal';
-import { Link, Redirect, NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './HeaderMain.css';
 import {getFromStorage} from '../../../utils/storage';
 import ReactOverflowTooltip from 'react-overflow-tooltip';
@@ -19,7 +19,13 @@ class HeaderMain extends Component {
       this.handleChangeSearch = this.handleChangeSearch.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.getCartList = this.getCartList.bind(this);
-      
+      this.handleGet = this.handleGet.bind(this);
+      this.handleDel = this.handleDel.bind(this);
+      this.handleConfirm = this.handleConfirm.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.handleChangeSearch = this.handleChangeSearch.bind(this);
+      this.onOpenModal = this.onOpenModal.bind(this);
+      this.onCloseModal = this.onCloseModal.bind(this);
   }
 
   componentDidMount() {
@@ -84,8 +90,6 @@ class HeaderMain extends Component {
 
   handleConfirm = (e) => {
     e.preventDefault();
-    // console.log(this.state.getList);
-    // console.log(this.state.delList);
     const obj = getFromStorage('login');
 
     if (obj && obj.access_token) {
@@ -147,7 +151,7 @@ class HeaderMain extends Component {
                   <tbody>
                     {
                       arr.map((item, index) => (
-                        <tr>
+                        <tr key={item._id}>
                           <td className="text-center">{item.sessionID}</td>
                           <td className="text-center longtext" >
                             <ReactOverflowTooltip title={item.p.productName}>
@@ -195,20 +199,20 @@ class HeaderMain extends Component {
 
                 {/*Search*/}
                 <div className="col-lg-8 col-12 order-lg-2 order-3 text-lg-left text-right">
-                  <div className="header_search">
+                  {/* <div className="header_search">
                     <div className="header_search_content">
                       <div className="header_search_form_container">
                         <form className="header_search_form clearfix" onSubmit={this.handleSearch}>
                           <input type="search" required className="header_search_input" placeholder="Tìm sản phẩm..." value={this.state.search} onChange={this.handleChangeSearch} />
 
                           <button type="submit" className="header_search_button trans_300" value="Submit">
-                            <i className={this.state.search == "" ? "fa fa-search on" : "off"} />
-                            {/* <Redirect className={this.state.search == "" ? "off" : "on"} to={`/search/${this.state.link}`}><i className="fa fa-search"></i></Redirect> */}
+                            <i className={this.state.search === "" ? "fa fa-search on" : "off"} />
+                            
                           </button>
                         </form>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/*Wishlist*/}
