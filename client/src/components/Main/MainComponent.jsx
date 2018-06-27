@@ -13,14 +13,15 @@ import Computers from '../Categories/Computers';
 import Appliances from '../Categories/Appliances';
 import LuggageAndTravelGear from '../Categories/LuggageAndTravelGear';
 import SportsAndOutdoors from '../Categories/SportsAndOutdoors';
-import Search from '../Categories/Search';
 import ProductDetail from '../Product/ProductDetail';
 import ErrorComponent from '../404/ErrorComponent';
 import './MainComStyle.css';
 import Sidebar from '../Admin/Sidebar';
 import TableProduct from '../Admin/TableProduct';
 import TableAuction from "../Admin/TableAuction";
-
+import '../Admin/assets/css/light-bootstrap-dashboard.css';
+import TableUser from '../Admin/TableUser';
+import TableParameters from '../Admin/TableParameters';
 const UserRoute = (Component, Username, Type) => {	
 	return (
         (props) => (
@@ -97,25 +98,6 @@ class MainComponent extends Component {
         const t = this.state.accountType;
         const u = this.props.username;
         return (
-            // <Link>
-            //     <React.Fragment>
-            //     <Switch>
-            //         <UserRoute exact path="/" type={t} username={u} component={Home} />
-            //         <UserRoute path="/profile" type={t} username={u} component={Profile} />
-            //         <UserRoute path="/Figures" type={t} username={u} component={Figures} />
-            //         <UserRoute path="/Electronics" type={t} username={u} component={Electronics} />
-            //         <UserRoute path="/Computers" type={t} username={u} component={Computers} />
-            //         <UserRoute path="/Appliances" type={t} username={u} component={Appliances} />
-            //         <UserRoute path="/LuggageAndTravelGear" type={t} username={u} component={LuggageAndTravelGear} />
-            //         <UserRoute path="/SportsAndOutdoors" type={t} username={u} component={SportsAndOutdoors} />
-            //         <UserRoute path="/Auction/:type/:id" type={t} username={u} component={ProductDetail} />
-            //         <UserRoute path="/search/:keyword" type={t} username={u} component={Search} />
-            //         <AdminRoute exact path="/admin" type={t} username={u} component={TableProduct} />
-            //         <AdminRoute path="/admin/auction" type={t} username={u} component={TableAuction} />
-            //         <Route path="/:wrong" component={ErrorComponent}/>
-            //     </Switch>
-            //     </React.Fragment>
-            // </Link>
             <Link>
                 <React.Fragment>
                     <Switch>
@@ -128,11 +110,10 @@ class MainComponent extends Component {
                         <Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, u, t)} />
                         <Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, u, t)} />
                         <Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, u, t)} />
-                        {/* <Route path="/search/:keyword" type={t} u={u} component={Search} /> */}
-                        {/* <AdminRoute exact path="/admin" component={TableProduct} username={u} type={t} />
-                        <AdminRoute path="/admin/auction" component={TableAuction} username={u} type={t} /> */}
                         <Route exact path="/admin" render={AdminRoute(TableProduct, u, t)} />
                         <Route exact path="/admin/auction" render={AdminRoute(TableAuction, u, t)} />
+                        <Route exact path="/admin/user" render={AdminRoute(TableUser, u, t)} />
+                        <Route exact path="/admin/parameters" render={AdminRoute(TableParameters, u, t)} />
                         <Route path="/:wrong" component={ErrorComponent} />
                     </Switch>
                 </React.Fragment>
