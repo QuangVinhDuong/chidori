@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './TopBar.css';
 import { getFromStorage, removeFromStorage } from '../../../utils/storage';
-
 
 class TopBar extends Component {
         constructor(props) {
@@ -10,13 +9,8 @@ class TopBar extends Component {
         this.onLogOut = this.onLogOut.bind(this);
     }
 
-
     onLogOut() {
-        // Main quest
-        // clear local storage
-        // set isDeleted in UserSession Schema to true
         const obj = getFromStorage('login');
-
         if (obj && obj.token_key) {
             const { token_key } = obj;
             fetch('/account/logout?token=' + token_key)
@@ -44,7 +38,9 @@ class TopBar extends Component {
                             
                             <div className="top_bar_content ml-auto">   
                                 <div className="btn-group" id="account">
-                                    <button type="button" id="btn1" style={btnStyle} className="btn btn-primary" disabled><i className="fa fa-user"></i>  {this.props.username}</button>
+                                    <button type="button" id="btn1" style={btnStyle} className="btn btn-primary" onClick={(e)=>{e.preventDefault();}}>
+                                        <i className="fa fa-user"></i>  {this.props.username}
+                                    </button>
                                     <button type="  " className="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span className="sr-only">Toggle Dropdown</span>
                                     </button>
