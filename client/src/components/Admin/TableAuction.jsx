@@ -37,7 +37,11 @@ class TableAuction extends Component {
 		};
 	}
 	handleOnChangeProductID = (e) => { this.setState({ updateProductID: e.target.value});}
-	handleOnChangeBidTime = (e) => {this.setState({updateBidTime: e.target.value});}
+	handleOnChangeBidTime = (e) => {
+		this.setState({
+			updateBidTime: e.target.value
+		})
+	}
 	handleOnChangeInitPrice = (e) => {this.setState({updateInitPrice: e.target.value});}
 	componentDidMount() { this.getAuction(); this.getProduct(); this.getTicket(); }
 	onOpenModal = () => { this.setState({ open: true }); };
@@ -117,7 +121,7 @@ class TableAuction extends Component {
 					this.setState({
 						ticketList: json.tlist
 					});
-					console.log(this.state.ticketList);
+					//console.log(this.state.ticketList);
 				});
 		}
 	} 
@@ -197,12 +201,6 @@ class TableAuction extends Component {
 			default:
 				break;
 		}
-		// if (this.state.checkType === 3) {
-		// 	this.deleteAU();
-		// }
-		// else {
-		// 	this.beginAU();
-		// }
 	}
 	deleteAU = () => {
 		const obj = getFromStorage('login');
@@ -343,7 +341,7 @@ class TableAuction extends Component {
 			open: true, 
 			modalType: 1, 
 			currentID: "",
-			updateBidTime: "00:00:00",
+			updateBidTime: "00:00:10",
 			updateStatus: 0,
 			updateInitPrice: 10000,
 			updateProductID: this.state.productList[0]._id // Mặc định là cái đầu tiên.
@@ -414,16 +412,16 @@ class TableAuction extends Component {
                   <select value={this.state.updateProductID} onChange={this.handleOnChangeProductID} className="form-control au">
                     {
 						t.map((item, index) => (
-							<option value={item._id}>{item.productName}</option>
+							<option key={item._id} value={item._id}>{item.productName}</option>
 						))
 					}
                   </select>
                 </div>
               </div>
               <div className="form-group row col-sm-12">
-                <label htmlFor="productName" className="col-sm-2 col-form-label">Thời lượng</label>
+				<label htmlFor="productName" className="col-sm-2 col-form-label">Thời lượng</label>
                 <div className="col-sm-8">
-                  <input type="text" className="form-control" required value={this.state.updateBidTime} onChange={this.handleOnChangeBidTime}/>
+                  	<input type="text" step="1" className="form-control" required value={this.state.updateBidTime} onChange={this.handleOnChangeBidTime}/>
                 </div>
                 <div className={this.state.updateBidTime === "" ? "col-sm-2 warning" : "col-sm-2 ok"}>{this.state.updateBidTime === "" ? "Đừng bỏ trống" : "✔"}</div>
               </div>
@@ -470,13 +468,13 @@ class TableAuction extends Component {
 								<td className="text-center">{ct.ats.statusName}</td>
 								<td className="text-center ">
 									<label className="switch">
-										<input type="checkbox" onClick={this.handleCheckDelivery} disabled={(!ct.isDeleted && ct.status === 2) ? null : "disabled"} id={`deli${ct._id}`} on checked={ct.status === 4 ? true : null} />
+										<input type="checkbox" onClick={this.handleCheckDelivery} disabled={(!ct.isDeleted && ct.status === 2) ? null : "disabled"} id={`deli${ct._id}`} checked={ct.status === 4 ? true : null} />
 										<span className="slider round delivery" />
 									</label>
 								</td>
 								<td className="text-center ">
 									<label className="switch">
-										<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleteAT} id={`dele${ct._id}`} on checked={ct.isDeleted} disabled={(ct.status !== 3 && ct.status !== 5 && ct.status !== 6) ? "disabled" : null} />
+										<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleteAT} id={`dele${ct._id}`} checked={ct.isDeleted} disabled={(ct.status !== 3 && ct.status !== 5 && ct.status !== 6) ? "disabled" : null} />
 										<span className="slider round disable" />
 									</label>
 								</td>
@@ -576,7 +574,7 @@ class TableAuction extends Component {
 								</tr>
 							</thead>
 							<tbody id="mainDataTableBody">
-								{arr.map((item, index) => <tr>
+								{arr.map((item, index) => <tr key={item._id}>
 									<td className="text-center">{item.sessionID}</td>
 									<td className="text-center longtext">
 									<ReactOverflowTooltip title={item.p.productName}>
@@ -598,13 +596,13 @@ class TableAuction extends Component {
 									</td>
 									<td className="text-center ">
 										<label className="switch">
-											<input type="checkbox" onClick={this.handleCheckBegin} disabled={!item.isDeleted ? item.status === 0 ? null : "disabled" : "disabled" } data-toggle ="modal" data-target="#modalConfirmDelete" id={`abeg${item._id}`} on checked={item.status === 1 ? true : null} />
+											<input type="checkbox" onClick={this.handleCheckBegin} disabled={!item.isDeleted ? item.status === 0 ? null : "disabled" : "disabled" } data-toggle ="modal" data-target="#modalConfirmDelete" id={`abeg${item._id}`} checked={item.status === 1 ? true : null} />
 											<span className="slider round" />
 										</label>
 									</td>
 									<td className="text-center ">
 										<label className="switch">
-											<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleted} id={`adel${item._id}`} on checked={item.isDeleted} data-toggle="modal" data-target="#modalConfirmDelete" disabled={item.status === 1 ? "disabled" : null}/>
+											<input type="checkbox" onChange={() => { }} onClick={this.handleCheckDeleted} id={`adel${item._id}`} checked={item.isDeleted} data-toggle="modal" data-target="#modalConfirmDelete" disabled={item.status === 1 ? "disabled" : null}/>
 											<span className="slider round disable" />
 										</label>
 									</td>

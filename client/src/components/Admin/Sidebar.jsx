@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
 import { getFromStorage, removeFromStorage } from "../../utils/storage";
-import {NavLink, Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import './assets/css/Sidebar.css';
 class Sidebar extends Component {
-	render() {
-		const iconStyle = {
-			"verticalAlign": "middle"
+	constructor(props) {
+		super(props);
+		this.onLogout = this.onLogout.bind(this);
+	}
+
+	onLogout() {
+		const obj = getFromStorage('login');
+		if (obj && obj.token_key) {
+			const { token_key } = obj;
+			fetch('/account/logout?token=' + token_key)
+				.then(res => res.json())
+				.then(json => {
+					if (json.success) {
+						removeFromStorage('login');
+						window.location.reload();
+					}
+				});
 		}
+	}
+	render() {
+		const iconStyle = { verticalAlign: "middle", paddingTop: 5 };
+		const linkStyle = {	paddingLeft: 50	};
+		const menuStyle = { paddingTop: 10 };
 		return (
-			<div className="sidebar" data-color="blue" data-image="./assets/img/sidebar-5.jpg">
+			<div className="sidebar" data-color="blue">
 				<div className="sidebar-wrapper">
 					<div className="user">
 						<div className="photo">
@@ -20,17 +40,17 @@ class Sidebar extends Component {
 								</span>
 							</a>
 							<div className="collapse" id="collapseExample">
-								<ul className="nav">
-									<li>
+								<ul className="nav" style={menuStyle}>
+									<li className="nav-item">
 										<Link className="profile-dropdown" to="/profile">
 											<span className="sidebar-mini">TK</span>
-											<span className="sidebar-normal">Tài khoản</span>
+											<span className="sidebar-normal" style={linkStyle}>Tài khoản</span>
 										</Link>
 									</li>
-									<li>
-										<a className="profile-dropdown" href="#pablo">
+									<li className="nav-item">
+										<a className="profile-dropdown" onClick={this.onLogout} href="">
 											<span className="sidebar-mini">ĐX</span>
-											<span className="sidebar-normal">Đăng Xuất</span>
+											<span className="sidebar-normal" style={linkStyle}>Đăng Xuất</span>
 										</a>
 									</li>
 								</ul>
@@ -64,16 +84,16 @@ class Sidebar extends Component {
 										</Link>
 									</li>
 									<li className="nav-item ">
-										<a className="nav-link" href="../components/panels.html">
+										<Link className="nav-link" to="/admin/user">
 											<span className="sidebar-mini">ND</span>
 											<span className="sidebar-normal">Người dùng</span>
-										</a>
+										</Link>
 									</li>
 									<li className="nav-item ">
-										<a className="nav-link" href="../components/sweet-alert.html">
+										<Link className="nav-link" to="/admin/parameters">
 											<span className="sidebar-mini">TS</span>
 											<span className="sidebar-normal">Tham Số</span>
-										</a>
+										</Link>
 									</li>
 								</ul>
 							</div>
