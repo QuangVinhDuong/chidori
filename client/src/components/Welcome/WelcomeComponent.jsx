@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 import MainComponent from '../Main/MainComponent';
-import Admin from '../Admin/Admin';
 import './WelcomeComponent.css';
 import BackgroundPage from './imgSrc/bg.jpg';
 import BackgroundForm from './imgSrc/bg3.jpg';
 import { cambiar_login, cambiar_sign_up, ocultar_login_sign_up } from './Welcome.js';
-import AdminComponent from '../Admin/AdminComponent';
 import LoadingComponent from '../Loading/LoadingComponent';
-//import "./script";
-//import 'whatwg-fetch';
 
 export default class WelcomeComponent extends Component {
     constructor(props) {
