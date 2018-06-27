@@ -95,7 +95,7 @@ class ProductDetail extends Component {
         }
 
         const productDescriptionStyle = {
-            "white-space" : "pre-line"
+            "whiteSpace" : "pre-line"
         }
                         
         return (
@@ -103,7 +103,7 @@ class ProductDetail extends Component {
                 <div className="container">
                 {
                     arr.map((item) => 
-                        <div className="grid-container" id="product-table">
+                        <div className="grid-container" id="product-table" key={item._id}>
                             
                             <div className="head" id="product-title">
                                 <h2>{item.productName}</h2>
@@ -173,7 +173,7 @@ class ProductDetail extends Component {
                                     <tbody>
                                         {
                                             ticketArr.map(item => 
-                                                <tr>
+                                                <tr key={item._id}>
                                                     <td>{item.accountID}</td>
                                                     <td>{item.bidValue}</td>
                                                     <td>{item.bidTime}</td>
