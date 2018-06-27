@@ -59,8 +59,14 @@ class Sidebar extends Component {
 					</div>
 					<ul className="nav">
 						<li className="nav-item ">
-							<Link className="nav-link" to="/">
+							<Link className="nav-link" to="/admin">
 								<i className="nc-icon nc-bank"></i>
+								<p>Dashboard</p>
+							</Link>
+						</li>
+						<li className="nav-item ">
+							<Link className="nav-link" to="/">
+								<i className="nc-icon nc-chart-pie-35"></i>
 								<p>Trang chủ</p>
 							</Link>
 						</li>
@@ -72,7 +78,7 @@ class Sidebar extends Component {
 							<div className="collapse " id="componentsExamples">
 								<ul className="nav">
 									<li className="nav-item ">
-										<Link className="nav-link" to="/admin">
+										<Link className="nav-link" to="/admin/product">
 											<span className="sidebar-mini">SP</span>
 											<span className="sidebar-normal">Sản phẩm</span>
 										</Link>
