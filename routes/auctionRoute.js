@@ -20,7 +20,7 @@ router.put('/updateStatusAuctionSession', checkAuth, (req, res, next) => {
         },
         {
             $set: {
-                status: 1
+                status: -1
             }
         },
         (err, count) => {
@@ -116,9 +116,6 @@ function getAuctionByProductType(type, res, next) {
         //console.log(result[0].p);
         return res.json(result);
     });
-
-
-    
 }
 
 export default router;
