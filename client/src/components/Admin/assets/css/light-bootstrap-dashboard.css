@@ -4132,7 +4132,7 @@ fieldset[disabled] .form-control {
 }
 
 .navbar.fixed {
-    width: calc(100% - $sidebar-width);
+    width: 100%;
     right: 0;
     left: auto;
     border-radius: 0;
@@ -6806,6 +6806,9 @@ fieldset[disabled] .form-control {
     }
     .sidebar-mini .sidebar .logo a.logo-normal {
         opacity: 0;
+    }
+    .footer {
+        height: 60px;
     }
     .footer .footer-menu {
         float: left;
