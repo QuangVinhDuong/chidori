@@ -20,7 +20,7 @@ router.put('/updateStatusAuctionSession', checkAuth, (req, res, next) => {
         },
         {
             $set: {
-                status: 1
+                status: -1
             }
         },
         (err, count) => {
