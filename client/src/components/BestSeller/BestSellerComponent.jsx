@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { timer } from '../../utils/timer';
-import { getFromStorage, setInStorage } from '../../utils/storage';
+import { getFromStorage } from '../../utils/storage';
 
 
 //const {clearInterval, setInterval} = window;
@@ -72,19 +72,19 @@ class BestSellerComponent extends Component {
                                 {
                                     arr.map((item, index) => 
 
-                                    <div className="bestsellers_item">
+                                    <div className="bestsellers_item" key={item._id}>
                                         <div className="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
                                             <div className="bestsellers_image"><img src={item.p[0].productImage} alt=""/></div>
                                             <div className="bestsellers_content">
                                                 
-                                                <div className="bestsellers_category"><a href="#">{item.productType}</a></div>
-                                                <div className="bestsellers_name"><a href="#">Item {index}</a></div>
+                                                <div className="bestsellers_category">{item.productType}</div>
+                                                <div className="bestsellers_name">Item {index}</div>
                                                 <div className="bestsellers_price">{item.currentPrice} VND</div>
                                                 <div className="deals_timer_content ml-auto">
                                                     <div className="deals_timer_box clearfix" data-target-time={item.bidTime}>
                                                         <div className="deals_timer_unit">
                                                             <div id="deals_timer1_hr" className="deals_timer_hr"></div>
-                                                            <span>hours</span>
+                                                            <span>hours</span>  
                                                         </div>
                                                         <div className="deals_timer_unit">
                                                             <div id="deals_timer1_min" className="deals_timer_min"></div>
