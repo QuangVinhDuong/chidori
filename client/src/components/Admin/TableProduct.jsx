@@ -18,12 +18,23 @@ class TableProduct extends Component {
       updateDesc: null,
       updateLink: null
     };
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleCheckDelivery = this.handleCheckDelivery.bind(this);
+    this.handleCheckDisable = this.handleCheckDisable.bind(this);
+    this.handleOnChangeProductName = this.handleOnChangeProductName.bind(this);
+    this.handleOnChangeProductType = this.handleOnChangeProductType.bind(this);
+    this.handleOnChangeDescription = this.handleOnChangeDescription.bind(this);
+    this.handleOnChangeProductImage = this.handleOnChangeProductImage.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onCloseModal = this.onCloseModal.bind(this);
+    this.handleModalYes = this.handleModalYes.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() { this.getProduct(); }
   onOpenModal = () => { this.setState({ open: true }); };
   onCloseModal = () => { this.setState({ open: false }); };
-
   getProduct() {
     const obj = getFromStorage("login");
 
@@ -39,23 +50,22 @@ class TableProduct extends Component {
         .then((res) => res.json())
         .then((json) => {
           this.setState({ list: json.list });
-          //console.log(this.state.cartList);
+          //console.log(this.state.list);
         });
     } 
-    this.handleCheckDelivery = this.handleCheckDelivery.bind(this);
-    this.handleCheckDisable = this.handleCheckDisable.bind(this);
+    
   }
 
   handleSearch = () => {
-    var input, filter, table, tr, td, i;
+    var input, filter, table, tr, i, td;
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("mainDataTable");
     tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
+    for (i = 1; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1].innerHTML;
       if (td) {
-        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        if (td.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
           tr[i].style.display = "none";
@@ -118,7 +128,7 @@ class TableProduct extends Component {
     } 
   }
 
-  handleAdd = (e) => {
+  handleAdd = () => {
     this.setState({
       updateName: "",
       updateType: "Figures",
@@ -130,21 +140,29 @@ class TableProduct extends Component {
     });
   };
 
-  handleUpdate = (e) => {
-    var t = this.state.list.filter(i => {
-      return i._id === e.target.id.substr(4);
-    });
-    if (typeof t[0] !== 'undefined') {
-      this.setState({
-        updateName: t[0].productName,
-        updateType: t[0].productType,
-        updateDesc: t[0].description,
-        updateLink: t[0].productImage,
-        modalType: 2,
-        currentID: e.target.id.substr(4)
-      }, () => {
-        this.onOpenModal();
+  handleUpdate(e) {
+    if (e) {
+      var t = this.state.list.filter(i => {
+        return i._id === e.target.id.substr(4);
       });
+      if (typeof t[0] !== 'undefined') {
+        this.setState({
+          updateName: t[0].productName,
+          updateType: t[0].productType,
+          updateDesc: t[0].description,
+          updateLink: t[0].productImage,
+          modalType: 2,
+          currentID: e.target.id.substr(4)
+        }, () => {
+          this.onOpenModal();
+        });
+      }
+      else {
+        console.log('not cool 2');
+      }
+    }
+    else {
+      console.log('not cool');
     }
   };
   handleSubmit = () => {
@@ -182,7 +200,10 @@ class TableProduct extends Component {
               var temp = JSON.parse(JSON.stringify(this.state.list));
               temp.forEach((i) => {
                 if (i._id === ID) {
-                  (i.productName = this.state.updateName), (i.productType = this.state.updateType), (i.description = this.state.updateDesc), (i.productImage = this.state.updateLink);
+                    i.productName = this.state.updateName;
+                    i.productType = this.state.updateType;
+                    i.description = this.state.updateDesc;
+                    i.productImage = this.state.updateLink;
                 }
               });
               this.setState({ list: temp });
@@ -230,7 +251,6 @@ class TableProduct extends Component {
               <div className="form-group row col-sm-12">
                 <label htmlFor="productName" className="col-sm-2 col-form-label">Loại sản phẩm</label>
                 <div className="col-sm-8">
-                  {/* <input type="text" className="form-control" required value={this.state.updateType} onChange={this.handleOnChangeProductType}/> */}
                   <select value={this.state.updateType} onChange={this.handleOnChangeProductType} className="form-control pt">
                     <option value="Figures">Figures</option>
                     <option value="Electronics">Electronics</option>
@@ -320,7 +340,7 @@ class TableProduct extends Component {
                 </tr>
               </thead>
               <tbody id="mainDataTableBody">
-                {arr.map((item, index) => <tr>
+                {arr.map((item, index) => <tr key={item._id}>
                     <td className="text-center">{index + 1}</td>
                     <td className="text-center longtext">
                       <ReactOverflowTooltip title={item.productName}>
@@ -332,16 +352,11 @@ class TableProduct extends Component {
                       {item.description}
                     </td>
                     <td className="text-center longtext">
+                      
                       <a href={item.productImage} target="_blank">
-                        {item.productImage}
+                        <img src={item.productImage} alt="" width="50px" height="50px" />
                       </a>
                     </td>
-                    {/* <td className="text-center ">
-                      <label className="switch">
-                        <input type="checkbox" onChange={this.handleCheckDelivery} id={`pship${item._id}`} disabled={item.isDeleted === false ? "" : "disabled"} on data-toggle="modal" data-target="#modalConfirmDelete" />
-                        <span className="slider round" />
-                      </label>
-                    </td> */}
                     <td className="td-actions text-center ">
                       <button className="btn btn-success" tooltip="Xem/Sửa" disabled={item.isDeleted} id={`pfix${item._id}`} onClick={this.handleUpdate} tooltip-position="buttom">
                         <i className="nc-icon nc-settings-tool-66" />
@@ -349,7 +364,7 @@ class TableProduct extends Component {
                     </td>
                     <td className="text-center ">
                       <label className="switch">
-                        <input type="checkbox" onClick={this.handleCheckDisable} id={`pdis${item._id}`} on checked={item.isDeleted}/>
+                      <input type="checkbox" onClick={this.handleCheckDisable} id={`pdis${item._id}`} onChange={()=>{}} checked={item.isDeleted}/>
                         <span className="slider round disable" data-toggle="modal" data-target="#modalConfirmDelete" />
                       </label>
                     </td>
