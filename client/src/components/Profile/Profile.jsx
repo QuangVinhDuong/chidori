@@ -16,7 +16,8 @@ class Profile extends Component {
             password: '',
             repass: '',
             orderList: [],
-            delList: []
+            delList: [],
+            total: 0
         };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -75,7 +76,11 @@ class Profile extends Component {
             })
                 .then((res) => res.json())
                 .then((json) => {
-                    this.setState({orderList: json});
+                    var t = 0
+                    json.forEach(i => {
+                        t += i.au.currentPrice
+                    })
+                    this.setState({orderList: json, total: t});
                 });
         }
     }
@@ -210,7 +215,7 @@ class Profile extends Component {
                                 <tbody>
                                     {
                                         arr.map((item, index) => (
-                                            <tr>
+                                            <tr key={item._id}>
                                                 <td className="text-center">{index + 1}</td>
                                                 <td className="text-center">{item.au.startTime}</td>
                                                 <td className="text-center longtext" >
@@ -230,6 +235,11 @@ class Profile extends Component {
                                             </tr>
                                         ))
                                     }
+                                    <tr>
+                                        <td className="text-center" colSpan="4"></td>
+                                        <td className="text-center"><b>Tổng: {this.state.total}</b></td>
+                                        <td className="text-center" colSpan="3"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <button className="btn btn-success" disabled={this.state.delList.length === 0 ? "disabled" : ""} onClick={this.handleConfirm}>Xác nhận</button>
