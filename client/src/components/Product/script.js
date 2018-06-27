@@ -35,7 +35,8 @@ function doCountDown(sessionID) {
             timer.remove();
             $("#end").text("Đã kết thúc");
             $("#bid-now-btn").prop("disabled", true);
-            updateStatus(sessionID);
+            updateStatusAuctionSession(sessionID);
+            updateStatusTicket(sessionID);
         }
 
         if (seconds === 0 && minutes > 0) {
@@ -172,7 +173,7 @@ export function bidBoxWork() {
 }
 
 
-function updateStatus(sessionID) {
+function updateStatusAuctionSession(sessionID) {
 	var obj = JSON.parse(localStorage.getItem("login"));
 
 	if (obj && obj.access_token && sessionID) {
@@ -186,4 +187,37 @@ function updateStatus(sessionID) {
 			data: { ssID: sessionID }
 		});
 	}	
+}
+
+function updateStatusTicket(sessionID) {            
+    var obj = JSON.parse(localStorage.getItem("login"));
+    var winner = '';
+
+	if (obj && obj.access_token) {
+        const { access_token, username } = obj;
+
+        // kiểm tra người thắng
+        $.ajax({
+            method: 'GET',
+            beforeSend: function(req) {
+				req.setRequestHeader("Authorization", `Bearer ${access_token}`);
+            },
+            url: `/bid/getWinner/${sessionID}`,
+            success: function(data) {
+                if (data && data.accountID == username) {
+                    winner = data.accountID
+                }                
+            },
+            complete: function() {
+                $.ajax({
+                    method: 'PUT',
+                    beforeSend: function(req) {
+                        req.setRequestHeader("Authorization", `Bearer ${access_token}`);
+                    },
+                    url: '/bid/updateAuctionTicketStatus',
+                    data: { accID: winner }
+                });
+            }
+        });        
+    }
 }
