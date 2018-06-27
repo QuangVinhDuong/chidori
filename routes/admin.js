@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 const router = Router();
 const app = express();
 const checkAuth = require('../middleware/check-auth');
+const bcrypt = require('bcrypt');
 
 app.use(urlencoded({
 	'extended': 'false'
@@ -189,7 +190,6 @@ router.post('/auction', checkAuth, (req, res, next) => {
 	})
 });
 router.post('/beginAuction', checkAuth, (req, res, next) => {
-	//console.log(req.body);
 	AuctionSession.updateOne({
 		"_id": req.body.key
 	}, {
@@ -343,4 +343,161 @@ router.delete('/ticket', checkAuth, (req, res, next) => {
 	});
 });
 
+router.get('/user', checkAuth, (req, res, next) => {
+	Account.find({}, (err, out) => {
+		if (err) return next(err);
+		else {
+			res.json({
+				list: out
+			});
+		}
+	});
+});
+router.post('/user', checkAuth, (req, res, next) => {
+	Account.find({
+		email: req.body.user.updateEmail
+	}, (err, acc) => {
+	if (err) {
+		return next(err);
+	} else if (acc.length > 0) {
+		return res.json({
+			success: false,
+			message: 'Lỗi: Email đã tồn tại!'
+		});
+	} else {
+		Account.find({
+			username: req.body.user.updateName
+		}, (err, acc) => {
+			if (err) {
+				return next(err);
+			} else if (acc.length > 0) {
+				return res.json({
+					success: false,
+					message: 'Lỗi: Tên tài khoản đã tồn tại!'
+				});
+			} else {
+				// Save the new user
+				const newAcc = new Account();
+				newAcc.username = req.body.user.updateName;
+				newAcc.password = newAcc.generateHash(req.body.user.updatePass);
+				newAcc.fullname = req.body.user.updateFullname;
+				newAcc.email = req.body.user.updateEmail;
+				newAcc.phone = req.body.user.updatePhone;
+				newAcc.address = req.body.user.updateAddress;
+				newAcc.accountType = {
+					_id: req.body.user.updateType == 'user' ? 1 : 0,
+					name: req.body.user.updateType
+				}
+				newAcc.save((err, acc) => {
+					if (err) {
+						return next(err)
+					};
+					return res.json({
+						success: true,
+						message: 'Tạo tài khoản thành công'
+					});
+				});
+			}
+		});
+	}
+	});
+
+})
+router.put('/user', checkAuth, (req, res, next) => {
+	//console.log(req.body.user);
+	var set = {
+		username: req.body.user.updateName,
+		fullname: req.body.user.updateFullname,
+		email: req.body.user.updateEmail,
+		phone: req.body.user.updatePhone,
+		address: req.body.user.updateAddress,
+		accountType: {
+			_id: req.body.user.updateType == 'user' ? 1 : 0,
+			name: req.body.user.updateType
+		}
+	}
+	if (req.body.user.updatePass != "") {
+		set.password = bcrypt.hashSync(req.body.user.updatePass, bcrypt.genSaltSync(8), null)
+	}
+	Account.find({
+		_id: req.body.key
+	}, (err, out) => {
+		if (err) return next(err);
+		else {
+			if (out.length == 1) {
+				Account.updateOne({
+					"_id": req.body.key
+				}, {
+					$set: set
+				}, (err2, count) => {
+					if (err2) return next(err2);
+					else {
+						return res.json({
+							success: count.ok == 1 ? true : false,
+							message: count.ok == 1 ? "" : "Cập nhật thất bại!"
+						});
+					}
+				})
+			}
+			else {
+				return res.json({
+					success: false,
+					message: "Không tìm thấy tài khoản"
+				})
+			}
+		}
+	})
+})
+
+router.get('/parameters', checkAuth, (req, res, next) => {
+	Parameter.find({}, (err, out) => {
+		if (err) return next(err);
+		else {
+			return res.json({
+				success: true,
+				list: out
+			})
+		}
+	})
+})
+
+router.post('/parameters', checkAuth, (req, res, next) => {
+	Parameter.count({}, (err, out1) => {
+		if (err) return next(err)
+		else {
+			const newP = new Parameter();
+			newP.pID = out1;
+			newP.pName = req.body.p.pName;
+			newP.pValue = req.body.p.pValue;
+			newP.save((err2, out2) => {
+				if (err2) return next(err2)
+				else {
+					return res.json({
+						success: true,
+						message: "Thêm thành công"
+					})
+				}
+			});
+		}
+	})
+})
+
+router.put('/parameters', checkAuth, (req, res, next) => {
+	console.log(req.body.key)
+	Parameter.updateOne({
+		_id: req.body.key
+	}, {
+		$set: {
+			pName: req.body.p.pName,
+			pValue: req.body.p.pValue
+		}
+	}, (err, out) => {
+		if (err) return next(err);
+		else {
+			return res.json({
+				success: true
+			})
+		}
+	})
+})
 export default router;
