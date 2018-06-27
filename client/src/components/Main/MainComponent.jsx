@@ -100,7 +100,7 @@ class MainComponent extends Component {
         return (
             <Link>
                 <React.Fragment>
-                    <Switch>
+                    <Switch>                        
                         <Route exact path="/" render={UserRoute(Home, u, t)} />
                         <Route path="/profile" render={UserRoute(Profile, u, t)} />
                         <Route path="/Figures" render={UserRoute(Figures, u, t)} />
@@ -110,10 +110,10 @@ class MainComponent extends Component {
                         <Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, u, t)} />
                         <Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, u, t)} />
                         <Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, u, t)} />
-                        <Route exact path="/admin" render={AdminRoute(TableProduct, u, t)} />
-                        <Route exact path="/admin/auction" render={AdminRoute(TableAuction, u, t)} />
-                        <Route exact path="/admin/user" render={AdminRoute(TableUser, u, t)} />
-                        <Route exact path="/admin/parameters" render={AdminRoute(TableParameters, u, t)} />
+                        <Route path="/admin" render={AdminRoute(TableProduct, u, t)} />
+                        <Route path="/admin/auction" render={AdminRoute(TableAuction, u, t)} />
+                        <Route path="/admin/user" render={AdminRoute(TableUser, u, t)} />
+                        <Route path="/admin/parameters" render={AdminRoute(TableParameters, u, t)} />
                         <Route path="/:wrong" component={ErrorComponent} />
                     </Switch>
                 </React.Fragment>
