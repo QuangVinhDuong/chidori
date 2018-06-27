@@ -13,6 +13,7 @@ app.use(json());
 
 router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {    
     const { id, type } = req.params;
+    //console.log(req.params);
     Product.aggregate([
         {
             $match: {
