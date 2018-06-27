@@ -117,4 +117,41 @@ router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, n
     )    
 });
 
+router.put('/updateAuctionTicketStatus', checkAuth, (req, res, next) => {
+    if (req.body.accID != '') {
+        AuctionTicket.updateOne(
+            {
+                accountID: req.body.accID
+            },
+            {
+                $set: {
+                    status: 1
+                }
+            },
+            (err, count) => {
+                if (err) return next(err);
+                return res.json({
+                    success: count.nModified == 1 ? true : false
+                });
+            }
+        );
+    }    
+});
+
+router.get('/getWinner/:sessionID', checkAuth, (req, res, next) => {
+    AuctionTicket.findOne(
+        { sessionID: req.params.sessionID },
+        {
+            accountID: 1,            
+        },
+        {
+            sort: { bidValue: -1 }
+        }, 
+        (err, data) => {
+        if (err) return next(err);
+
+        return res.json(data);
+    });
+});
+
 export default router;
