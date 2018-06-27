@@ -22,6 +22,7 @@ import TableAuction from "../Admin/TableAuction";
 import '../Admin/assets/css/light-bootstrap-dashboard.css';
 import TableUser from '../Admin/TableUser';
 import TableParameters from '../Admin/TableParameters';
+import Admin from '../Admin/Admin';
 const UserRoute = (Component, Username, Type) => {	
 	return (
         (props) => (
@@ -110,7 +111,8 @@ class MainComponent extends Component {
                         <Route path="/LuggageAndTravelGear" render={UserRoute(LuggageAndTravelGear, u, t)} />
                         <Route path="/SportsAndOutdoors" render={UserRoute(SportsAndOutdoors, u, t)} />
                         <Route path="/Auction/:type/:id" render={UserRoute(ProductDetail, u, t)} />
-                        <Route path="/admin" render={AdminRoute(TableProduct, u, t)} />
+                        <Route exact path="/admin" render={AdminRoute(Admin, u, t)} />
+                        <Route path="/admin/product" render={AdminRoute(TableProduct, u, t)} />
                         <Route path="/admin/auction" render={AdminRoute(TableAuction, u, t)} />
                         <Route path="/admin/user" render={AdminRoute(TableUser, u, t)} />
                         <Route path="/admin/parameters" render={AdminRoute(TableParameters, u, t)} />
