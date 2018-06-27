@@ -58,7 +58,7 @@ class SportsAndOutdoors extends Component {
 		const arr = this.state.mainData;
 		  
 		return( 
-			<div className="box_shadow" style={divStyle}>
+			<div className="box_shadow" style={divStyle} >
 				<div className="container">
 					<div className="row">
 						<div className="col">
@@ -70,15 +70,15 @@ class SportsAndOutdoors extends Component {
 
 								<div style={gridStyle}>
 								{arr.map((item, index) => (
-									<div className="bestsellers_item">
+									<div className="bestsellers_item" key={item._id}>
 										<div className="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
 											<div className="bestsellers_image"><img src={item.productImage} alt="" /></div>
 											<div className="bestsellers_content">
 												<div className="bestsellers_category">
-													<a href="#">{item.productType}</a>
+													{item.productType}
 												</div>
 												<div className="bestsellers_name">
-													<a href="#">Item {index}</a>
+													Item {index}
 												</div>
 												<div className="bestsellers_price">
 													{item.p[0].currentPrice} VND
