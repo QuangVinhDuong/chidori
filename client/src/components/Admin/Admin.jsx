@@ -31,7 +31,7 @@ class Admin extends Component {
                 .then((json) => {
                     if (json.success) { 
                         //console.log(json);
-                        var t = 0, t2 = 0, t3 = 0, t4 = 0;
+                        var t = 0, t2 = 0;
                         json.userData.forEach(i => {
                             t += i.count
                         })
@@ -47,7 +47,7 @@ class Admin extends Component {
                             totalProduct: json.totalProduct,
                             totalAuction: json.totalAuction
                         });
-                        console.log(this.state);
+                        //console.log(this.state);
                         this.loadChart();
                     }
                 });
@@ -191,7 +191,7 @@ class Admin extends Component {
                                             </div>
                                             <div className="col-7">
                                                 <div className="numbers">
-                                                    <p className="card-category">Số phiên đã xong</p>
+                                                    <p className="card-category">Số phiên đã hoàn thành</p>
                                                     <h4 className="card-title">{this.state.totalAuction}</h4>
                                                 </div>
                                             </div>
