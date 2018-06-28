@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './assets/css/light-bootstrap-dashboard.css';
 import {getFromStorage} from '../../utils/storage';
 import CanvasJS from './assets/js/canvasjs-2.1.3/canvasjs.min.js';
+import './assets/css/Admin.css';
 
 class Admin extends Component {
     constructor(props) {
@@ -29,9 +30,11 @@ class Admin extends Component {
                 .then((res) => res.json())
                 .then((json) => {
                     if (json.success) { 
-                        //console.log(json);
-                        this.setState({ userData: json.userData });
-                        console.log(this.state.userData);
+                        console.log(json);
+                        this.setState({ 
+                            userData: json.userData,
+                            productData: json.productData
+                        });
                         this.loadChart();
                     }
                 });
@@ -44,7 +47,7 @@ class Admin extends Component {
           animationEnabled: true,
           exportEnabled: true,
           title: {
-            text: "Thống kê loại người dùng"
+            text: ""
           },
           data: [
             {
@@ -56,6 +59,25 @@ class Admin extends Component {
           ]
         });
         chart.render();
+
+        var temp2 = this.processChartData(this.state.productData);
+        var chart2 = new CanvasJS.Chart("chartProduct", {
+          theme: "light2",
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: ""
+          },
+          data: [
+            {
+              type: "pie",
+              startAngle: 45,
+              yValueFormatString: '#,##0.0#"%"',
+              dataPoints: temp2
+            }
+          ]
+        });
+        chart2.render();
     }
     processChartData(list) {
         var temp = [];
@@ -67,8 +89,8 @@ class Admin extends Component {
         });
         return temp;
     }
+
     render() {
-        
         return <div className="col-sm-12">
             <div className="row">
                 <div className="col-lg-3 col-sm-6">
@@ -172,11 +194,37 @@ class Admin extends Component {
                                     </div>
                                 </div>
                             </div>
-            <div className="col-sm-4">
-                <div id="chartUser"></div>
-            </div>
-            <div className="col-sm-8">
-                <div id="chartProduct"></div>
+            <div className="container-fluid">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="card ">
+                                <div className="card-header ">
+                                    <h4 className="card-title">24 Hours Performance</h4>
+                                    <p className="card-category">Line Chart</p>
+                                </div>
+                                <div className="card-body ">
+                                    <div id="chartPerformance" className="ct-chart">
+                                        <div id="chartUser"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="card ">
+                                <div className="card-header ">
+                                    <h4 className="card-title">NASDAQ: AAPL</h4>
+                                    <p className="card-category">Line Chart with Points</p>
+                                </div>
+                                <div className="card-body ">
+                                    <div id="chartStock" className="ct-chart">
+                                        <div id="chartProduct"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="col-sm-4">
                 <div id="chartAuction"></div>

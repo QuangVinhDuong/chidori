@@ -516,12 +516,28 @@ router.get('/chartData', checkAuth, (req, res, next) => {
 		}], (err, out) => {
 			if (err) return next(err);
 			userData = out;
-			return res.json({
-				success: true,
-				userData: userData,
-				productData: productData,
-				auctionData: auctionData
-			})
+			Product.aggregate(
+				[{
+					$group: {
+						_id: "$productType",
+						count: {
+							$sum: 1
+						}
+					}
+				}], (err2, out2) => {
+					if (err2) return next(err2)
+					else {
+						productData = out2
+						return res.json({
+							success: true,
+							userData: userData,
+							productData: productData,
+							auctionData: auctionData
+						})
+					}
+				}
+			)
+			
 		}
 	)
 	
