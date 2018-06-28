@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",    
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm install && node server.js",
     "heroku-postbuild": "cd client && npm install"
   },
@@ -25,7 +25,7 @@
     "react-responsive-modal": "^3.0.3",
     "react-responsive-tooltip": "^1.0.0"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "rimraf": "^2.6.2"
   }
 }
