@@ -157,6 +157,7 @@ router.get('/auction', checkAuth, (req, res, next) => {
 	)
 });
 router.post('/auction', checkAuth, (req, res, next) => {
+	console.log(req.body);
 	const MongoClient = require('mongodb').MongoClient;
 	const url = "mongodb://localhost:27017/";
 	var ObjectId = mongoose.Types.ObjectId;
@@ -174,6 +175,7 @@ router.post('/auction', checkAuth, (req, res, next) => {
 					"initPrice": req.body.val[2],
 					"currentPrice": req.body.val[2],
 					"status": req.body.val[1],
+					"__v": 0,
 					"isDeleted": false
 				}, (err, n) => {
 					if (err) console.log(err);
