@@ -43,7 +43,16 @@ class TableAuction extends Component {
 		})
 	}
 	handleOnChangeInitPrice = (e) => {this.setState({updateInitPrice: e.target.value});}
-	componentDidMount() { this.getAuction(); this.getProduct(); this.getTicket(); }
+	componentDidMount() { 
+		this.getAuction(); 
+		this.getProduct(); 
+		this.getTicket(); 
+		setInterval(() => {
+			this.getAuction();
+			this.getProduct();
+			this.getTicket();
+		}, 5000)
+	}
 	onOpenModal = () => { this.setState({ open: true }); };
 	onCloseModal = () => { this.setState({ open: false }); };
 	onCloseDelivery = () => {this.setState({openDelivery: false}); };
