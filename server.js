@@ -65,4 +65,4 @@ app.use((error, req, res, next) => {
 
 
 // to run, in terminal, type: npm start
-app.listen(3001, () => {console.log("Magic happened at port 3001");});
+app.listen(process.env.PORT || 3001, () => {console.log("Magic happened at port 3001");});
