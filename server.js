@@ -15,7 +15,7 @@ import bidRoute from "./routes/bidRoute";
 import admin from "./routes/admin";
 
 // Check database connection
-mongoose.connect('mongodb://localhost:27017/chidori')
+mongoose.connect('mongodb://admin:god123456@ds119090.mlab.com:19090/chidori')
     .then(() => {
         console.log("Connection successful");
     })
