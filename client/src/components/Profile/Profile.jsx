@@ -78,7 +78,7 @@ class Profile extends Component {
                 .then((json) => {
                     var t = 0
                     json.forEach(i => {
-                        t += i.au.currentPrice
+                        t += i.status !== 3 ? i.au.currentPrice : 0;
                     })
                     this.setState({orderList: json, total: t});
                 });
