@@ -1,6 +1,8 @@
 import $ from 'jquery';
 
 var intervalID = null;
+var intervalTicketTable = null;
+
 function doCountDown(sessionID) {
     if($('.bestsellers_item').length) {
         var timers = $('.bestsellers_item');
@@ -37,6 +39,7 @@ function doCountDown(sessionID) {
             $("#bid-now-btn").prop("disabled", true);
             updateStatusAuctionSession(sessionID);
             updateStatusTicket(sessionID);
+            clearInterval(intervalTicketTable);
         }
 
         if (seconds === 0 && minutes > 0) {
@@ -172,6 +175,39 @@ export function bidBoxWork() {
     });    
 }
 
+export function refreshAuctionTicketTable(flag, sessionID = null) {    
+    if (flag === 1) {
+        intervalTicketTable = setInterval(function() {
+            var obj = JSON.parse(localStorage.getItem("login"));
+
+            if (obj && obj.access_token && sessionID) {
+                const { access_token } = obj;
+                $.ajax({
+                    method: 'GET',
+                    beforeSend: function(req) {
+                        req.setRequestHeader("Authorization", `Bearer ${access_token}`);
+                    },
+                    url: `/bid/getAuctionTicket/${sessionID}`,
+                    success: function(data) {
+                        // populate html here to update ticket table
+                        var tbody = '';                        
+                        data.map(item => {
+                            tbody += "<tr>"+
+                                "<td>"+item.accountID+"</td>"+
+                                "<td>"+item.bidValue+"</td>"+
+                                "<td>"+item.bidTime+"</td>"+
+                            "</tr>"
+                        })
+                        $("#history-table tbody").html(tbody);
+                    }
+                });
+            }            
+        }, 4000, sessionID);
+    }
+    else if (flag === 0) {
+        clearInterval(intervalTicketTable);
+    }
+}
 
 function updateStatusAuctionSession(sessionID) {
 	var obj = JSON.parse(localStorage.getItem("login"));

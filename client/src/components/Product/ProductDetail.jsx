@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import { timer } from '../../utils/timer'
-import { bidBoxWork, initTimer } from './script'
+import { bidBoxWork, initTimer, refreshAuctionTicketTable } from './script'
 import './custom_grid.css';
 
 import { getFromStorage } from '../../utils/storage';
@@ -13,7 +13,8 @@ class ProductDetail extends Component {
             mainObject: [],
             ticketObj: [],
             sessionID: '',
-            description: []
+            description: [],
+            intervalTicket: ''
         }
         this.beautify = this.beautify.bind(this);
         
@@ -30,19 +31,19 @@ class ProductDetail extends Component {
     }
   
     componentDidMount() {
-        this.getProductByID();
-        
+        this.getProductByID();        
     }
     
     componentDidUpdate() {
-        bidBoxWork();                
+        bidBoxWork();                             
     }
     
     componentWillUnmount() {
         initTimer(0);
+        refreshAuctionTicketTable(0);    
     }
 
-    getAuctionTicket(accessToken) {        
+    getAuctionTicket(accessToken) {                
         fetch('/bid/getAuctionTicket/'+this.state.sessionID, {
             method: 'GET',
             headers: {
@@ -51,10 +52,10 @@ class ProductDetail extends Component {
             }
         }).then(res => res.json())
             .then(json => {
-                this.setState({
+                this.setState({                    
                     ticketObj: json
                 });
-            });
+            });    
     }
 
     getProductByID() {        
@@ -74,11 +75,12 @@ class ProductDetail extends Component {
                     this.setState({
                         sessionID: json[0].p[0].sessionID,
                         mainObject: json,
-                        description: json[0].description                    
+                        description: json[0].description,                        
                     });
-                    this.beautify(this.state.description);
-                    this.getAuctionTicket(access_token);
+                    this.getAuctionTicket(access_token);                    
+                    this.beautify(this.state.description);                
                     initTimer(1, json[0].p[0].sessionID);
+                    refreshAuctionTicketTable(1, this.state.sessionID);
                 });
         }        
     }
