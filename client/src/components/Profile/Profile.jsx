@@ -197,7 +197,7 @@ class Profile extends Component {
                 <div className="col-md-12">
                     <div className="card table-with-switches">
                         <div className="card-header ">
-                            <h4 className="card-title"><center><h3>Danh sách đơn hàng hàng</h3></center></h4>
+                            <h4 className="card-title"><center><h3>Danh sách đơn hàng</h3></center></h4>
                         </div>
                         <div className="card-body table-full-width">
                             <table className="table table-striped">
