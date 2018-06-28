@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const ParameterSchema = new mongoose.Schema({
     pID: {
@@ -15,4 +15,4 @@ const ParameterSchema = new mongoose.Schema({
     }
 }, {collection: 'parameter'});
 
-export default mongoose.model('Parameter', ParameterSchema);
+module.exports = mongoose.model('Parameter', ParameterSchema);

@@ -1,5 +1,7 @@
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 //var ObjectId = require('mongodb').ObjectID;
+const mongoose = require('mongoose');
+
 const AuctionSessionSchema = new mongoose.Schema({
     sessionID: {
         type: String,
@@ -35,4 +37,4 @@ const AuctionSessionSchema = new mongoose.Schema({
     }
 }, { collection: 'auction_session' });
 
-export default mongoose.model('AuctionSession', AuctionSessionSchema);
+module.exports = mongoose.model('AuctionSession', AuctionSessionSchema);

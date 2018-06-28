@@ -1,9 +1,13 @@
-import express ,{ Router } from "express";
-import { urlencoded, json } from "body-parser";
+//import express ,{ Router } from "express";
+//import { urlencoded, json } from "body-parser";
+const express, { Router } = require('express');
+const { urlencoded, json } = require('body-parser');
 
-
-import AuctionSession from '../models/AuctionSession';
-import Product from '../models/Product';
+// Import Models
+const AuctionSession = require('../models/AuctionSession');
+const Product = require('../models/Product');
+//import AuctionSession from '../models/AuctionSession';
+//import Product from '../models/Product';
 
 const router = Router();
 const app = express();
@@ -118,5 +122,4 @@ function getAuctionByProductType(type, res, next) {
     });
 }
 
-export default router;
-
+module.exports = router;

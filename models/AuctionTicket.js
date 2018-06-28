@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const AuctionTicketSchema = mongoose.Schema({
     sessionID: {
@@ -23,4 +23,4 @@ const AuctionTicketSchema = mongoose.Schema({
     }
 }, {collection: 'auction_ticket'});
 
-export default mongoose.model('AuctionTicket', AuctionTicketSchema);
+module.exports = mongoose.model('AuctionTicket', AuctionTicketSchema);

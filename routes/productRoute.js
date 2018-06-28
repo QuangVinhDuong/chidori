@@ -1,7 +1,10 @@
-import express ,{ Router } from "express";
-import { urlencoded, json } from "body-parser";
+//import express ,{ Router } from "express";
+//import { urlencoded, json } from "body-parser";
+const express, { Router } = require('express');
+const { urlencoded, json } = require('body-parser');
 
-import Product from '../models/Product';
+const Product = require('../models/Product');
+//import Product from '../models/Product';
 
 const router = Router();
 const app = express();
@@ -137,4 +140,4 @@ router.get('/getProductDetail/:type/:id', checkAuth, (req, res, next) => {
 //     })
 // })
 
-export default router;
+module.exports = router;

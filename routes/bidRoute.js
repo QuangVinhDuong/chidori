@@ -1,8 +1,13 @@
-import express ,{ Router } from "express";
-import { urlencoded, json } from "body-parser";
+//import express ,{ Router } from "express";
+//import { urlencoded, json } from "body-parser";
+const express, { Router } = require('express');
+const { urlencoded, json } = require('body-parser');
 
-import AuctionSession from '../models/AuctionSession';
-import AuctionTicket from '../models/AuctionTicket';
+// Import Models
+const AuctionSession = require('../models/AuctionSession');
+const AuctionTicket = require('../models/AuctionTicket');
+//import AuctionSession from '../models/AuctionSession';
+//import AuctionTicket from '../models/AuctionTicket';
 
 
 const router = Router();
@@ -155,4 +160,4 @@ router.get('/getWinner/:sessionID', checkAuth, (req, res, next) => {
     });
 });
 
-export default router;
+module.exports = router;

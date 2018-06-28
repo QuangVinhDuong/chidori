@@ -1,12 +1,18 @@
-import express ,{ Router } from "express";
-import { urlencoded, json } from "body-parser";
+//import express ,{ Router } from "express";
+//import { urlencoded, json } from "body-parser";
+const express, { Router } = require('express');
+const { urlencoded, json } = require('body-parser');
 
 // Import Models
-import Account from "../models/Account";
-import UserSession from "../models/UserSession";
-import AuctionTicket from "../models/AuctionTicket";
-import AuctionSession from "../models/AuctionSession";
-import AuctionTicketStatus from "../models/AuctionTicketStatus";
+const Account = require('../models/Account');
+const UserSession = require('../models/UserSession');
+const AuctionTicket = require('../models/AuctionTicket');
+
+// import Account from "../models/Account";
+// import UserSession from "../models/UserSession";
+// import AuctionTicket from "../models/AuctionTicket";
+// import AuctionSession from "../models/AuctionSession";
+// import AuctionTicketStatus from "../models/AuctionTicketStatus";
 
 // Setup Enviroment Variable
 const dotenv = require('dotenv');
@@ -475,4 +481,4 @@ router.get('/gettype/:username', checkAuth, (req, res, next) => {
     })
 })
 
-export default router;
+module.exports = router;

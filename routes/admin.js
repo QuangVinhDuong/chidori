@@ -1,13 +1,25 @@
-import express, {Router} from "express";
-import {urlencoded,	json} from "body-parser";
-import Product from '../models/Product';
-import AuctionSession from '../models/AuctionSession';
-import AuctionSessionStatus from '../models/AuctionSessionStatus';
-import AuctionTicket from '../models/AuctionTicket';
-import AuctionTicketStatus from '../models/AuctionTicketStatus';
-import Account from '../models/Account';
-import Parameter from '../models/Parameter';
-import mongoose from 'mongoose';
+// import express, {Router} from "express";
+// import {urlencoded,	json} from "body-parser";
+// import Product from '../models/Product';
+// import AuctionSession from '../models/AuctionSession';
+// import AuctionSessionStatus from '../models/AuctionSessionStatus';
+// import AuctionTicket from '../models/AuctionTicket';
+// import AuctionTicketStatus from '../models/AuctionTicketStatus';
+// import Account from '../models/Account';
+// import Parameter from '../models/Parameter';
+// import mongoose from 'mongoose';
+const express, { Router } = require('express');
+const { urlencoded, json } = require('body-parser');
+const mongoose = require('mongoose');
+
+const Product = require('../models/Product');
+const AuctionSession = require('../models/AuctionSession');
+const AuctionSessionStatus = require('../models/AuctionSessionStatus');
+const AuctionTicket = require('../models/AuctionTicket');
+const AuctionTicketStatus = require('../models/AuctionTicketStatus');
+const Account = require('../models/Account');
+const Parameter = require('../models/Parameter');
+
 const router = Router();
 const app = express();
 const checkAuth = require('../middleware/check-auth');
@@ -562,4 +574,5 @@ router.get('/chartData', checkAuth, (req, res, next) => {
 	)
 	
 })
-export default router;
+
+module.exports = router;

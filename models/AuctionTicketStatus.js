@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const AuctionTicketStatusSchema = new mongoose.Schema({
     statusID: {
@@ -11,4 +11,4 @@ const AuctionTicketStatusSchema = new mongoose.Schema({
     }
 }, {collection: 'auction_ticket_status'});
 
-export default mongoose.model('AuctionTicketStatus', AuctionTicketStatusSchema);
+module.exports = mongoose.model('AuctionTicketStatus', AuctionTicketStatusSchema);

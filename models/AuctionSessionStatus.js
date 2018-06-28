@@ -1,4 +1,5 @@
-import mongoose, { Collection } from 'mongoose';
+//import mongoose, { Collection } from 'mongoose';
+const mongoose = require('mongoose');
 
 const AuctionSesstionStatusSchema = new mongoose.Schema({
     statusID: {
@@ -11,4 +12,5 @@ const AuctionSesstionStatusSchema = new mongoose.Schema({
     }
 }, { collection: 'auction_session_status' });
 
-export default mongoose.model('AuctionSesstionStatus', AuctionSesstionStatusSchema);
+module.exports = mongoose.model('AuctionSesstionStatus', AuctionSesstionStatusSchema);
+//export default mongoose.model('AuctionSesstionStatus', AuctionSesstionStatusSchema);
