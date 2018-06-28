@@ -57,72 +57,147 @@ router.post('/createAuctionTicket', checkAuth, (req, res, next) => {
 });
 
 router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, next) => {
-    AuctionSession.findOne(
-        {
-            sessionID: req.params.sessionID
-        },
-        {
-            "bidTime": 1,
-            "currentPrice": 1
-        },
-        (err, result) => {
-            if (err) {
-                return next(err);
-            } else {
-                //
-                if (result) {
-                    const time = result.bidTime;
-                    const str = time.split(":");
-                    var h = Number(str[0]), m = Number(str[1]), s = Number(str[2]);
+    Parameter.findOne({
+        pID: 0
+    }, (err, out) => {
+        if (err) return next(err)
+        else {
+            var timeBump = Number(out.pValue);
+            AuctionSession.findOne({
+                    sessionID: req.params.sessionID
+                }, {
+                    "bidTime": 1,
+                    "currentPrice": 1
+                },
+                (err, result) => {
+                    if (err) {
+                        return next(err);
+                    } else {
+                        //
+                        if (result) {
+                            const time = result.bidTime;
+                            const str = time.split(":");
+                            var h = Number(str[0]),
+                                m = Number(str[1]),
+                                s = Number(str[2]);
 
-                    s = s + 10;
+                            s += timeBump
 
-                    if (s > 59) {
-                        s = s - 60;
-                        m++;
-                    }
-                    if (m > 59) {
-                        m = m - 60;
-                        h++;
-                    }
+                            if (s > 59) {
+                                s = s - 60;
+                                m++;
+                            }
+                            if (m > 59) {
+                                m = m - 60;
+                                h++;
+                            }
 
-                    if (s < 10) {
-                        s = '0' + s;
-                    }
-                    if (m < 10) {
-                        m = '0' + m;
-                    }
-                    if (h < 10) {
-                        h = '0' + h;
-                    }
+                            if (s < 10) {
+                                s = '0' + s;
+                            }
+                            if (m < 10) {
+                                m = '0' + m;
+                            }
+                            if (h < 10) {
+                                h = '0' + h;
+                            }
 
-                    const finalTime = h+':'+m+':'+s;
+                            const finalTime = h + ':' + m + ':' + s;
 
-                    AuctionSession.findOneAndUpdate(
-                        {
-                            sessionID: req.params.sessionID
-                        },
-                        {
-                            bidTime: finalTime,
-                            currentPrice: Number(req.params.bidValue)
-                        },
-                        {
-                            new: true // option to return an updated document
-                        }, (err, data) => {
-                            if (err) return next(err);
-                            return res.json(data);                            
+                            AuctionSession.findOneAndUpdate({
+                                sessionID: req.params.sessionID
+                            }, {
+                                bidTime: finalTime,
+                                currentPrice: Number(req.params.bidValue)
+                            }, {
+                                new: true // option to return an updated document
+                            }, (err, data) => {
+                                if (err) return next(err);
+                                return res.json(data);
+                            });
+                        } else {
+                            return res.json({
+                                success: false,
+                                message: "auction session expired"
+                            });
                         }
-                    );
-                } else {
-                    return res.json({
-                        success: false,
-                        message: "auction session expired"
-                    });
-                }                
-            }
+                    }
+                }
+            )
         }
-    )    
+    })
+
 });
+
+
+
+// router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, next) => {
+//     AuctionSession.findOne(
+//         {
+//             sessionID: req.params.sessionID
+//         },
+//         {
+//             "bidTime": 1,
+//             "currentPrice": 1
+//         },
+//         (err, result) => {
+//             if (err) {
+//                 return next(err);
+//             } else {
+//                 //
+//                 if (result) {
+//                     const time = result.bidTime;
+//                     const str = time.split(":");
+//                     var h = Number(str[0]), m = Number(str[1]), s = Number(str[2]);
+
+//                     s = s + 10;
+
+//                     if (s > 59) {
+//                         s = s - 60;
+//                         m++;
+//                     }
+//                     if (m > 59) {
+//                         m = m - 60;
+//                         h++;
+//                     }
+
+//                     if (s < 10) {
+//                         s = '0' + s;
+//                     }
+//                     if (m < 10) {
+//                         m = '0' + m;
+//                     }
+//                     if (h < 10) {
+//                         h = '0' + h;
+//                     }
+
+//                     const finalTime = h+':'+m+':'+s;
+
+//                     AuctionSession.findOneAndUpdate(
+//                         {
+//                             sessionID: req.params.sessionID
+//                         },
+//                         {
+//                             bidTime: finalTime,
+//                             currentPrice: Number(req.params.bidValue)
+//                         },
+//                         {
+//                             new: true // option to return an updated document
+//                         }, (err, data) => {
+//                             if (err) return next(err);
+//                             return res.json(data);                            
+//                         }
+//                     );
+//                 } else {
+//                     return res.json({
+//                         success: false,
+//                         message: "auction session expired"
+//                     });
+//                 }                
+//             }
+//         }
+//     )    
+// });
 
 router.put('/updateAuctionTicketStatus', checkAuth, (req, res, next) => {    
     if (req.body.accID != '') {
