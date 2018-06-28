@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './assets/css/light-bootstrap-dashboard.css';
-
+import {getFromStorage} from '../../utils/storage';
+import CanvasJS from './assets/js/canvasjs-2.1.3/canvasjs.min.js';
 
 class Admin extends Component {
     constructor(props) {
@@ -9,138 +10,177 @@ class Admin extends Component {
             list: []
         }
     }
-    
-    render() {
-        var PieChart = require("react-chartjs").Pie;
+    componentDidMount() {
+        this.getData();
+        
+    }
+    getData() {
+        const obj = getFromStorage("login");
 
-        var data = [
+        if (obj && obj.access_token) {
+            const { access_token } = obj;
+            fetch("/admin/chartData", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    if (json.success) { 
+                        //console.log(json);
+                        this.setState({ userData: json.userData });
+                        console.log(this.state.userData);
+                        this.loadChart();
+                    }
+                });
+        } 
+    }
+    loadChart() {
+        var temp = this.processChartData(this.state.userData);
+        var chart = new CanvasJS.Chart("chartUser", {
+          theme: "light2",
+          animationEnabled: true,
+          exportEnabled: true,
+          title: {
+            text: "Thống kê loại người dùng"
+          },
+          data: [
             {
-                value: 300,
-                color: "#F7464A",
-                highlight: "#FF5A5E",
-                label: "Red"
-            },
-            {
-                value: 50,
-                color: "#46BFBD",
-                highlight: "#5AD3D1",
-                label: "Green"
-            },
-            {
-                value: 100,
-                color: "#FDB45C",
-                highlight: "#FFC870",
-                label: "Yellow"
+              type: "pie",
+              startAngle: 45,
+              yValueFormatString: '#,##0.0#"%"',
+              dataPoints: temp
             }
-        ]
+          ]
+        });
+        chart.render();
+    }
+    processChartData(list) {
+        var temp = [];
+        list.forEach((i, index) => {
+            temp.push({
+                y: i.count,
+                label: i._id
+            });
+        });
+        return temp;
+    }
+    render() {
+        
         return <div className="col-sm-12">
-            <center>
-              <h1>Thống kê số liệu</h1>
-            </center>
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">24 Hours Performance</h4>
-                                        <p class="card-category">Line Chart</p>
-                                    </div>
-                                    <div class="card-body ">
-                                        <div id="chartPerformance" class="ct-chart "></div>
+            <div className="row">
+                <div className="col-lg-3 col-sm-6">
+                    <div className="card card-stats">
+                        <div className="card-body ">
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="icon-big text-center icon-warning">
+                                        <i className="nc-icon nc-chart text-warning"></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">NASDAQ: AAPL</h4>
-                                        <p class="card-category">Line Chart with Points</p>
-                                    </div>
-                                    <div class="card-body ">
-                                        <div id="chartStock" class="ct-chart "></div>
+                                <div className="col-7">
+                                    <div className="numbers">
+                                        <p className="card-category">Number</p>
+                                        <h4 className="card-title">150GB</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">User Behavior</h4>
-                                        <p class="card-category">Multiple Lines Charts</p>
-                                    </div>
-                                    <div class="card-body ">
-                                        <div id="chartBehaviour" class="ct-chart"></div>
-                                    </div>
-                                    <div class="card-footer ">
-                                        <div class="legend">
-                                            <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Click
-                                            <i class="fa fa-circle text-warning"></i> Click Second Time
-                                        </div>
-                                        <hr/>
-                                            <div class="stats">
-                                                <i class="fa fa-history"></i> Updated 3 minutes ago
-                                        </div>
-                                    </div>
+                        <div className="card-footer ">
+                            <hr/>
+                                <div className="stats">
+                                    <i className="fa fa-refresh"></i> Update Now
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="card ">
-                                        <div class="card-header ">
-                                            <h4 class="card-title">Public Preferences</h4>
-                                            <p class="card-category">Pie Chart</p>
-                                        </div>
-                                        <div class="card-body ">
-                                            <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-                                        </div>
-                                        <div class="card-footer ">
-                                            <div class="legend">
-                                                <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Bounce
-                                            <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                        </div>
-                                            <hr/>
-                                                <div class="stats">
-                                                    <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                                        </div>
-                                    </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card ">
-                                            <div class="card-header ">
-                                                <h4 class="card-title">Views</h4>
-                                                <p class="card-category">Bar Chart</p>
-                                            </div>
-                                            <div class="card-body ">
-                                                <div id="chartViews" class="ct-chart"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card ">
-                                            <div class="card-header ">
-                                                <h4 class="card-title">Activity</h4>
-                                                <p class="card-category">Multiple Bars Chart</p>
-                                            </div>
-                                            <div class="card-body ">
-                                                <div id="chartActivity" class="ct-chart"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-            {/* <PieChart data={data} width="600" height="250" />
-            <PieChart data={data} width="600" height="250" />
-            <PieChart data={data} width="600" height="250" />
-            <PieChart data={data} width="600" height="250" /> */}
+                    <div className="col-lg-3 col-sm-6">
+                        <div className="card card-stats">
+                            <div className="card-body ">
+                                <div className="row">
+                                    <div className="col-5">
+                                        <div className="icon-big text-center icon-warning">
+                                            <i className="nc-icon nc-light-3 text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div className="col-7">
+                                        <div className="numbers">
+                                            <p className="card-category">Revenue</p>
+                                            <h4 className="card-title">$ 1,345</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="card-footer ">
+                                <hr/>
+                                    <div className="stats">
+                                        <i className="fa fa-calendar-o"></i> Last day
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-3 col-sm-6">
+                            <div className="card card-stats">
+                                <div className="card-body ">
+                                    <div className="row">
+                                        <div className="col-5">
+                                            <div className="icon-big text-center icon-warning">
+                                                <i className="nc-icon nc-vector text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <div className="col-7">
+                                            <div className="numbers">
+                                                <p className="card-category">Errors</p>
+                                                <h4 className="card-title">23</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-footer ">
+                                    <hr/>
+                                        <div className="stats">
+                                            <i className="fa fa-clock-o"></i> In the last hour
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-3 col-sm-6">
+                                <div className="card card-stats">
+                                    <div className="card-body ">
+                                        <div className="row">
+                                            <div className="col-5">
+                                                <div className="icon-big text-center icon-warning">
+                                                    <i className="nc-icon nc-favourite-28 text-primary"></i>
+                                                </div>
+                                            </div>
+                                            <div className="col-7">
+                                                <div className="numbers">
+                                                    <p className="card-category">Followers</p>
+                                                    <h4 className="card-title">+45K</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-footer ">
+                                        <hr/>
+                                            <div className="stats">
+                                                <i className="fa fa-refresh"></i> Update now
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                            </div>
+            <div className="col-sm-4">
+                <div id="chartUser"></div>
+            </div>
+            <div className="col-sm-8">
+                <div id="chartProduct"></div>
+            </div>
+            <div className="col-sm-4">
+                <div id="chartAuction"></div>
+            </div>
           </div>;
     }
 }
