@@ -215,7 +215,7 @@ function updateStatusTicket(sessionID) {
                         req.setRequestHeader("Authorization", `Bearer ${access_token}`);
                     },
                     url: '/bid/updateAuctionTicketStatus',
-                    data: { accID: winner }
+                    data: { accID: winner, ssID: sessionID }
                 });
             }
         });        

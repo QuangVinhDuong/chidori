@@ -117,18 +117,19 @@ router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, n
     )    
 });
 
-router.put('/updateAuctionTicketStatus', checkAuth, (req, res, next) => {
+router.put('/updateAuctionTicketStatus', checkAuth, (req, res, next) => {    
     if (req.body.accID != '') {
         AuctionTicket.updateOne(
             {
-                accountID: req.body.accID
+                accountID: req.body.accID,
+                sessionID: req.body.ssID
             },
             {
                 $set: {
                     status: 1
                 }
             },
-            (err, count) => {
+            (err, count) => {                
                 if (err) return next(err);
                 return res.json({
                     success: count.nModified == 1 ? true : false
