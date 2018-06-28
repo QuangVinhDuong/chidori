@@ -483,7 +483,7 @@ router.post('/parameters', checkAuth, (req, res, next) => {
 })
 
 router.put('/parameters', checkAuth, (req, res, next) => {
-	console.log(req.body.key)
+	//console.log(req.body.key)
 	Parameter.updateOne({
 		_id: req.body.key
 	}, {
@@ -499,5 +499,31 @@ router.put('/parameters', checkAuth, (req, res, next) => {
 			})
 		}
 	})
+})
+
+router.get('/chartData', checkAuth, (req, res, next) => {
+	var userData = [];
+	var productData = [];
+	var auctionData = [];
+	Account.aggregate(
+		[{
+			$group: {
+				_id: "$accountType.name",
+				count: {
+					$sum: 1
+				}
+			}
+		}], (err, out) => {
+			if (err) return next(err);
+			userData = out;
+			return res.json({
+				success: true,
+				userData: userData,
+				productData: productData,
+				auctionData: auctionData
+			})
+		}
+	)
+	
 })
 export default router;
