@@ -8,11 +8,11 @@ const app = express();
 mongoose.Promise = global.Promise;
 
 // import router
-import account from "./routes/account";
-import productRoute from "./routes/productRoute";
-import auctionRoute from "./routes/auctionRoute";
-import bidRoute from "./routes/bidRoute";
-import admin from "./routes/admin";
+import account from "../routes/account";
+import productRoute from "../routes/productRoute";
+import auctionRoute from "../routes/auctionRoute";
+import bidRoute from "../routes/bidRoute";
+import admin from "../routes/admin";
 
 // Check database connection
 mongoose.connect('mongodb://admin:god123456@ds119090.mlab.com:19090/chidori')
