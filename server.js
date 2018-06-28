@@ -34,7 +34,7 @@ mongoose.connect('mongodb://admin:god123456@ds119090.mlab.com:19090/chidori')
 
 app.use(bodyParser.urlencoded({'extended': 'false'}));
 app.use(bodyParser.json());
-app.use(express.static(path.resolve(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Add Access Control in every header
 app.use((req, res, next) => {
