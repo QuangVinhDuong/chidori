@@ -30,11 +30,24 @@ class Admin extends Component {
                 .then((res) => res.json())
                 .then((json) => {
                     if (json.success) { 
-                        console.log(json);
+                        //console.log(json);
+                        var t = 0, t2 = 0, t3 = 0, t4 = 0;
+                        json.userData.forEach(i => {
+                            t += i.count
+                        })
+                        json.saleData.forEach(i => {
+                            t2 += i.count
+                        })
+
                         this.setState({ 
                             userData: json.userData,
-                            productData: json.productData
+                            saleData: json.saleData,
+                            totalUser: t,
+                            totalSale: t2,
+                            totalProduct: json.totalProduct,
+                            totalAuction: json.totalAuction
                         });
+                        console.log(this.state);
                         this.loadChart();
                     }
                 });
@@ -59,8 +72,7 @@ class Admin extends Component {
           ]
         });
         chart.render();
-
-        var temp2 = this.processChartData(this.state.productData);
+        var temp2 = this.processChartData(this.state.saleData);
         var chart2 = new CanvasJS.Chart("chartProduct", {
           theme: "light2",
           animationEnabled: true,
@@ -99,21 +111,21 @@ class Admin extends Component {
                             <div className="row">
                                 <div className="col-5">
                                     <div className="icon-big text-center icon-warning">
-                                        <i className="nc-icon nc-chart text-warning"></i>
+                                        <i className="nc-icon nc-single-02 text-warning"></i>
                                     </div>
                                 </div>
                                 <div className="col-7">
                                     <div className="numbers">
-                                        <p className="card-category">Number</p>
-                                        <h4 className="card-title">150GB</h4>
+                                        <p className="card-category">Số thành viên</p>
+                                        <h4 className="card-title">{this.state.totalUser}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="card-footer ">
-                            <hr/>
-                                <div className="stats">
-                                    <i className="fa fa-refresh"></i> Update Now
+                                    <hr/>
+                                        <div className="stats">
+                                            <i className="fa fa-clock-o"></i> Từ lúc khai trương
                                     </div>
                                 </div>
                         </div>
@@ -124,13 +136,13 @@ class Admin extends Component {
                                 <div className="row">
                                     <div className="col-5">
                                         <div className="icon-big text-center icon-warning">
-                                            <i className="nc-icon nc-light-3 text-success"></i>
+                                            <i className="nc-icon nc-money-coins text-success"></i>
                                         </div>
                                     </div>
                                     <div className="col-7">
                                         <div className="numbers">
-                                            <p className="card-category">Revenue</p>
-                                            <h4 className="card-title">$ 1,345</h4>
+                                            <p className="card-category">Tổng doanh thu</p>
+                                            <h4 className="card-title">{this.state.totalSale}VNĐ</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -138,7 +150,7 @@ class Admin extends Component {
                             <div className="card-footer ">
                                 <hr/>
                                     <div className="stats">
-                                        <i className="fa fa-calendar-o"></i> Last day
+                                        <i className="fa fa-calendar-o"></i> Từ lúc khai trương
                                     </div>
                                 </div>
                             </div>
@@ -149,13 +161,13 @@ class Admin extends Component {
                                     <div className="row">
                                         <div className="col-5">
                                             <div className="icon-big text-center icon-warning">
-                                                <i className="nc-icon nc-vector text-danger"></i>
+                                                <i className="nc-icon nc-tag-content text-danger"></i>
                                             </div>
                                         </div>
                                         <div className="col-7">
                                             <div className="numbers">
-                                                <p className="card-category">Errors</p>
-                                                <h4 className="card-title">23</h4>
+                                                <p className="card-category">Tổng số sản phẩm</p>
+                                                <h4 className="card-title">{this.state.totalProduct}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +175,7 @@ class Admin extends Component {
                                 <div className="card-footer ">
                                     <hr/>
                                         <div className="stats">
-                                            <i className="fa fa-clock-o"></i> In the last hour
+                                            <i className="fa fa-clock-o"></i> Từ lúc khai trương
                                     </div>
                                 </div>
                                 </div>
@@ -174,13 +186,13 @@ class Admin extends Component {
                                         <div className="row">
                                             <div className="col-5">
                                                 <div className="icon-big text-center icon-warning">
-                                                    <i className="nc-icon nc-favourite-28 text-primary"></i>
+                                                    <i className="nc-icon nc-credit-card text-primary"></i>
                                                 </div>
                                             </div>
                                             <div className="col-7">
                                                 <div className="numbers">
-                                                    <p className="card-category">Followers</p>
-                                                    <h4 className="card-title">+45K</h4>
+                                                    <p className="card-category">Số phiên đã xong</p>
+                                                    <h4 className="card-title">{this.state.totalAuction}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -188,7 +200,7 @@ class Admin extends Component {
                                     <div className="card-footer ">
                                         <hr/>
                                             <div className="stats">
-                                                <i className="fa fa-refresh"></i> Update now
+                                                <i className="fa fa-refresh"></i> Hiện tại
                                     </div>
                                 </div>
                                     </div>
@@ -200,8 +212,8 @@ class Admin extends Component {
                         <div className="col-md-6">
                             <div className="card ">
                                 <div className="card-header ">
-                                    <h4 className="card-title">24 Hours Performance</h4>
-                                    <p className="card-category">Line Chart</p>
+                                    <h4 className="card-title">Thống kê người dùng </h4>
+                                    <p className="card-category">Theo loại</p>
                                 </div>
                                 <div className="card-body ">
                                     <div id="chartPerformance" className="ct-chart">
@@ -213,8 +225,8 @@ class Admin extends Component {
                         <div className="col-md-6">
                             <div className="card ">
                                 <div className="card-header ">
-                                    <h4 className="card-title">NASDAQ: AAPL</h4>
-                                    <p className="card-category">Line Chart with Points</p>
+                                    <h4 className="card-title">Thống kê doanh thu</h4>
+                                    <p className="card-category">Theo loại sản phẩm</p>
                                 </div>
                                 <div className="card-body ">
                                     <div id="chartStock" className="ct-chart">

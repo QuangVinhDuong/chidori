@@ -157,6 +157,7 @@ router.get('/auction', checkAuth, (req, res, next) => {
 	)
 });
 router.post('/auction', checkAuth, (req, res, next) => {
+	console.log(req.body);
 	const MongoClient = require('mongodb').MongoClient;
 	const url = "mongodb://localhost:27017/";
 	var ObjectId = mongoose.Types.ObjectId;
@@ -174,6 +175,7 @@ router.post('/auction', checkAuth, (req, res, next) => {
 					"initPrice": req.body.val[2],
 					"currentPrice": req.body.val[2],
 					"status": req.body.val[1],
+					"__v": 0,
 					"isDeleted": false
 				}, (err, n) => {
 					if (err) console.log(err);
@@ -503,8 +505,7 @@ router.put('/parameters', checkAuth, (req, res, next) => {
 
 router.get('/chartData', checkAuth, (req, res, next) => {
 	var userData = [];
-	var productData = [];
-	var auctionData = [];
+	var saleData = [];
 	Account.aggregate(
 		[{
 			$group: {
@@ -516,28 +517,47 @@ router.get('/chartData', checkAuth, (req, res, next) => {
 		}], (err, out) => {
 			if (err) return next(err);
 			userData = out;
-			Product.aggregate(
-				[{
-					$group: {
-						_id: "$productType",
-						count: {
-							$sum: 1
+			AuctionSession.aggregate([
+				{
+					$match: {
+						status: -1
+					}
+				},
+					{
+						$lookup: {
+							from: "product",
+							localField: "productID",
+							foreignField: "_id",
+							as: "p"	
+						}
+					},
+					{
+						$group: {
+							_id: "$p.productType",
+							count: {
+								$sum: "$currentPrice"
+							}
 						}
 					}
-				}], (err2, out2) => {
+				], (err2, out2) => {
 					if (err2) return next(err2)
 					else {
-						productData = out2
-						return res.json({
-							success: true,
-							userData: userData,
-							productData: productData,
-							auctionData: auctionData
-						})
+						saleData = out2
+						AuctionSession.find({status: -1}, (err3, out3) => {
+							if (err3) return next(err3);
+							Product.find({}, (err4, out4) => {
+								if (err4) return next(err4);
+								return res.json({
+									success: true,
+									userData: userData,
+									saleData: saleData,
+									totalAuction: out3.length,
+									totalProduct: out4.length
+								})
+							})
+						});
 					}
-				}
-			)
-			
+				})		
 		}
 	)
 	

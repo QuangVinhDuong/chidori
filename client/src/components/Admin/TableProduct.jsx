@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import "./assets/css/Table.css";
-import ReactOverflowTooltip from 'react-overflow-tooltip';
-import Modal from 'react-responsive-modal';
+import Modal from 'react-responsive-modal'
 import {getFromStorage} from '../../utils/storage';
 
 class TableProduct extends Component {
@@ -343,9 +342,7 @@ class TableProduct extends Component {
                 {arr.map((item, index) => <tr key={item._id}>
                     <td className="text-center">{index + 1}</td>
                     <td className="text-center longtext">
-                      <ReactOverflowTooltip title={item.productName}>
-                        <div>{item.productName}</div>
-                      </ReactOverflowTooltip>
+                    {item.productName}
                     </td>
                     <td className="text-center">{item.productType}</td>
                     <td className="text-center longtext">

@@ -60,13 +60,13 @@ class Sidebar extends Component {
 					<ul className="nav">
 						<li className="nav-item ">
 							<Link className="nav-link" to="/admin">
-								<i className="nc-icon nc-bank"></i>
+								<i className="nc-icon nc-chart-pie-35"></i>
 								<p>Dashboard</p>
 							</Link>
 						</li>
 						<li className="nav-item ">
 							<Link className="nav-link" to="/">
-								<i className="nc-icon nc-chart-pie-35"></i>
+								<i className="nc-icon nc-bank"></i>
 								<p>Trang chủ</p>
 							</Link>
 						</li>

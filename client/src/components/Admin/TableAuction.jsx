@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./assets/css/Table.css";
-import ReactOverflowTooltip from 'react-overflow-tooltip';
+
 import Modal from 'react-responsive-modal';
 import { getFromStorage } from '../../utils/storage';
 
@@ -577,9 +577,7 @@ class TableAuction extends Component {
 								{arr.map((item, index) => <tr key={item._id}>
 									<td className="text-center">{item.sessionID}</td>
 									<td className="text-center longtext">
-									<ReactOverflowTooltip title={item.p.productName}>
-										<div>{item.p.productName}</div>
-									</ReactOverflowTooltip>
+									{item.p.productName}
 									</td>
 									<td className="text-center">{item.startTime}</td>
 									<td className="text-center">{item.bidTime}</td>
