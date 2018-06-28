@@ -1,7 +1,9 @@
 //import express ,{ Router } from "express";
 //import { urlencoded, json } from "body-parser";
-const express, { Router } = require('express');
-const { urlencoded, json } = require('body-parser');
+const express = require('express');
+const { Router } = express;
+const bodyParser = require('body-parser');
+const { urlencoded, json } = bodyParser;
 
 // Import Models
 const Account = require('../models/Account');

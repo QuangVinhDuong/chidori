@@ -8,8 +8,10 @@
 // import Account from '../models/Account';
 // import Parameter from '../models/Parameter';
 // import mongoose from 'mongoose';
-const express, { Router } = require('express');
-const { urlencoded, json } = require('body-parser');
+const express = require('express');
+const { Router } = express;
+const bodyParser = require('body-parser');
+const { urlencoded, json } = bodyParser;
 const mongoose = require('mongoose');
 
 const Product = require('../models/Product');
