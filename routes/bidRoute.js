@@ -11,7 +11,7 @@ const AuctionTicket = require('../models/AuctionTicket');
 //import AuctionSession from '../models/AuctionSession';
 //import AuctionTicket from '../models/AuctionTicket';
 
-
+const Parameter = require('../models/Parameter');
 const router = Router();
 const app = express();
 const checkAuth = require('../middleware/check-auth');
@@ -62,6 +62,7 @@ router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, n
     }, (err, out) => {
         if (err) return next(err)
         else {
+            console.log(out)
             var timeBump = Number(out.pValue);
             AuctionSession.findOne({
                     sessionID: req.params.sessionID
