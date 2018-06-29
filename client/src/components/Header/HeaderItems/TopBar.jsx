@@ -18,7 +18,7 @@ class TopBar extends Component {
                 .then(json => {
                     if (json.success) {   
                         removeFromStorage('login');
-                        window.location.reload();
+                        window.location.replace('//localhost:3000');
                         //window.location.replace("https://chidori-auction.herokuapp.com/");                       
                     }
                 });                        

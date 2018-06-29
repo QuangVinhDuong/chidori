@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ParameterSchema = new mongoose.Schema({
     pID: {
-        type: String,
+        type: Number,
         default: ''
     },
     pName: {
