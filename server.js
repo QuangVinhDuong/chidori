@@ -22,9 +22,9 @@ const admin = require('./routes/admin');
 // import bidRoute from "./routes/bidRoute";
 // import admin from "./routes/admin";
 
+
 // Check database connection 'mongodb://admin:god123456@ds119090.mlab.com:19090/chidori'
-var conStr = 'mongodb://localhost:27017/chidori';
-mongoose.connect(conStr)
+mongoose.connect('mongodb://localhost:27017/chidori')
     .then(() => {
         console.log("Connection successful");
     })

@@ -68,7 +68,7 @@ router.delete('/deleteProduct', checkAuth, (req, res, next) => {
 });
 
 router.put('/updateProduct', checkAuth, (req, res, next) => {
-	console.log(req.body);
+	//console.log(req.body);
 	Product.updateOne({
 		"_id": req.body.key
 	}, {
@@ -81,7 +81,7 @@ router.put('/updateProduct', checkAuth, (req, res, next) => {
 	}, (err, count) => {
 		if (err) return next(err);
 		else {
-			console.log(count);
+			//console.log(count);
 			return res.json({
 				success: count != null ? true : false
 			});
@@ -90,20 +90,30 @@ router.put('/updateProduct', checkAuth, (req, res, next) => {
 });
 
 router.post('/addProduct', checkAuth, (req, res, next) => {
-	//console.log(req.body);
-	const p = new Product();
-	p.productName = req.body.val[0];
-	p.productType = req.body.val[1];
-	p.description = req.body.val[2];
-	p.productImage = req.body.val[3];
-	p.save((err, data) => {
+	Product.find({
+		productType: req.body.val[1]
+	}, (err, out) => {
 		if (err) return next(err);
 		else {
-			return res.json({
-				success: data != null ? true : false
+			var count = out.length + 1;
+			var pID = ("000" + count).substr(("000" + count).length - 3);
+			//console.log(pID);
+			const p = new Product();
+			p.productName = req.body.val[0];
+			p.productType = req.body.val[1];
+			p.description = req.body.val[2];
+			p.productImage = req.body.val[3];
+			p.productID = pID;
+			p.save((err, data) => {
+				if (err) return next(err);
+				else {
+					return res.json({
+						success: data != null ? true : false
+					});
+				}
 			});
 		}
-	});
+	})
 });
 
 router.get('/productListAU', checkAuth, (req, res, next) => {
@@ -171,7 +181,7 @@ router.get('/auction', checkAuth, (req, res, next) => {
 	)
 });
 router.post('/auction', checkAuth, (req, res, next) => {
-	console.log(req.body);
+	//console.log(req.body);
 	const MongoClient = require('mongodb').MongoClient;
 	const url = "mongodb://localhost:27017/";
 	var ObjectId = mongoose.Types.ObjectId;
@@ -182,7 +192,7 @@ router.post('/auction', checkAuth, (req, res, next) => {
 			if (err) return next(err);
 			else {
 				dbo.collection("auction_session").insert({
-					"sessionID": ++c, // mã phiên tăng tự động
+					"sessionID": (++c).toString(), // mã phiên tăng tự động
 					"productID": new ObjectId(req.body.val[3]),
 					"startTime": "",
 					"bidTime": req.body.val[0],
