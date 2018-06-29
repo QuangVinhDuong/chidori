@@ -58,7 +58,7 @@ router.post('/createAuctionTicket', checkAuth, (req, res, next) => {
 
 router.put('/updateAuctionSession/:sessionID/:bidValue', checkAuth, (req, res, next) => {
     Parameter.findOne({
-        pName: "Thời Gian Tăng"
+        pID: 0
     }, (err, out) => {
         if (err) return next(err)
         else {
